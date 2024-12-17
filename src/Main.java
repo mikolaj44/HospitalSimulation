@@ -1,5 +1,8 @@
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
+
+    public static void main(String[] args){
+
+        GUI gui = new GUI(800, 600);
+        gui.start();
     }
 }
