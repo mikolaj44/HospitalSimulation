@@ -1,3 +1,6 @@
+package Simulation;
+
+import Person.*;
 import java.util.ArrayList;
 
 public class Simulation {
@@ -56,4 +59,9 @@ public class Simulation {
             }
         }
     }
+
+    public int getNumberOfDepartments(){
+        return departments.size();
+    }
+
 }

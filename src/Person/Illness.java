@@ -1,3 +1,5 @@
+package Person;
+
 public class Illness {
 
     String name;

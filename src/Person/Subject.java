@@ -1,3 +1,5 @@
+package Person;
+
 public interface Subject {
 
     void registerObserver(Observer o);

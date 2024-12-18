@@ -1,3 +1,5 @@
+package Person;
+
 public interface Observer {
 
     void update(Subject s);

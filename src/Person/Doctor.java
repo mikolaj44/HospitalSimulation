@@ -1,6 +1,6 @@
-import java.util.ArrayList;
+package Person;
 
-public class Doctor extends Person{
+public class Doctor extends Person {
 
     private int departmentIndex;
     private int skill;
@@ -19,7 +19,7 @@ public class Doctor extends Person{
 
     public void performHealing(Patient p){
 
-        //p.getIllnesses().get(0).setStats(new LifeStats<Double>(.1,.2,.3));
+        //p.getIllnesses().get(0).setStats(new Person.LifeStats<Double>(.1,.2,.3));
     }
 
     public void update(Subject s){

@@ -1,3 +1,5 @@
+package Simulation;
+
 public class Settings {
 
     private int simulationSpeed;
