@@ -1,0 +1,49 @@
+Nowotwór płuc 0 80 10
+Złamanie miednicy 90 0 0
+Zawał serca 0 90 0
+Zapalenie płuc 0 70 65
+Sepsa 5 80 90
+Rak wątroby 0 70 10
+Złamanie kręgosłupa 95 20 0
+Arytmia serca 0 70 0
+Gruźlica 0 60 80
+Covid-19 0 60 80
+Rak żołądka 0 75 10
+Zwichnięcie barku 70 0 0
+Choroba wieńcowa 0 90 10
+Tężec 20 60 70
+Rak skóry 70 50 0
+Złamanie kości udowej 85 0 0
+Niewydolność serca 0 80 10
+Odra 20 30 50
+Wstrząs septyczny 0 85 95
+Nowotwór mózgu 0 90 5
+Złamanie żeber 80 10 0
+Migotanie przedsionków 0 75 0
+Zapalenie opon mózgowych 0 80 80
+Rak nerki 0 70 20
+Zwichnięcie kolana 75 0 0
+Zatorowość płucna 0 85 10
+Ospa wietrzna 10 20 60
+Różyczka 20 20 60
+Zapalenie trzustki 0 70 40
+Złamanie obojczyka 90 0 0
+Udar mózgu 0 85 5
+Zapalenie wątroby typu C 0 70 80
+Zapalenie gardła 10 20 60
+Rak jelita grubego 0 80 10
+Zapalenie stawu biodrowego 60 30 20
+Nadciśnienie tętnicze 0 60 0
+Zapalenie wsierdzia 0 80 70
+Odmrożenia 50 10 5
+Nowotwór trzustki 0 85 10
+Zatrucie pokarmowe 0 30 50
+Zapalenie osierdzia 0 70 50
+Choroba Heinego-Medina 10 40 70
+Złamanie stawu skokowego 85 0 0
+Białaczka 0 80 20
+Zapalenie płuc grzybicze 0 75 85
+Rak przełyku 0 70 15
+Zapalenie nerwu kulszowego 0 40 0
+Pęknięcie tętniaka 0 90 0
+Zapalenie jelita grubego 0 50 40
