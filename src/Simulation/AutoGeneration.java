@@ -22,14 +22,12 @@ public class AutoGeneration implements GenerationMethod {
     private boolean readNamesFromFile() {
 
         String line;
-        System.out.println(this.getClass());
 
         Field[] fields = this.getClass().getDeclaredFields();
 
         for (int i = 0; i < filePaths.length; i++) {
 
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(filePaths[i]));
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePaths[i]))){
                 fields[i].setAccessible(true);
 
                 ArrayList<String> list = new ArrayList<>();
