@@ -40,4 +40,8 @@ public class LifeStats <T>{
     public void setInfection(T infection) {
         this.infection = infection;
     }
+
+    public String toString() {
+        return "Obrażenia fizyczne: " + physical + "\n" + "Obrażenia wewnętrzne: " + internal + "\n" + "Obrażenia od infekcji: "  + infection;
+    }
 }
