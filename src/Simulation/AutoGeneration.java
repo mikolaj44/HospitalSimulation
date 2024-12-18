@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.regex.*;
 
 import Person.*;
 import static Utils.RandomRange.*;
@@ -13,10 +15,12 @@ public class AutoGeneration implements GenerationMethod{
     private ArrayList<String> maleNames;
     private ArrayList<String> femaleNames;
     private ArrayList<String> surnames;
+    private ArrayList<Illness> illnesses = new ArrayList<Illness>();
 
-    private Settings simulationSettings;
+    //private Settings simulationSettings;
 
     static String[] filePaths = {"./generation_data/malenames.txt", "./generation_data/femalenames.txt", "./generation_data/surnames.txt"};
+    static String illnessPath = "./generation_data/illnesses.txt";
 
     private boolean readNamesFromFile(){
 
@@ -47,13 +51,57 @@ public class AutoGeneration implements GenerationMethod{
         return true;
     }
 
-    public AutoGeneration(Settings simulationSettings){
-        this.simulationSettings = simulationSettings;
+    private Illness stringToIllness(String illnessString) {
+
+        // Najpierw dopasowujemy wszystkie znaki aż do napotkania spacji
+        // Potem po kolei dopasowujemy liczby
+        String regex = "^(.*?)\\s(\\d+)\\s(\\d+)\\s(\\d+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(illnessString.trim());
+
+        matcher.matches();
+        String name = matcher.group(1);
+        double physical = Double.parseDouble(matcher.group(2));
+        double internal = Double.parseDouble(matcher.group(3));
+        double infection = Double.parseDouble(matcher.group(4));
+
+        return new Illness(name, new LifeStats<>(physical, internal, infection));
+    }
+
+    private boolean readIllnessesFromFile(){
+
+        String line;
+        System.out.println(this.getClass());
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(illnessPath));
+
+            ArrayList<String> lines = new ArrayList<>();
+
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+
+            for (String illnessString: lines) {
+                illnesses.add(stringToIllness(illnessString));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    public AutoGeneration(/*Settings simulationSettings*/){
+        //this.simulationSettings = simulationSettings;
         readNamesFromFile();
     }
 
-    private Illness generateIllness(){
-        return null;
+    public Illness generateIllness(){
+        readIllnessesFromFile();
+        return illnesses.get(randomRange(illnesses.size()));
     }
 
     private String generateName(){
@@ -74,6 +122,5 @@ public class AutoGeneration implements GenerationMethod{
         return null;
         //return new Doctor(generateName(),surnames.get(randomRange(surnames.size())),randomRange(10000000000l,999999999999l) + "",4,5,1);
     }
-
 
 }

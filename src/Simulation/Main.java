@@ -15,7 +15,6 @@ public class Main {
         GUI gui = new GUI(new Method1());
         gui.start();
 
-        //GenerationMethod method = new AutoGeneration(Settings);
-        //method.generatePatient();
+        GenerationMethod method = new AutoGeneration();
     }
 }
