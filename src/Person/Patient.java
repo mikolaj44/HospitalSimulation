@@ -16,6 +16,10 @@ public class Patient extends Person {
         Illnesses = illnesses;
     }
 
+    public Patient(){
+
+    };
+
     public void registerObserver(Observer o){
         observers.add(o);
     }

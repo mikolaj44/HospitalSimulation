@@ -12,6 +12,10 @@ public class Person {
         this.pesel = pesel;
     }
 
+    public Person(){
+
+    }
+
     public String getName() {
         return name;
     }

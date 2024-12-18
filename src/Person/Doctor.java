@@ -13,6 +13,10 @@ public class Doctor extends Person {
         this.shift = shift;
     }
 
+    public Doctor(){
+
+    }
+
     public void diagnosePatient(Patient p){
 
     }
