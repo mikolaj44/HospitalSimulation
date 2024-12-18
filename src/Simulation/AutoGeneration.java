@@ -71,7 +71,7 @@ public class AutoGeneration implements GenerationMethod{
     private boolean readIllnessesFromFile(){
 
         String line;
-        System.out.println(this.getClass());
+        //System.out.println(this.getClass());
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(illnessPath));
@@ -99,7 +99,7 @@ public class AutoGeneration implements GenerationMethod{
         readNamesFromFile();
     }
 
-    public Illness generateIllness(){
+    private Illness generateIllness(){
         readIllnessesFromFile();
         return illnesses.get(randomRange(illnesses.size()));
     }
