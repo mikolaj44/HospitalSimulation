@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import static Utils.RandomRange.*;
+
 public class Doctor extends Person{
 
     private int departmentIndex;
@@ -13,13 +15,16 @@ public class Doctor extends Person{
         this.shift = shift;
     }
 
-    public void diagnosePatient(Patient p){
-
-    }
+//    public void diagnosePatient(Patient p){
+//
+//    }
 
     public void performHealing(Patient p){
 
-        //p.getIllnesses().get(0).setStats(new LifeStats<Double>(.1,.2,.3));
+        ArrayList<Illness> illnesses = p.getIllnesses();
+        Illness illness = illnesses.get(randomRange(illnesses.size()));
+
+        illness.setStats(new LifeStats<Double>(randomRange(1d) * illness.getStats().getPhysical() / (float)skill,randomRange(1d) * illness.getStats().getInternal() / (float)skill,randomRange(1d) * illness.getStats().getInfection() / (float)skill));
     }
 
     public void update(Subject s){
