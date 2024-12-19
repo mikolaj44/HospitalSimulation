@@ -9,16 +9,16 @@ public class Simulation {
     private ArrayList<Doctor> doctors;
     private ArrayList<Patient> patients;
     private ArrayList<GenerationMethod> generationMethods;
-    private Settings settings;
+    private Setup setup;
     private int recovered;
     private int deceased;
 
-    public Simulation(ArrayList<Department> departments, ArrayList<Doctor> doctors, ArrayList<Patient> patients, ArrayList<GenerationMethod> generationMethods, Settings settings) {
+    public Simulation(ArrayList<Department> departments, ArrayList<Doctor> doctors, ArrayList<Patient> patients, ArrayList<GenerationMethod> generationMethods, Setup setup) {
         this.departments = departments;
         this.doctors = doctors;
         this.patients = patients;
         this.generationMethods = generationMethods;
-        this.settings = settings;
+        this.setup = setup;
         recovered = 0;
         deceased = 0;
     }

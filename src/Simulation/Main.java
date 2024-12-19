@@ -15,6 +15,12 @@ public class Main {
         GUI gui = new GUI(new Method1());
         gui.start();
 
-        GenerationMethod method = new AutoGeneration();
+//        ArrayList<Department> departments = new ArrayList<>();
+//        departments.add(new Department("Onkologia", 0, 10, null));
+//        departments.add(new Department("Ortopedia", 0, 10, null));
+//        Setup setup = new Setup(1, true, true, departments);
+//        GenerationMethod method = new AutoGeneration(setup);
+//        System.out.println(method.generatePatient());
+//        System.out.println(method.generateDoctor());
     }
 }
