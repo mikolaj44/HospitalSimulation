@@ -18,7 +18,7 @@ public class Patient extends Person {
 
     public Patient(){
 
-    };
+    }
 
     public void registerObserver(Observer o){
         observers.add(o);
