@@ -28,11 +28,11 @@ public class Simulation {
     }
 
     public void addPatient(GenerationMethod method){
-
+        patients.add(method.generatePatient());
     }
 
     public void addDoctor(GenerationMethod method){
-
+        doctors.add(method.generateDoctor());
     }
 
     public void removeDoctor(Doctor d){

@@ -90,13 +90,13 @@ public class AutoGeneration implements GenerationMethod {
         return true;
     }
 
-    public AutoGeneration(/*Settings simulationSettings*/){
-        //this.simulationSettings = simulationSettings;
+    public AutoGeneration(Setup simulationSetup){
+        this.simulationSetup = simulationSetup;
         readNamesFromFile();
+        readIllnessesFromFile();
     }
 
     private Illness generateIllness(){
-        readIllnessesFromFile();
         return illnesses.get(randomRange(illnesses.size()));
     }
 
@@ -112,15 +112,23 @@ public class AutoGeneration implements GenerationMethod {
     }
 
     private LifeStats<Integer> generateLifeStats() {
-        return new LifeStats<>(randomRange(1, 10), randomRange(1, 10), randomRange(1, 10));
+        return new LifeStats<>(randomRange(simulationSetup.getMinLifeStats().getPhysical(), simulationSetup.getMaxLifeStats().getPhysical()), randomRange(simulationSetup.getMinLifeStats().getInternal(), simulationSetup.getMaxLifeStats().getInternal()), randomRange(simulationSetup.getMinLifeStats().getInfection(), simulationSetup.getMaxLifeStats().getInfection()));
     }
 
     public Patient generatePatient() {
-        return new Patient(generateName(), surnames.get(randomRange(surnames.size())), randomRange(10000000000L, 999999999999L) + "", generateDepartmentIndex(), generateLifeStats(), null);
+
+        ArrayList<Illness> illnesses = new ArrayList<>();
+
+        int length = randomRange(simulationSetup.getMaxIllnessAmount());
+
+        for(int i = 0; i < length; i++)
+            illnesses.add(generateIllness());
+
+        return new Patient(generateName(), surnames.get(randomRange(surnames.size())), randomRange(10000000000L, 999999999999L) + "", generateDepartmentIndex(), generateLifeStats(), illnesses);
     }
 
     public Doctor generateDoctor() {
-        return new Doctor(generateName(), surnames.get(randomRange(surnames.size())), randomRange(10000000000L, 999999999999L) + "", generateDepartmentIndex(), randomRange(1, 10), randomRange(1, 3));
+        return new Doctor(generateName(), surnames.get(randomRange(surnames.size())), randomRange(10000000000L, 999999999999L) + "", generateDepartmentIndex(), randomRange(simulationSetup.getMinDoctorSkill(), simulationSetup.getMaxDoctorSkill()), randomRange(1, simulationSetup.getNumberOfShifts()));
     }
 
 }
