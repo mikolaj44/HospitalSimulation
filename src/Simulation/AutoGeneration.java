@@ -121,8 +121,15 @@ public class AutoGeneration implements GenerationMethod {
 
         int length = randomRange(simulationSetup.getMaxIllnessAmount());
 
-        for(int i = 0; i < length; i++)
-            illnesses.add(generateIllness());
+        for(int i = 0; i < length; i++){
+            Illness generatedIllness = generateIllness();
+            if (!illnesses.contains(generatedIllness)){
+                illnesses.add(generateIllness());
+            }
+            else {
+                i--;
+            }
+        }
 
         return new Patient(generateName(), surnames.get(randomRange(surnames.size())), randomRange(10000000000L, 999999999999L) + "", generateDepartmentIndex(), generateLifeStats(), illnesses);
     }
