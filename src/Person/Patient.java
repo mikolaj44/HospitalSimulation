@@ -2,7 +2,7 @@ package Person;
 
 import java.util.ArrayList;
 
-public class Patient extends Person {
+public class Patient extends Person implements Subject{
 
     private ArrayList<Observer> observers;
     private int departmentIndex;

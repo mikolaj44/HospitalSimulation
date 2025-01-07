@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import static Utils.RandomRange.*;
 
-public class Doctor extends Person{
+public class Doctor extends Person implements Observer{
 
     private int departmentIndex;
     private int skill;
