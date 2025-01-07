@@ -1,6 +1,8 @@
+package Person;
+
 import java.util.ArrayList;
 
-public class Patient extends Person{
+public class Patient extends Person implements Subject{
 
     private ArrayList<Observer> observers;
     private int departmentIndex;
@@ -12,6 +14,10 @@ public class Patient extends Person{
         this.departmentIndex = departmentIndex;
         this.stats = stats;
         Illnesses = illnesses;
+    }
+
+    public Patient(){
+
     }
 
     public void registerObserver(Observer o){

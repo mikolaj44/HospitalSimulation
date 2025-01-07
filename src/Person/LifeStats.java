@@ -1,3 +1,7 @@
+package Person;
+
+import java.util.List;
+
 public class LifeStats <T>{
 
     private T physical;
@@ -8,6 +12,9 @@ public class LifeStats <T>{
         this.physical = physical;
         this.internal = internal;
         this.infection = infection;
+    }
+
+    public LifeStats(List<Integer> list) {
     }
 
     public T getPhysical() {
@@ -32,5 +39,9 @@ public class LifeStats <T>{
 
     public void setInfection(T infection) {
         this.infection = infection;
+    }
+
+    public String toString() {
+        return "Obrażenia fizyczne: " + physical + "\n" + "Obrażenia wewnętrzne: " + internal + "\n" + "Obrażenia od infekcji: "  + infection;
     }
 }

@@ -1,3 +1,7 @@
+package Simulation;
+
+import Person.LifeStats;
+
 public class Department {
 
     private String name;

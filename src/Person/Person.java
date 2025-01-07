@@ -1,3 +1,5 @@
+package Person;
+
 public class Person {
 
     private String name;
@@ -8,6 +10,10 @@ public class Person {
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;
+    }
+
+    public Person(){
+
     }
 
     public String getName() {

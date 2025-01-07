@@ -1,11 +1,13 @@
+package Person;
+
 public class Illness {
 
     String name;
-    LifeStats<Double> stats;
+    LifeStats<Double> statsMultiplier;
 
     public Illness(String name, LifeStats<Double> stats) {
         this.name = name;
-        this.stats = stats;
+        this.statsMultiplier = stats;
     }
 
     public String getName() {
@@ -17,10 +19,10 @@ public class Illness {
     }
 
     public LifeStats<Double> getStats() {
-        return stats;
+        return statsMultiplier;
     }
 
     public void setStats(LifeStats<Double> stats) {
-        this.stats = stats;
+        this.statsMultiplier = stats;
     }
 }
