@@ -7,13 +7,15 @@ public class Patient extends Person implements Subject{
     private ArrayList<Observer> observers;
     private int departmentIndex;
     private LifeStats<Integer> stats;
-    private ArrayList<Illness> Illnesses;
+    private ArrayList<Illness> illnesses;
 
     public Patient(String name, String surname, String pesel, int departmentIndex, LifeStats<Integer> stats, ArrayList<Illness> illnesses) {
         super(name, surname, pesel);
         this.departmentIndex = departmentIndex;
         this.stats = stats;
-        Illnesses = illnesses;
+        this.illnesses = illnesses;
+
+        observers = new ArrayList<>();
     }
 
     public Patient(){
@@ -43,11 +45,11 @@ public class Patient extends Person implements Subject{
     }
 
     public ArrayList<Illness> getIllnesses() {
-        return Illnesses;
+        return illnesses;
     }
 
     public void setIllnesses(ArrayList<Illness> illnesses) {
-        Illnesses = illnesses;
+        illnesses = illnesses;
     }
 
     public LifeStats<Integer> getStats() {
@@ -56,5 +58,9 @@ public class Patient extends Person implements Subject{
 
     public void setStats(LifeStats<Integer> stats) {
         this.stats = stats;
+    }
+
+    public ArrayList<Observer> getObservers() {
+        return observers;
     }
 }

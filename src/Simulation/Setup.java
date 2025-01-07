@@ -9,19 +9,30 @@ public class Setup {
     // na razie są zmienne "globalne", do których dostęp jest przed gettery i settery
     // można też zrobić publiczne ale tak bezpieczniej może
 
-    private static int delayMs;
-    private static boolean generatePatientsAutomatically;
-    private static boolean diagnosePatientsAutomatically;
+    private static int delayMs = 2000;
+    private static boolean generatePatientsAutomatically = true;
+    private static boolean diagnosePatientsAutomatically = true; // nieużywane
     private static ArrayList<Department> departments;
 
     // parametry do generacji:
 
-    private static int maxIllnessAmount;
-    private static int numberOfShifts;
-    private static int minDoctorSkill;
-    private static int maxDoctorSkill;
-    private static LifeStats<Integer> minLifeStats;
-    private static LifeStats<Integer> maxLifeStats;
+    private static int maxNumberOfDoctorsPerPatient = 3; // ile lekarzy może leczyć jednego pacjenta
+
+    private static int minNumberOfDoctors = 10; // ile ogólnie lekarzy w szpitalu
+    private static int maxNumberOfDoctors = 20;
+
+    private static int minNumberOfPatients = 5; // ile ogólnie pacjentów w szpitalu
+    private static int maxNumberOfPatients = 10;
+
+    // można potem dodać ewentualnie min/max tutaj:
+    private static int maxIllnessAmount = 3;
+    private static int numberOfShifts = 3; // na razie nieużywane
+
+    private static int minDoctorSkill = 0;
+    private static int maxDoctorSkill = 100; // for now
+
+    private static LifeStats<Integer> minLifeStats = new LifeStats<>(1,1,1);
+    private static LifeStats<Integer> maxLifeStats = new LifeStats<>(100,100,100);
 
     public Setup(int maxIllnessAmount, int delayMs, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, ArrayList<Department> departments, int numberOfShifts, int minDoctorSkill, int maxDoctorSkill, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {
         Setup.maxIllnessAmount = maxIllnessAmount;
@@ -34,6 +45,51 @@ public class Setup {
         Setup.maxDoctorSkill = maxDoctorSkill;
         Setup.minLifeStats = minLifeStats;
         Setup.maxLifeStats = maxLifeStats;
+    }
+
+    public Setup(ArrayList<Department> departments){
+
+        Setup.departments = departments;
+    }
+
+    public static int getMaxNumberOfDoctorsPerPatient() {
+        return maxNumberOfDoctorsPerPatient;
+    }
+
+    public static void setMaxNumberOfDoctorsPerPatient(int maxNumberOfDoctorsPerPatient) {
+        Setup.maxNumberOfDoctorsPerPatient = maxNumberOfDoctorsPerPatient;
+    }
+
+    public static int getMinNumberOfPatients() {
+        return minNumberOfPatients;
+    }
+
+    public static void setMinNumberOfPatients(int minNumberOfPatients) {
+        Setup.minNumberOfPatients = minNumberOfPatients;
+    }
+
+    public static int getMaxNumberOfPatients() {
+        return maxNumberOfPatients;
+    }
+
+    public static void setMaxNumberOfPatients(int maxNumberOfPatients) {
+        Setup.maxNumberOfPatients = maxNumberOfPatients;
+    }
+
+    public static int getMinNumberOfDoctors() {
+        return minNumberOfDoctors;
+    }
+
+    public static void setMinNumberOfDoctors(int minNumberOfDoctors) {
+        Setup.minNumberOfDoctors = minNumberOfDoctors;
+    }
+
+    public static int getMaxNumberOfDoctors() {
+        return maxNumberOfDoctors;
+    }
+
+    public static void setMaxNumberOfDoctors(int maxNumberOfDoctors) {
+        Setup.maxNumberOfDoctors = maxNumberOfDoctors;
     }
 
     public static ArrayList<Department> getDepartments() {

@@ -1,5 +1,7 @@
 package Person;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LifeStats <T>{
@@ -15,6 +17,24 @@ public class LifeStats <T>{
     }
 
     public LifeStats(List<Integer> list) {
+    }
+
+    public int getStatAmount(){
+
+        Field[] fields = getClass().getDeclaredFields();
+
+        return fields.length;
+    }
+
+    public T getStatByIndex(int index){
+
+        return switch (index) {
+            case 0 -> physical;
+            case 1 -> internal;
+            case 2 -> infection;
+            default -> throw new IndexOutOfBoundsException();
+        };
+
     }
 
     public T getPhysical() {
