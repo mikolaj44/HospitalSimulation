@@ -29,8 +29,8 @@ public class Setup {
     private int minDoctorSkill = 0;
     private int maxDoctorSkill = 100; // for now
 
-    private LifeStats<Integer> minLifeStats = new LifeStats<>(1,1,1);
-    private LifeStats<Integer> maxLifeStats = new LifeStats<>(100,100,100);
+    private LifeStats<Integer> minLifeStats = new LifeStats<>(1, 1, 1);
+    private LifeStats<Integer> maxLifeStats = new LifeStats<>(100, 100, 100);
 
     public Setup(int maxIllnessAmount, int delayMs, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, ArrayList<Department> departments, int numberOfShifts, int minDoctorSkill, int maxDoctorSkill, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {
         this.maxIllnessAmount = maxIllnessAmount;
@@ -45,7 +45,7 @@ public class Setup {
         this.maxLifeStats = maxLifeStats;
     }
 
-    public Setup(ArrayList<Department> departments){
+    public Setup(ArrayList<Department> departments) {
 
         this.departments = departments;
     }
@@ -94,7 +94,7 @@ public class Setup {
         return new ArrayList<>(departments);
     }
 
-    public void addDepartment(Department department){
+    public void addDepartment(Department department) {
         this.departments.add(department);
     }
 
@@ -102,13 +102,15 @@ public class Setup {
         return maxIllnessAmount;
     }
 
-    public void setMaxIllnessAmount(int maxIllnessAmount) {this.maxIllnessAmount = maxIllnessAmount;}
+    public void setMaxIllnessAmount(int maxIllnessAmount) {
+        this.maxIllnessAmount = maxIllnessAmount;
+    }
 
     public int getDelayMs() {
         return delayMs;
     }
 
-    public void setDelayMs(int delayMs){
+    public void setDelayMs(int delayMs) {
         this.delayMs = delayMs;
     }
 
@@ -116,7 +118,7 @@ public class Setup {
         return generatePatientsAutomatically;
     }
 
-    public void toggleAutoDiagnose(){
+    public void toggleAutoDiagnose() {
         diagnosePatientsAutomatically = !diagnosePatientsAutomatically;
     }
 
@@ -124,7 +126,7 @@ public class Setup {
         return diagnosePatientsAutomatically;
     }
 
-    public void toggleAutoGenerate(){
+    public void toggleAutoGenerate() {
         generatePatientsAutomatically = !generatePatientsAutomatically;
     }
 

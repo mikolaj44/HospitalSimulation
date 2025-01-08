@@ -46,11 +46,7 @@ public class Simulation {
         this.generationMethods = generationMethods;
         this.setup = new Setup(departments);
 
-        this.assignmentMethods = new ArrayList<>();
-        assignmentMethods.add(new ClosestAssignment());
-        assignmentMethods.add(new BestAssignment());
-        assignmentMethods.add(new MostFreeSpotsAssignment());
-        assignmentMethods.add(new RandomAssignment());
+        addDefaultAssignmentMethods();
 
         patients = new ArrayList<>();
         doctors = new ArrayList<>();
@@ -63,14 +59,9 @@ public class Simulation {
 
         generationMethods = new ArrayList<>();
         this.setup = new Setup(departments);
-        generationMethods.add(new AutoGeneration(setup));
-        generationMethods.add(new UserGeneration(setup));
 
-        assignmentMethods = new ArrayList<>();
-        assignmentMethods.add(new ClosestAssignment());
-        assignmentMethods.add(new BestAssignment());
-        assignmentMethods.add(new MostFreeSpotsAssignment());
-        assignmentMethods.add(new RandomAssignment());
+        addDefaultGenerationMethods();
+        addDefaultAssignmentMethods();
 
         patients = new ArrayList<>();
         doctors = new ArrayList<>();
@@ -83,9 +74,28 @@ public class Simulation {
         this.doctors = doctors;
         this.patients = patients;
         this.generationMethods = generationMethods;
+
+        addDefaultAssignmentMethods();
+
         this.setup = setup;
         recovered = 0;
         deceased = 0;
+    }
+
+    private void addDefaultAssignmentMethods(){
+
+        assignmentMethods = new ArrayList<>();
+        assignmentMethods.add(new ClosestAssignment());
+        assignmentMethods.add(new BestAssignment());
+        assignmentMethods.add(new MostFreeSpotsAssignment());
+        assignmentMethods.add(new RandomAssignment());
+    }
+
+    private void addDefaultGenerationMethods(){
+
+        generationMethods = new ArrayList<>();
+        generationMethods.add(new AutoGeneration(setup));
+        generationMethods.add(new UserGeneration(setup));
     }
 
     private void generateDoctorsInDepartments(){

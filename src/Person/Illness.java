@@ -26,10 +26,12 @@ public class Illness {
         this.statsMultiplier = stats;
     }
 
-    public String getInfo() {
+    public String toString() {
+
         String output = "+--------------+\n";
         output += "Nazwa choroby: " + name + "\n";
-        output += "Statystyki: " + statsMultiplier.toString();
+        output += "Statystyki: " + statsMultiplier;
+
         return output;
     }
 

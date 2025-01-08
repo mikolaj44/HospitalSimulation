@@ -6,10 +6,10 @@ import java.util.Scanner;
 
 public class UserGeneration implements GenerationMethod {
 
-    private Setup simulationSetup;
+    private Setup setup;
 
-    public UserGeneration(Setup simulationSetup) {
-        this.simulationSetup = simulationSetup;
+    public UserGeneration(Setup setup) {
+        this.setup = setup;
     }
 
     private Person setPersonFields(Class<?> type){

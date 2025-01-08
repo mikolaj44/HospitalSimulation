@@ -1,5 +1,14 @@
 package Simulation;
 
 public class SimulationManager {
-    public static Simulation simulation;
+
+    private static Simulation simulation;
+
+    public static Simulation getSimulation() {
+        return simulation;
+    }
+
+    public static void setSimulation(Simulation simulation) {
+        SimulationManager.simulation = simulation;
+    }
 }

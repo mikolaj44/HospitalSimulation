@@ -4,7 +4,7 @@ import Simulation.SimulationManager;
 
 import java.util.ArrayList;
 
-public class Patient extends Person implements Subject, Updateable{
+public class Patient extends Person implements Subject, Updateable {
 
     private ArrayList<Observer> observers;
     private int departmentIndex;
@@ -19,22 +19,23 @@ public class Patient extends Person implements Subject, Updateable{
         observers = new ArrayList<>();
     }
 
-    public Patient(){
+    public Patient() {
 
     }
 
-    public void registerObserver(Observer o){
+    public void registerObserver(Observer o) {
         observers.add(o);
     }
 
-    public void removeObserver(Observer o){
+    public void removeObserver(Observer o) {
         observers.remove(o);
     }
 
-    public void notifyObservers(){
+    public void notifyObservers() {
 
-        for(Observer o : observers)
-            o.onUpdate(this);
+        for(int i = observers.size() - 1; i >= 0; i--){
+            observers.get(i).onUpdate(this);
+        }
     }
 
     public int getDepartmentIndex() {
@@ -55,13 +56,12 @@ public class Patient extends Person implements Subject, Updateable{
         String output = "";
 
         for (Illness illness : illnesses) {
-            output += illness.getInfo() + "\n";
+            output += illness + "\n";
         }
 
-        if (!output.equals("")){
+        if (!output.equals("")) {
             output = output.substring(0, output.length() - 2);
-        }
-        else {
+        } else {
             output = "Brak chorób";
         }
 
@@ -80,7 +80,7 @@ public class Patient extends Person implements Subject, Updateable{
         this.stats = stats;
     }
 
-    public String getInfo(){
+    public String getInfo() {
 
         String output = "========= Pacjent =========\n";
         output += "Imię: " + super.getName() + "\n";
@@ -92,21 +92,21 @@ public class Patient extends Person implements Subject, Updateable{
         return output;
     }
 
-    public void update(){
+    public void update() {
         executeIllnesses();
     }
 
-    public void executeIllnesses(){
+    public void executeIllnesses() {
 
         LifeStats<Integer> currentStats = getStats();
 
         for (Illness illness : this.illnesses) {
-            currentStats.setPhysical(Math.max((int)(currentStats.getPhysical() - illness.getStats().getPhysical()), 0));
-            currentStats.setInfection(Math.max((int)(currentStats.getInfection() - illness.getStats().getInfection()), 0));
-            currentStats.setInternal(Math.max((int)(currentStats.getInternal() - illness.getStats().getInternal()), 0));
+            currentStats.setPhysical(Math.max((int) (currentStats.getPhysical() - illness.getStats().getPhysical()), 0));
+            currentStats.setInfection(Math.max((int) (currentStats.getInfection() - illness.getStats().getInfection()), 0));
+            currentStats.setInternal(Math.max((int) (currentStats.getInternal() - illness.getStats().getInternal()), 0));
         }
 
-        if(currentStats.getPhysical() <=0 || currentStats.getInfection() <=0 || currentStats.getInternal() <=0){
+        if (currentStats.getPhysical() <= 0 || currentStats.getInfection() <= 0 || currentStats.getInternal() <= 0) {
             die();
             return;
         }
@@ -116,20 +116,16 @@ public class Patient extends Person implements Subject, Updateable{
         notifyObservers();
     }
 
-    public void die()
-    {
-        LifeStats<Integer> currentStats = getStats();
-        currentStats.setPhysical(0);
-        currentStats.setInfection(0);
-        currentStats.setInternal(0);
-        this.stats = currentStats;
-        System.out.println("Pacjent: " + getName() + " " + getSurname() + " zmarł");
-        notifyObservers();
-        SimulationManager.simulation.removePatient(this);
+    public void die() {
+        this.stats = new LifeStats<Integer>(0, 0, 0);
 
+        System.out.println("Pacjent: " + getName() + " " + getSurname() + " zmarł");
+
+        notifyObservers();
+        SimulationManager.getSimulation().removePatient(this);
     }
 
-public ArrayList<Observer> getObservers() {
-    return observers;
-}
+    public ArrayList<Observer> getObservers() {
+        return observers;
+    }
 }

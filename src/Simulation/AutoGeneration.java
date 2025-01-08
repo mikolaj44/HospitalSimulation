@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.regex.*;
 
 import Person.*;
+
 import static Utils.RandomRange.*;
 
 public class AutoGeneration implements GenerationMethod {
@@ -29,7 +30,7 @@ public class AutoGeneration implements GenerationMethod {
 
         for (int i = 0; i < filePaths.length; i++) {
 
-            try (BufferedReader reader = new BufferedReader(new FileReader(filePaths[i]))){
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePaths[i]))) {
                 fields[i].setAccessible(true);
 
                 ArrayList<String> list = new ArrayList<>();
@@ -65,11 +66,11 @@ public class AutoGeneration implements GenerationMethod {
         return new Illness(name, new LifeStats<>(physical, internal, infection));
     }
 
-    private boolean readIllnessesFromFile(){
+    private boolean readIllnessesFromFile() {
 
         String line;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(illnessPath))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(illnessPath))) {
 
             ArrayList<String> lines = new ArrayList<>();
 
@@ -77,7 +78,7 @@ public class AutoGeneration implements GenerationMethod {
                 lines.add(line);
             }
 
-            for (String illnessString: lines) {
+            for (String illnessString : lines) {
                 illnesses.add(stringToIllness(illnessString));
             }
 
@@ -89,13 +90,13 @@ public class AutoGeneration implements GenerationMethod {
         return true;
     }
 
-    public AutoGeneration(Setup simulationSetup){
+    public AutoGeneration(Setup simulationSetup) {
         this.simulationSetup = simulationSetup;
         readNamesFromFile();
         readIllnessesFromFile();
     }
 
-    private Illness generateIllness(){
+    private Illness generateIllness() {
         return illnesses.get(randomRange(illnesses.size()));
     }
 
@@ -119,6 +120,7 @@ public class AutoGeneration implements GenerationMethod {
     }
 
     private String getGender(String PESEL) {
+
         if ((int) PESEL.charAt(PESEL.length() - 2) % 2 == 0) {
             return "female";
         } else {
@@ -127,11 +129,14 @@ public class AutoGeneration implements GenerationMethod {
     }
 
     private String generateSurname(String PESEL) {
+
         String surname = surnames.get(randomRange(surnames.size()));
         String lastChar = String.valueOf(surname.charAt(surname.length() - 1));
+
         if ((getGender(PESEL).equals("female") && (lastChar.equals("i")) || lastChar.equals("y"))) {
             surname = surname.substring(0, surname.length() - 1) + "a";
         }
+
         return surname;
     }
 
@@ -139,14 +144,13 @@ public class AutoGeneration implements GenerationMethod {
 
         ArrayList<Illness> illnesses = new ArrayList<>();
 
-        int length = randomRange(1);
+        int length = randomRange(simulationSetup.getMaxIllnessAmount());
 
-        for(int i = 0; i < length; i++){
+        for (int i = 0; i < length; i++) {
             Illness generatedIllness = generateIllness();
-            if (!illnesses.contains(generatedIllness)){
+            if (!illnesses.contains(generatedIllness)) {
                 illnesses.add(generateIllness());
-            }
-            else {
+            } else {
                 i--;
             }
         }
@@ -157,6 +161,6 @@ public class AutoGeneration implements GenerationMethod {
     }
 
     public Doctor generateDoctor() {
-        return new Doctor(generateName(), surnames.get(randomRange(surnames.size())), randomRange(10000000000L, 999999999999L) + "", generateDepartmentIndex(), new LifeStats<Double>(Math.round(randomRange(0.0,20.0)*100.0)/100.0,Math.round(randomRange(0.0,20.0)*100.0)/100.0,Math.round(randomRange(0.0,20.0)*100.0)/100.0), simulationSetup.getNumberOfShifts());
+        return new Doctor(generateName(), surnames.get(randomRange(surnames.size())), randomRange(10000000000L, 999999999999L) + "", generateDepartmentIndex(), new LifeStats<Double>(Math.round(randomRange(0.0, 20.0) * 100.0) / 100.0, Math.round(randomRange(0.0, 20.0) * 100.0) / 100.0, Math.round(randomRange(0.0, 20.0) * 100.0) / 100.0), simulationSetup.getNumberOfShifts());
     }
 }

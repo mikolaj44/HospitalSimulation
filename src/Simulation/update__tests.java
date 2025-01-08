@@ -2,6 +2,7 @@ package Simulation;
 
 import Person.*;
 import Utils.*;
+
 import java.util.*;
 
 
@@ -9,13 +10,13 @@ public class update__tests {
     public static void main(String[] args) {
 
         ArrayList<Department> departments = new ArrayList<>();
-        departments.add(new Department("Onkologia", 0, 10, null));
-        departments.add(new Department("Ortopedia", 0, 10, null));
+        departments.add(new Department("Onkologia", 0, 10, new LifeStats<Double>(0.1, 0.2, 0.3)));
+        departments.add(new Department("Ortopedia", 0, 10, new LifeStats<Double>(0.25, 0.35, 0.1)));
 
-        LifeStats<Integer> min = new LifeStats<>(10,10,10);
-        LifeStats<Integer> max = new LifeStats<>(500,500,500);
+        LifeStats<Integer> min = new LifeStats<>(10, 10, 10);
+        LifeStats<Integer> max = new LifeStats<>(500, 500, 500);
 
-        Setup setup = new Setup(5,3, true, true, departments,2,5,10,min,max);
+        Setup setup = new Setup(5, 3, true, true, departments, 2, 5, 10, min, max);
 
         GenerationMethod method = new AutoGeneration(setup);
 
@@ -30,7 +31,7 @@ public class update__tests {
         ArrayList<GenerationMethod> generationMethods = new ArrayList<>();
         generationMethods.add(method);
 
-        SimulationManager.simulation = new Simulation(departments,doctors,patients,generationMethods,setup);
-        SimulationManager.simulation.start();
+        SimulationManager.setSimulation(new Simulation(departments, doctors, patients, generationMethods, setup));
+        SimulationManager.getSimulation().start();
     }
 }

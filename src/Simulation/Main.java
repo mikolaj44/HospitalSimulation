@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         GUI gui = new GUI(new Method1());
         gui.start();
