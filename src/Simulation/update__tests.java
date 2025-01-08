@@ -30,9 +30,7 @@ public class update__tests {
         ArrayList<GenerationMethod> generationMethods = new ArrayList<>();
         generationMethods.add(method);
 
-
-        Simulation sim = new Simulation(departments,doctors,patients,generationMethods,setup);
-        sim.start();
-
+        SimulationManager.simulation = new Simulation(departments,doctors,patients,generationMethods,setup);
+        SimulationManager.simulation.start();
     }
 }

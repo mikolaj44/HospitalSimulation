@@ -1,5 +1,7 @@
 package Person;
 
+import Simulation.SimulationManager;
+
 import java.util.ArrayList;
 
 public class Patient extends Person implements Subject, Updateable{
@@ -104,10 +106,29 @@ public class Patient extends Person implements Subject, Updateable{
             currentStats.setInternal(Math.max((int)(currentStats.getInternal() - illness.getStats().getInternal()), 0));
         }
 
+        if(currentStats.getPhysical() <=0 || currentStats.getInfection() <=0 || currentStats.getInternal() <=0){
+            die();
+            return;
+        }
+
         this.stats = currentStats;
 
         notifyObservers();
     }
+
+    public void die()
+    {
+        LifeStats<Integer> currentStats = getStats();
+        currentStats.setPhysical(0);
+        currentStats.setInfection(0);
+        currentStats.setInternal(0);
+        this.stats = currentStats;
+        System.out.println("Pacjent: " + getName() + " " + getSurname() + " zmarł");
+        notifyObservers();
+        SimulationManager.simulation.removePatient(this);
+
+    }
+}
 
     public ArrayList<Observer> getObservers() {
         return observers;

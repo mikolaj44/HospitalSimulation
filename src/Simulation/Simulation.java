@@ -1,11 +1,10 @@
 package Simulation;
 
 import Person.*;
-import static Utils.RandomRange.*;
-
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Collections;
+
+import static Utils.RandomRange.randomRange;
 
 public class Simulation {
 
@@ -15,6 +14,7 @@ public class Simulation {
     private Setup setup;
     private ArrayList<GenerationMethod> generationMethods;
     private ArrayList<DepartmentAssignmentMethod> assignmentMethods;
+
     private int recovered;
     private int deceased;
 
@@ -207,16 +207,17 @@ public class Simulation {
 //        System.out.println(patients.get(0).getInfo());
 
         while (true){
+            if(patients.isEmpty() || doctors.isEmpty())
+                return;
             System.out.println(patients.get(0).getInfo());
             System.out.println("Kontynuować?(T/N)");
             String input = scanner.next();
             if(input.equals("N")){
-                break;
+                return;
             }
-            else {
-                doctors.get(0).performHealing(patients.get(0));
+            doctors.get(0).performHealing(patients.get(0));
+            if(!patients.isEmpty()) // if cured patient is removed
                 patients.get(0).update();
-            }
 
         }
     }
@@ -258,11 +259,19 @@ public class Simulation {
         return departments.size();
     }
 
-    public int getRecovered() {
-        return recovered;
+    public void onPatientDied() {
+        deceased++;
+    }
+
+    public void onPatientRecovered() {
+        recovered++;
     }
 
     public int getDeceased() {
         return deceased;
+    }
+
+    public int getRecovered() {
+        return recovered;
     }
 }
