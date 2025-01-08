@@ -55,8 +55,8 @@ public class UserGeneration implements GenerationMethod {
         System.out.print("Podaj numer oddziału: ");
         doctor.setDepartmentIndex(scanner.nextInt());
 
-        System.out.print("Podaj poziom skilla: ");
-        doctor.setSkill(scanner.nextInt());
+//        System.out.print("Podaj poziom : ");
+//        doctor.setLifeStatsModifiers(scanner);
 
         System.out.print("Podaj numer zmiany: ");
         doctor.setShift(scanner.nextInt());

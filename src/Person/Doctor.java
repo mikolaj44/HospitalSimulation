@@ -7,13 +7,13 @@ import static Utils.RandomRange.*;
 public class Doctor extends Person implements Observer{
 
     private int departmentIndex;
-    private int skill;
+    private LifeStats<Double> lifeStatsModifiers;
     private int shift;
 
-    public Doctor(String name, String surname, String pesel, int departmentIndex, int skill, int shift) {
+    public Doctor(String name, String surname, String pesel, int departmentIndex, LifeStats<Double> lifeStatsModifiers, int shift) {
         super(name, surname, pesel);
         this.departmentIndex = departmentIndex;
-        this.skill = skill;
+        this.lifeStatsModifiers = lifeStatsModifiers; // Zakres od 0-20
         this.shift = shift;
     }
 
@@ -28,12 +28,46 @@ public class Doctor extends Person implements Observer{
 
     }
 
-    public void performHealing(Patient p){
+    public void performHealing(Patient p) {
+        if(!p.getIllnesses().isEmpty()) {
+            try {
+                for (Illness illness : p.getIllnesses()) {
+                    if (!illness.isCured()) {
+                        LifeStats<Double> currentStats = illness.getStats();
+                        LifeStats<Double> newStats = new LifeStats<Double>(0.0, 0.0, 0.0);
+                        if (currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical() > 0.0) {
+                            newStats.setPhysical(currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical());
+                        } else {
+                            newStats.setPhysical(0.0);
+                        }
+                        if (currentStats.getInternal() - this.lifeStatsModifiers.getInternal() > 0.0) {
+                            newStats.setInternal(currentStats.getInternal() - this.lifeStatsModifiers.getInternal());
+                        } else {
+                            newStats.setInternal(0.0);
+                        }
+                        if (currentStats.getInfection() - this.lifeStatsModifiers.getInfection() > 0.0) {
+                            newStats.setInfection(currentStats.getInfection() - this.lifeStatsModifiers.getInfection());
+                        } else {
+                            newStats.setInfection(0.0);
+                        }
 
-        ArrayList<Illness> illnesses = p.getIllnesses();
-        Illness illness = illnesses.get(randomRange(illnesses.size()));
+                        illness.setStats(newStats);
 
-        illness.setStats(new LifeStats<Double>(randomRange(1d) * illness.getStats().getPhysical() / (float)skill,randomRange(1d) * illness.getStats().getInternal() / (float)skill,randomRange(1d) * illness.getStats().getInfection() / (float)skill));
+                        if (illness.isCured()) {
+                            ArrayList<Illness> illnesses = p.getIllnesses();
+                            illnesses.remove(illness);
+                            p.setIllnesses(illnesses);
+                        }
+                    } else {
+                        ArrayList<Illness> illnesses = p.getIllnesses();
+                        illnesses.remove(illness);
+                        p.setIllnesses(illnesses);
+                    }
+                }
+            } catch (Exception e) {
+//                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public void update(Subject s){
@@ -56,12 +90,12 @@ public class Doctor extends Person implements Observer{
         this.departmentIndex = departmentIndex;
     }
 
-    public int getSkill() {
-        return skill;
+    public LifeStats<Double> getLifeStatsModifiers() {
+        return lifeStatsModifiers;
     }
 
-    public void setSkill(int skill) {
-        this.skill = skill;
+    public void setLifeStatsModifiers(LifeStats<Double> lifeStatsModifiers) {
+        this.lifeStatsModifiers = lifeStatsModifiers;
     }
 
     public int getShift() {
@@ -71,4 +105,14 @@ public class Doctor extends Person implements Observer{
     public void setShift(int shift) {
         this.shift = shift;
     }
+
+    public String getInfo(){
+        String info = "========= Doktor =========\n";
+        info += "Imię: " + super.getName() + "\n";
+        info += "Nazwisko: " + super.getSurname() + "\n";
+        info += "Umiejętności: " + getLifeStatsModifiers() + "\n";
+        info += "====================\n";
+        return info;
+    }
+
 }

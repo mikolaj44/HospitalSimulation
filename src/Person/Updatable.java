@@ -1,4 +1,7 @@
 package Person;
 
-public class Updatable {
+public interface Updatable {
+
+    public void updateLifeStats();
+
 }

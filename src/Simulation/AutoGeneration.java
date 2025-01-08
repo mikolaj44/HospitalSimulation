@@ -111,7 +111,7 @@ public class AutoGeneration implements GenerationMethod {
         return randomRange(simulationSetup.getDepartments().size());
     }
 
-    private LifeStats<Integer> generateLifeStats() {
+    private LifeStats<Double> generateLifeStats() {
         return new LifeStats<>(randomRange(simulationSetup.getMinLifeStats().getPhysical(), simulationSetup.getMaxLifeStats().getPhysical()), randomRange(simulationSetup.getMinLifeStats().getInternal(), simulationSetup.getMaxLifeStats().getInternal()), randomRange(simulationSetup.getMinLifeStats().getInfection(), simulationSetup.getMaxLifeStats().getInfection()));
     }
 
@@ -135,7 +135,7 @@ public class AutoGeneration implements GenerationMethod {
     }
 
     public Doctor generateDoctor() {
-        return new Doctor(generateName(), surnames.get(randomRange(surnames.size())), randomRange(10000000000L, 999999999999L) + "", generateDepartmentIndex(), randomRange(simulationSetup.getMinDoctorSkill(), simulationSetup.getMaxDoctorSkill()), randomRange(1, simulationSetup.getNumberOfShifts()));
+        return new Doctor(generateName(), surnames.get(randomRange(surnames.size())), randomRange(10000000000L, 999999999999L) + "", generateDepartmentIndex(), new LifeStats<Double>(Math.round(randomRange(0.0,20.0)*100.0)/100.0,Math.round(randomRange(0.0,20.0)*100.0)/100.0,Math.round(randomRange(0.0,20.0)*100.0)/100.0), simulationSetup.getNumberOfShifts());
     }
 
 }

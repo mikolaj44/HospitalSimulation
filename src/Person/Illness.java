@@ -25,4 +25,18 @@ public class Illness {
     public void setStats(LifeStats<Double> stats) {
         this.statsMultiplier = stats;
     }
+
+    public String getInfo() {
+        String output = "+--------------+\n";
+        output += "Nazwa choroby: " + name + "\n";
+        output += "Statystyki: " + statsMultiplier.toString() + "";
+        return output;
+    }
+
+    public boolean isCured() {
+        if(this.statsMultiplier.getPhysical() == 0 && this.statsMultiplier.getInfection() == 0 && this.statsMultiplier.getInternal() == 0) {
+            return true;
+        }
+        return false;
+    }
 }

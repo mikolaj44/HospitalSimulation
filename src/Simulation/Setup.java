@@ -1,5 +1,6 @@
 package Simulation;
 
+import Person.Doctor;
 import Person.LifeStats;
 
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ public class Setup {
     private static int numberOfShifts;
     private static int minDoctorSkill;
     private static int maxDoctorSkill;
-    private static LifeStats<Integer> minLifeStats;
-    private static LifeStats<Integer> maxLifeStats;
+    private static LifeStats<Double> minLifeStats;
+    private static LifeStats<Double> maxLifeStats;
 
-    public Setup(int maxIllnessAmount, int delayMs, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, ArrayList<Department> departments, int numberOfShifts, int minDoctorSkill, int maxDoctorSkill, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {
+    public Setup(int maxIllnessAmount, int delayMs, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, ArrayList<Department> departments, int numberOfShifts, int minDoctorSkill, int maxDoctorSkill, LifeStats<Double> minLifeStats, LifeStats<Double> maxLifeStats) {
         Setup.maxIllnessAmount = maxIllnessAmount;
         Setup.delayMs = delayMs;
         Setup.generatePatientsAutomatically = generatePatientsAutomatically;
@@ -74,19 +75,19 @@ public class Setup {
         generatePatientsAutomatically = !generatePatientsAutomatically;
     }
 
-    public static LifeStats<Integer> getMinLifeStats() {
+    public static LifeStats<Double> getMinLifeStats() {
         return minLifeStats;
     }
 
-    public static void setMinLifeStats(LifeStats<Integer> minLifeStats) {
+    public static void setMinLifeStats(LifeStats<Double> minLifeStats) {
         Setup.minLifeStats = minLifeStats;
     }
 
-    public static LifeStats<Integer> getMaxLifeStats() {
+    public static LifeStats<Double> getMaxLifeStats() {
         return maxLifeStats;
     }
 
-    public static void setMaxLifeStats(LifeStats<Integer> maxLifeStats) {
+    public static void setMaxLifeStats(LifeStats<Double> maxLifeStats) {
         Setup.maxLifeStats = maxLifeStats;
     }
 
