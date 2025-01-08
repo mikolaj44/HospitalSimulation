@@ -31,9 +31,8 @@ public class update__tests {
         generationMethods.add(method);
 
 
-        Simulation sim = new Simulation(departments,doctors,patients,generationMethods,setup);
-        sim.
-                simulationLoop();
-
+        SimulationManager.simulation = new Simulation(departments,doctors,patients,generationMethods,setup);
+        SimulationManager.simulation.simulationLoop();
     }
+
 }

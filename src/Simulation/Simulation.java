@@ -13,6 +13,9 @@ public class Simulation {
     private ArrayList<Patient> patients;
     private ArrayList<GenerationMethod> generationMethods;
     private Setup setup;
+
+
+
     private int recovered;
     private int deceased;
 
@@ -35,16 +38,17 @@ public class Simulation {
 //        System.out.println(patients.get(0).getInfo());
 
         while (true){
+            if(patients.isEmpty() || doctors.isEmpty())
+                return;
             System.out.println(patients.get(0).getInfo());
             System.out.println("Kontynuować?(T/N)");
             String input = scanner.next();
             if(input.equals("N")){
-                break;
+                return;
             }
-            else {
-                doctors.get(0).performHealing(patients.get(0));
+            doctors.get(0).performHealing(patients.get(0));
+            if(!patients.isEmpty()) // if cured patient is removed
                 patients.get(0).updateLifeStats();
-            }
 
         }
     }
@@ -85,5 +89,22 @@ public class Simulation {
     public int getNumberOfDepartments(){
         return departments.size();
     }
+
+    public int getDeceased() {
+        return deceased;
+    }
+    public void patientDied() {
+        this.deceased++;
+    }
+
+
+    public int getRecovered() {
+        return recovered;
+    }
+    public void patientRecoverd() {
+        recovered++;
+    }
+
+
 
 }
