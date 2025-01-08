@@ -12,8 +12,8 @@ public class update__tests {
         departments.add(new Department("Onkologia", 0, 10, null));
         departments.add(new Department("Ortopedia", 0, 10, null));
 
-        LifeStats<Double> min = new LifeStats<>(10.0,10.0,10.0);
-        LifeStats<Double> max = new LifeStats<>(500.0,500.0,500.0);
+        LifeStats<Integer> min = new LifeStats<>(10,10,10);
+        LifeStats<Integer> max = new LifeStats<>(500,500,500);
 
         Setup setup = new Setup(5,3, true, true, departments,2,5,10,min,max);
 
@@ -32,8 +32,7 @@ public class update__tests {
 
 
         Simulation sim = new Simulation(departments,doctors,patients,generationMethods,setup);
-        sim.
-                simulationLoop();
+        sim.start();
 
     }
 }

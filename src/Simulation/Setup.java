@@ -7,167 +7,164 @@ import java.util.ArrayList;
 
 public class Setup {
 
-    // na razie są zmienne "globalne", do których dostęp jest przed gettery i settery
-    // można też zrobić publiczne ale tak bezpieczniej może
-
-    private static int delayMs = 2000;
-    private static boolean generatePatientsAutomatically = true;
-    private static boolean diagnosePatientsAutomatically = true; // nieużywane
-    private static ArrayList<Department> departments;
+    private int delayMs = 2000;
+    private boolean generatePatientsAutomatically = true;
+    private boolean diagnosePatientsAutomatically = true; // nieużywane
+    private ArrayList<Department> departments;
 
     // parametry do generacji:
 
-    private static int maxNumberOfDoctorsPerPatient = 3; // ile lekarzy może leczyć jednego pacjenta
+    private int maxNumberOfDoctorsPerPatient = 3; // ile lekarzy może leczyć jednego pacjenta
 
-    private static int minNumberOfDoctors = 10; // ile ogólnie lekarzy w szpitalu
-    private static int maxNumberOfDoctors = 20;
+    private int minNumberOfDoctors = 10; // ile ogólnie lekarzy w szpitalu
+    private int maxNumberOfDoctors = 20;
 
-    private static int minNumberOfPatients = 5; // ile ogólnie pacjentów w szpitalu
-    private static int maxNumberOfPatients = 10;
+    private int minNumberOfPatients = 5; // ile ogólnie pacjentów w szpitalu
+    private int maxNumberOfPatients = 10;
 
     // można potem dodać ewentualnie min/max tutaj:
-    private static int maxIllnessAmount = 3;
-    private static int numberOfShifts = 3; // na razie nieużywane
+    private int maxIllnessAmount = 3;
+    private int numberOfShifts = 3; // na razie nieużywane
 
-    private static int minDoctorSkill = 0;
-    private static int maxDoctorSkill = 100; // for now
+    private int minDoctorSkill = 0;
+    private int maxDoctorSkill = 100; // for now
 
-    private static LifeStats<Integer> minLifeStats = new LifeStats<>(1,1,1);
-    private static LifeStats<Integer> maxLifeStats = new LifeStats<>(100,100,100);
+    private LifeStats<Integer> minLifeStats = new LifeStats<>(1,1,1);
+    private LifeStats<Integer> maxLifeStats = new LifeStats<>(100,100,100);
 
     public Setup(int maxIllnessAmount, int delayMs, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, ArrayList<Department> departments, int numberOfShifts, int minDoctorSkill, int maxDoctorSkill, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {
-        Setup.maxIllnessAmount = maxIllnessAmount;
-        Setup.delayMs = delayMs;
-        Setup.generatePatientsAutomatically = generatePatientsAutomatically;
-        Setup.diagnosePatientsAutomatically = diagnosePatientsAutomatically;
-        Setup.departments = departments;
-        Setup.numberOfShifts = numberOfShifts;
-        Setup.minDoctorSkill = minDoctorSkill;
-        Setup.maxDoctorSkill = maxDoctorSkill;
-        Setup.minLifeStats = minLifeStats;
-        Setup.maxLifeStats = maxLifeStats;
+        this.maxIllnessAmount = maxIllnessAmount;
+        this.delayMs = delayMs;
+        this.generatePatientsAutomatically = generatePatientsAutomatically;
+        this.diagnosePatientsAutomatically = diagnosePatientsAutomatically;
+        this.departments = departments;
+        this.numberOfShifts = numberOfShifts;
+        this.minDoctorSkill = minDoctorSkill;
+        this.maxDoctorSkill = maxDoctorSkill;
+        this.minLifeStats = minLifeStats;
+        this.maxLifeStats = maxLifeStats;
     }
 
     public Setup(ArrayList<Department> departments){
 
-        Setup.departments = departments;
+        this.departments = departments;
     }
 
-    public static int getMaxNumberOfDoctorsPerPatient() {
+    public int getMaxNumberOfDoctorsPerPatient() {
         return maxNumberOfDoctorsPerPatient;
     }
 
-    public static void setMaxNumberOfDoctorsPerPatient(int maxNumberOfDoctorsPerPatient) {
-        Setup.maxNumberOfDoctorsPerPatient = maxNumberOfDoctorsPerPatient;
+    public void setMaxNumberOfDoctorsPerPatient(int maxNumberOfDoctorsPerPatient) {
+        this.maxNumberOfDoctorsPerPatient = maxNumberOfDoctorsPerPatient;
     }
 
-    public static int getMinNumberOfPatients() {
+    public int getMinNumberOfPatients() {
         return minNumberOfPatients;
     }
 
-    public static void setMinNumberOfPatients(int minNumberOfPatients) {
-        Setup.minNumberOfPatients = minNumberOfPatients;
+    public void setMinNumberOfPatients(int minNumberOfPatients) {
+        this.minNumberOfPatients = minNumberOfPatients;
     }
 
-    public static int getMaxNumberOfPatients() {
+    public int getMaxNumberOfPatients() {
         return maxNumberOfPatients;
     }
 
-    public static void setMaxNumberOfPatients(int maxNumberOfPatients) {
-        Setup.maxNumberOfPatients = maxNumberOfPatients;
+    public void setMaxNumberOfPatients(int maxNumberOfPatients) {
+        this.maxNumberOfPatients = maxNumberOfPatients;
     }
 
-    public static int getMinNumberOfDoctors() {
+    public int getMinNumberOfDoctors() {
         return minNumberOfDoctors;
     }
 
-    public static void setMinNumberOfDoctors(int minNumberOfDoctors) {
-        Setup.minNumberOfDoctors = minNumberOfDoctors;
+    public void setMinNumberOfDoctors(int minNumberOfDoctors) {
+        this.minNumberOfDoctors = minNumberOfDoctors;
     }
 
-    public static int getMaxNumberOfDoctors() {
+    public int getMaxNumberOfDoctors() {
         return maxNumberOfDoctors;
     }
 
-    public static void setMaxNumberOfDoctors(int maxNumberOfDoctors) {
-        Setup.maxNumberOfDoctors = maxNumberOfDoctors;
+    public void setMaxNumberOfDoctors(int maxNumberOfDoctors) {
+        this.maxNumberOfDoctors = maxNumberOfDoctors;
     }
 
-    public static ArrayList<Department> getDepartments() {
+    public ArrayList<Department> getDepartments() {
         return new ArrayList<>(departments);
     }
 
-    public static void addDepartment(Department department){
-        Setup.departments.add(department);
+    public void addDepartment(Department department){
+        this.departments.add(department);
     }
 
-    public static int getMaxIllnessAmount() {
+    public int getMaxIllnessAmount() {
         return maxIllnessAmount;
     }
 
-    public static void setMaxIllnessAmount(int maxIllnessAmount) {Setup.maxIllnessAmount = maxIllnessAmount;}
+    public void setMaxIllnessAmount(int maxIllnessAmount) {this.maxIllnessAmount = maxIllnessAmount;}
 
-    public static int getDelayMs() {
+    public int getDelayMs() {
         return delayMs;
     }
 
-    public static void setDelayMs(int delayMs){
-        Setup.delayMs = delayMs;
+    public void setDelayMs(int delayMs){
+        this.delayMs = delayMs;
     }
 
-    public static boolean isGeneratingPatientsAutomatically() {
+    public boolean isGeneratingPatientsAutomatically() {
         return generatePatientsAutomatically;
     }
 
-    public static void toggleAutoDiagnose(){
+    public void toggleAutoDiagnose(){
         diagnosePatientsAutomatically = !diagnosePatientsAutomatically;
     }
 
-    public static boolean isDiagnosingPatientsAutomatically() {
+    public boolean isDiagnosingPatientsAutomatically() {
         return diagnosePatientsAutomatically;
     }
 
-    public static void toggleAutoGenerate(){
+    public void toggleAutoGenerate(){
         generatePatientsAutomatically = !generatePatientsAutomatically;
     }
 
-    public static LifeStats<Integer> getMinLifeStats() {
+    public LifeStats<Integer> getMinLifeStats() {
         return minLifeStats;
     }
 
-    public static void setMinLifeStats(LifeStats<Integer> minLifeStats) {
-        Setup.minLifeStats = minLifeStats;
+    public void setMinLifeStats(LifeStats<Integer> minLifeStats) {
+        this.minLifeStats = minLifeStats;
     }
 
-    public static LifeStats<Integer> getMaxLifeStats() {
+    public LifeStats<Integer> getMaxLifeStats() {
         return maxLifeStats;
     }
 
-    public static void setMaxLifeStats(LifeStats<Integer> maxLifeStats) {
-        Setup.maxLifeStats = maxLifeStats;
+    public void setMaxLifeStats(LifeStats<Integer> maxLifeStats) {
+        this.maxLifeStats = maxLifeStats;
     }
 
-    public static int getNumberOfShifts() {
+    public int getNumberOfShifts() {
         return numberOfShifts;
     }
 
-    public static void setNumberOfShifts(int numberOfShifts) {
-        Setup.numberOfShifts = numberOfShifts;
+    public void setNumberOfShifts(int numberOfShifts) {
+        this.numberOfShifts = numberOfShifts;
     }
 
-    public static int getMinDoctorSkill() {
+    public int getMinDoctorSkill() {
         return minDoctorSkill;
     }
 
-    public static void setMinDoctorSkill(int minDoctorSkill) {
-        Setup.minDoctorSkill = minDoctorSkill;
+    public void setMinDoctorSkill(int minDoctorSkill) {
+        this.minDoctorSkill = minDoctorSkill;
     }
 
-    public static int getMaxDoctorSkill() {
+    public int getMaxDoctorSkill() {
         return maxDoctorSkill;
     }
 
-    public static void setMaxDoctorSkill(int maxDoctorSkill) {
-        Setup.maxDoctorSkill = maxDoctorSkill;
+    public void setMaxDoctorSkill(int maxDoctorSkill) {
+        this.maxDoctorSkill = maxDoctorSkill;
     }
 }

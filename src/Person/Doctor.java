@@ -17,34 +17,33 @@ public class Doctor extends Person implements Observer{
         this.shift = shift;
     }
 
-//    public void diagnosePatient(Patient p){
-//
-//    }
     public Doctor(){
 
     }
 
-    public void diagnosePatient(Patient p){
-
-    }
-
     public void performHealing(Patient p) {
+
         if(!p.getIllnesses().isEmpty()) {
             try {
                 for (Illness illness : p.getIllnesses()) {
+
                     if (!illness.isCured()) {
+
                         LifeStats<Double> currentStats = illness.getStats();
                         LifeStats<Double> newStats = new LifeStats<Double>(0.0, 0.0, 0.0);
+
                         if (currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical() > 0.0) {
                             newStats.setPhysical(currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical());
                         } else {
                             newStats.setPhysical(0.0);
                         }
+
                         if (currentStats.getInternal() - this.lifeStatsModifiers.getInternal() > 0.0) {
                             newStats.setInternal(currentStats.getInternal() - this.lifeStatsModifiers.getInternal());
                         } else {
                             newStats.setInternal(0.0);
                         }
+
                         if (currentStats.getInfection() - this.lifeStatsModifiers.getInfection() > 0.0) {
                             newStats.setInfection(currentStats.getInfection() - this.lifeStatsModifiers.getInfection());
                         } else {
@@ -70,16 +69,25 @@ public class Doctor extends Person implements Observer{
         }
     }
 
-    public void update(Subject s){
+    public void onUpdate(Subject s){
         performHealing((Patient)s);
     }
 
     public void registerWith(Subject s){
-        s.registerObserver((Observer)this);
+        s.registerObserver(this);
     }
 
     public void unRegisterWith(Subject s){
-        s.removeObserver((Observer)this);
+        s.removeObserver(this);
+    }
+
+    public String getInfo(){
+        String info = "========= Doktor =========\n";
+        info += "Imię: " + super.getName() + "\n";
+        info += "Nazwisko: " + super.getSurname() + "\n";
+        info += "Umiejętności: " + getLifeStatsModifiers() + "\n";
+        info += "====================\n";
+        return info;
     }
 
     public int getDepartmentIndex() {
@@ -104,15 +112,6 @@ public class Doctor extends Person implements Observer{
 
     public void setShift(int shift) {
         this.shift = shift;
-    }
-
-    public String getInfo(){
-        String info = "========= Doktor =========\n";
-        info += "Imię: " + super.getName() + "\n";
-        info += "Nazwisko: " + super.getSurname() + "\n";
-        info += "Umiejętności: " + getLifeStatsModifiers() + "\n";
-        info += "====================\n";
-        return info;
     }
 
 }

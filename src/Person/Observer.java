@@ -2,7 +2,7 @@ package Person;
 
 public interface Observer {
 
-    void update(Subject s);
+    void onUpdate(Subject s);
 
     void registerWith(Subject s);
 

@@ -29,14 +29,11 @@ public class Illness {
     public String getInfo() {
         String output = "+--------------+\n";
         output += "Nazwa choroby: " + name + "\n";
-        output += "Statystyki: " + statsMultiplier.toString() + "";
+        output += "Statystyki: " + statsMultiplier.toString();
         return output;
     }
 
     public boolean isCured() {
-        if(this.statsMultiplier.getPhysical() == 0 && this.statsMultiplier.getInfection() == 0 && this.statsMultiplier.getInternal() == 0) {
-            return true;
-        }
-        return false;
+        return (this.statsMultiplier.getPhysical() <= 0 && this.statsMultiplier.getInfection() <= 0 && this.statsMultiplier.getInternal() <= 0);
     }
 }

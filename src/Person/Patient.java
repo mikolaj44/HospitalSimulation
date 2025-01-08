@@ -2,7 +2,7 @@ package Person;
 
 import java.util.ArrayList;
 
-public class Patient extends Person implements Subject, Updatable{
+public class Patient extends Person implements Subject, Updateable{
 
     private ArrayList<Observer> observers;
     private int departmentIndex;
@@ -14,7 +14,6 @@ public class Patient extends Person implements Subject, Updatable{
         this.departmentIndex = departmentIndex;
         this.stats = stats;
         this.illnesses = illnesses;
-
         observers = new ArrayList<>();
     }
 
@@ -33,7 +32,7 @@ public class Patient extends Person implements Subject, Updatable{
     public void notifyObservers(){
 
         for(Observer o : observers)
-            o.update((Subject)this);
+            o.onUpdate(this);
     }
 
     public int getDepartmentIndex() {
@@ -68,7 +67,7 @@ public class Patient extends Person implements Subject, Updatable{
     }
 
     public void setIllnesses(ArrayList<Illness> illnesses) {
-        illnesses = illnesses;
+        this.illnesses = illnesses;
     }
 
     public LifeStats<Integer> getStats() {
@@ -80,6 +79,7 @@ public class Patient extends Person implements Subject, Updatable{
     }
 
     public String getInfo(){
+
         String output = "========= Pacjent =========\n";
         output += "Imię: " + super.getName() + "\n";
         output += "Nazwisko: " + super.getSurname() + "\n";
@@ -90,16 +90,23 @@ public class Patient extends Person implements Subject, Updatable{
         return output;
     }
 
-    public void updateLifeStats(){
+    public void update(){
+        executeIllnesses();
+    }
+
+    public void executeIllnesses(){
+
         LifeStats<Integer> currentStats = getStats();
 
         for (Illness illness : this.illnesses) {
-            currentStats.setPhysical((int)(currentStats.getPhysical() - illness.getStats().getPhysical()));
-            currentStats.setInfection((int)(currentStats.getInfection() - illness.getStats().getInfection()));
-            currentStats.setInternal((int)(currentStats.getInternal() - illness.getStats().getInternal()));
+            currentStats.setPhysical(Math.max((int)(currentStats.getPhysical() - illness.getStats().getPhysical()), 0));
+            currentStats.setInfection(Math.max((int)(currentStats.getInfection() - illness.getStats().getInfection()), 0));
+            currentStats.setInternal(Math.max((int)(currentStats.getInternal() - illness.getStats().getInternal()), 0));
         }
 
         this.stats = currentStats;
+
+        notifyObservers();
     }
 
     public ArrayList<Observer> getObservers() {

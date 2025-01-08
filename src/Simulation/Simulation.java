@@ -12,6 +12,7 @@ public class Simulation {
     private ArrayList<Department> departments;
     private ArrayList<Doctor> doctors;
     private ArrayList<Patient> patients;
+    private Setup setup;
     private ArrayList<GenerationMethod> generationMethods;
     private ArrayList<DepartmentAssignmentMethod> assignmentMethods;
     private int recovered;
@@ -21,6 +22,7 @@ public class Simulation {
         this.departments = departments;
         this.doctors = doctors;
         this.patients = patients;
+        this.setup = new Setup(departments);
         this.generationMethods = generationMethods;
         this.assignmentMethods = assignmentMethods;
         recovered = 0;
@@ -31,6 +33,7 @@ public class Simulation {
         this.departments = departments;
         this.generationMethods = generationMethods;
         this.assignmentMethods = assignmentMethods;
+        this.setup = new Setup(departments);
         patients = new ArrayList<>();
         doctors = new ArrayList<>();
         recovered = 0;
@@ -40,6 +43,7 @@ public class Simulation {
     public Simulation(ArrayList<Department> departments, ArrayList<GenerationMethod> generationMethods) {
         this.departments = departments;
         this.generationMethods = generationMethods;
+        this.setup = new Setup(departments);
 
         this.assignmentMethods = new ArrayList<>();
         assignmentMethods.add(new ClosestAssignment());
@@ -57,8 +61,9 @@ public class Simulation {
         this.departments = departments;
 
         generationMethods = new ArrayList<>();
-        generationMethods.add(new AutoGeneration(new Setup(departments)));
-        generationMethods.add(new UserGeneration(new Setup(departments)));
+        this.setup = new Setup(departments);
+        generationMethods.add(new AutoGeneration(setup));
+        generationMethods.add(new UserGeneration(setup));
 
         assignmentMethods = new ArrayList<>();
         assignmentMethods.add(new ClosestAssignment());
@@ -72,9 +77,19 @@ public class Simulation {
         deceased = 0;
     }
 
+    public Simulation(ArrayList<Department> departments, ArrayList<Doctor> doctors, ArrayList<Patient> patients, ArrayList<GenerationMethod> generationMethods, Setup setup) {
+        this.departments = departments;
+        this.doctors = doctors;
+        this.patients = patients;
+        this.generationMethods = generationMethods;
+        this.setup = setup;
+        recovered = 0;
+        deceased = 0;
+    }
+
     private void generateDoctorsInDepartments(){
 
-        int numberOfDoctors = randomRange(Setup.getMinNumberOfDoctors(), Setup.getMaxNumberOfDoctors());
+        int numberOfDoctors = randomRange(setup.getMinNumberOfDoctors(), setup.getMaxNumberOfDoctors());
         int doctorsPerDepartment = numberOfDoctors / departments.size();
 
         for (int i = 0; i < departments.size(); i++) {
@@ -82,7 +97,7 @@ public class Simulation {
             for(int j = 0; j < doctorsPerDepartment; j++){
 
                 // na razie
-                if(Setup.isGeneratingPatientsAutomatically()) {
+                if(setup.isGeneratingPatientsAutomatically()) {
                     addDoctor(generationMethods.get(0)); // autogeneracja
                 }
                 else {
@@ -96,12 +111,12 @@ public class Simulation {
 
     private void generatePatientsInDepartments(){
 
-        int numberOfPatients = randomRange(Setup.getMinNumberOfPatients(), Setup.getMaxNumberOfPatients());
+        int numberOfPatients = randomRange(setup.getMinNumberOfPatients(), setup.getMaxNumberOfPatients());
 
         for(int i = 0; i < numberOfPatients; i++){
 
             // na razie
-            if(Setup.isGeneratingPatientsAutomatically()) {
+            if(setup.isGeneratingPatientsAutomatically()) {
                 addPatient(generationMethods.get(0)); // autogeneracja
             }
             else {
@@ -134,7 +149,7 @@ public class Simulation {
             if(matchingDoctors.isEmpty()) // nie ma żadnych lekarzy na tym oddziale, co pacjent
                 continue;
 
-            int doctorAmount = randomRange(1, Math.min(matchingDoctors.size(), Setup.getMaxNumberOfDoctorsPerPatient()));
+            int doctorAmount = randomRange(1, Math.min(matchingDoctors.size(), setup.getMaxNumberOfDoctorsPerPatient()));
 
             Collections.shuffle(matchingDoctors);
 
@@ -180,7 +195,7 @@ public class Simulation {
 //            System.out.println("\n\n");
 //        }
 
-        // zacząć tutaj simulationLoop()?
+        simulationLoop();
     }
 
     public void simulationLoop(){
@@ -200,7 +215,7 @@ public class Simulation {
             }
             else {
                 doctors.get(0).performHealing(patients.get(0));
-                patients.get(0).updateLifeStats();
+                patients.get(0).update();
             }
 
         }

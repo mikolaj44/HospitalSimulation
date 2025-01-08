@@ -111,7 +111,7 @@ public class AutoGeneration implements GenerationMethod {
         return randomRange(simulationSetup.getDepartments().size());
     }
 
-    private LifeStats<Double> generateLifeStats() {
+    private LifeStats<Integer> generateLifeStats() {
         return new LifeStats<>(randomRange(simulationSetup.getMinLifeStats().getPhysical(), simulationSetup.getMaxLifeStats().getPhysical()), randomRange(simulationSetup.getMinLifeStats().getInternal(), simulationSetup.getMaxLifeStats().getInternal()), randomRange(simulationSetup.getMinLifeStats().getInfection(), simulationSetup.getMaxLifeStats().getInfection()));
     }
 
