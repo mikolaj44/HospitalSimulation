@@ -16,6 +16,12 @@ public class Department {
         this.statsMultiplier = statsMultiplier;
     }
 
+    public Department(String name, int maxAmountOfPatients, LifeStats<Double> statsMultiplier) {
+        this.name = name;
+        this.maxAmountOfPatients = maxAmountOfPatients;
+        this.statsMultiplier = statsMultiplier;
+    }
+
     public String getName() {
         return name;
     }
