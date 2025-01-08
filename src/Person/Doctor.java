@@ -27,9 +27,8 @@ public class Doctor extends Person implements Observer{
         if(p.getIllnesses().isEmpty())
         {
             p.removeObserver(this);
-            unRegisterWith(p);
             SimulationManager.simulation.removePatient(p);
-            SimulationManager.simulation.patientRecoverd();
+            SimulationManager.simulation.onPatientRecovered();
             System.out.println("Pacjent: " + p.getName() + " " + p.getSurname() + " wyleczony");
 
             return;
@@ -76,21 +75,12 @@ public class Doctor extends Person implements Observer{
 
     public void onUpdate(Subject s){
         if(((Patient)s).getStats().getPhysical() <= 0) {
-            unRegisterWith(s);
             s.removeObserver(this);
         }
         else {
             performHealing((Patient)s);
         }
 
-    }
-
-    public void registerWith(Subject s){
-        s.registerObserver(this);
-    }
-
-    public void unRegisterWith(Subject s){
-        s.removeObserver(this);
     }
 
     public String getInfo(){
@@ -125,14 +115,4 @@ public class Doctor extends Person implements Observer{
     public void setShift(int shift) {
         this.shift = shift;
     }
-
-    public String getInfo(){
-        String info = "========= Doktor =========\n";
-        info += "Imię: " + super.getName() + "\n";
-        info += "Nazwisko: " + super.getSurname() + "\n";
-        info += "Umiejętności: " + getLifeStatsModifiers() + "\n";
-        info += "====================\n";
-        return info;
-    }
-
 }

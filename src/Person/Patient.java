@@ -128,9 +128,8 @@ public class Patient extends Person implements Subject, Updateable{
         SimulationManager.simulation.removePatient(this);
 
     }
-}
 
-    public ArrayList<Observer> getObservers() {
-        return observers;
-    }
+public ArrayList<Observer> getObservers() {
+    return observers;
+}
 }
