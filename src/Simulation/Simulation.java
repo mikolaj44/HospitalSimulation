@@ -20,64 +20,61 @@ public class Simulation {
     private int deceased;
 
     public Simulation(ArrayList<Department> departments, ArrayList<Doctor> doctors, ArrayList<Patient> patients, ArrayList<GenerationMethod> generationMethods, ArrayList<DepartmentAssignmentMethod> assignmentMethods) {
+
+        this();
         this.departments = departments;
         this.doctors = doctors;
         this.patients = patients;
-        this.setup = new Setup(departments);
         this.generationMethods = generationMethods;
         this.assignmentMethods = assignmentMethods;
-        recovered = 0;
-        deceased = 0;
     }
 
     public Simulation(ArrayList<Department> departments, ArrayList<GenerationMethod> generationMethods, ArrayList<DepartmentAssignmentMethod> assignmentMethods) {
+
+        this();
         this.departments = departments;
         this.generationMethods = generationMethods;
         this.assignmentMethods = assignmentMethods;
-        this.setup = new Setup(departments);
-        patients = new ArrayList<>();
-        doctors = new ArrayList<>();
-        recovered = 0;
-        deceased = 0;
     }
 
     public Simulation(ArrayList<Department> departments, ArrayList<GenerationMethod> generationMethods) {
+
+        this();
         this.departments = departments;
         this.generationMethods = generationMethods;
-        this.setup = new Setup(departments);
+    }
 
-        addDefaultAssignmentMethods();
+    public Simulation(ArrayList<Department> departments, Setup setup) {
 
-        patients = new ArrayList<>();
-        doctors = new ArrayList<>();
-        recovered = 0;
-        deceased = 0;
+        this();
+        this.departments = departments;
+        this.setup = setup;
     }
 
     public Simulation(ArrayList<Department> departments) {
+
+        this();
         this.departments = departments;
-
-        generationMethods = new ArrayList<>();
-        this.setup = new Setup(departments);
-
-        addDefaultGenerationMethods();
-        addDefaultAssignmentMethods();
-
-        patients = new ArrayList<>();
-        doctors = new ArrayList<>();
-        recovered = 0;
-        deceased = 0;
     }
 
     public Simulation(ArrayList<Department> departments, ArrayList<Doctor> doctors, ArrayList<Patient> patients, ArrayList<GenerationMethod> generationMethods, Setup setup) {
+
+        this();
         this.departments = departments;
         this.doctors = doctors;
         this.patients = patients;
         this.generationMethods = generationMethods;
-
-        addDefaultAssignmentMethods();
-
         this.setup = setup;
+    }
+
+    private Simulation(){
+
+        departments = new ArrayList<>();
+        doctors = new ArrayList<>();
+        patients = new ArrayList<>();
+        this.setup = new Setup(departments);
+        addDefaultGenerationMethods();
+        addDefaultAssignmentMethods();
         recovered = 0;
         deceased = 0;
     }
@@ -185,26 +182,9 @@ public class Simulation {
         generatePatientsInDepartments();
 
         // łączenie pacjentów z lekarzami (na razie losowo)
-        // strasznie nieoptymalne
+        // nieoptymalne
 
         assignDoctorsToPatients();
-
-//        for(int i = 0; i < patients.size(); i++){
-//
-//            System.out.println("statystyki pacjenta " + (i+1) + ":\n\n" + patients.get(i).getStats() + "\n");
-//            System.out.println("mnożniki oddziału: \n\n" + departments.get(patients.get(i).getDepartmentIndex()).getStatsMultiplier() + "\n");
-//            System.out.println("pojemność oddziału: " + departments.get(patients.get(i).getDepartmentIndex()).getMaxAmountOfPatients());
-//            System.out.println("ilość osób na oddziale: " + departments.get(patients.get(i).getDepartmentIndex()).getAmountOfPatients() + "\n");
-//            System.out.println("Lekarze pacjenta:\n");
-//
-//            for(int j = 0; j < patients.get(i).getObservers().size(); j++) {
-//
-//                Doctor doctor = (Doctor) patients.get(i).getObservers().get(j);
-//
-//                System.out.println("statystyki lekarza " + (j+1) + ":\n\n" + doctor.getSkill() + "\n");
-//            }
-//            System.out.println("\n\n");
-//        }
 
         simulationLoop();
     }
@@ -218,15 +198,20 @@ public class Simulation {
 //        System.out.println(patients.get(0).getInfo());
 
         while (true){
+
             if(patients.isEmpty() || doctors.isEmpty())
                 return;
-            System.out.println(patients.get(0).getInfo());
+
+            System.out.println(patients.get(0));
             System.out.println("Kontynuować?(T/N)");
             String input = scanner.next();
+
             if(input.equals("N")){
                 return;
             }
+
             doctors.get(0).performHealing(patients.get(0));
+
             if(!patients.isEmpty()) // if cured patient is removed
                 patients.get(0).update();
 

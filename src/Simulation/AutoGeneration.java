@@ -146,7 +146,9 @@ public class AutoGeneration implements GenerationMethod {
         int length = randomRange(simulationSetup.getMaxIllnessAmount());
 
         for (int i = 0; i < length; i++) {
+
             Illness generatedIllness = generateIllness();
+
             if (!illnesses.contains(generatedIllness)) {
                 illnesses.add(generateIllness());
             } else {
@@ -160,7 +162,13 @@ public class AutoGeneration implements GenerationMethod {
     }
 
     public Doctor generateDoctor() {
+
         String PESEL = generatePESEL();
-        return new Doctor(generateName(PESEL), generateSurname(PESEL), PESEL, generateDepartmentIndex(), randomRange(simulationSetup.getMinDoctorSkill(), simulationSetup.getMaxDoctorSkill()), randomRange(1, simulationSetup.getNumberOfShifts()));
+
+        double v1 = randomRange(simulationSetup.getMinDoctorModifiers().getStatByIndex(0), simulationSetup.getMaxDoctorModifiers().getStatByIndex(0));
+        double v2 = randomRange(simulationSetup.getMinDoctorModifiers().getStatByIndex(1), simulationSetup.getMaxDoctorModifiers().getStatByIndex(1));
+        double v3 = randomRange(simulationSetup.getMinDoctorModifiers().getStatByIndex(2), simulationSetup.getMaxDoctorModifiers().getStatByIndex(2));
+
+        return new Doctor(generateName(PESEL), generateSurname(PESEL), PESEL, generateDepartmentIndex(), new LifeStats<Double>(v1, v2, v3), randomRange(1, simulationSetup.getNumberOfShifts()));
     }
 }

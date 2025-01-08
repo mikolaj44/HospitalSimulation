@@ -1,6 +1,7 @@
 package Person;
 
 import Simulation.SimulationManager;
+import Utils.ColorCodes;
 
 import java.util.ArrayList;
 
@@ -80,15 +81,20 @@ public class Patient extends Person implements Subject, Updateable {
         this.stats = stats;
     }
 
-    public String getInfo() {
+    public String toString() {
 
-        String output = "========= Pacjent =========\n";
-        output += "Imię: " + super.getName() + "\n";
-        output += "Nazwisko: " + super.getSurname() + "\n";
-        output += "Choroby: \n" + getStringOfIllnesses() + "\n";
-        output += "+--------------+\n";
-        output += "Statystki pacjenta: \n" + getStats() + "\n";
-        output += "====================\n";
+        String output = ColorCodes.PURPLE + "========= Pacjent =========" + ColorCodes.RESET + "\n";
+        output += ColorCodes.CYAN + "Imię: " + ColorCodes.RESET +  super.getName() + "\n";
+        output += ColorCodes.CYAN + "Nazwisko: " + ColorCodes.RESET + super.getSurname() + "\n";
+        output += ColorCodes.YELLOW + "Choroby: \n" + ColorCodes.RESET + getStringOfIllnesses() + "\n";
+        output += ColorCodes.YELLOW + "Statystki pacjenta: \n" + ColorCodes.RESET + getStats() + "\n";
+        output += ColorCodes.PURPLE + "====================" + ColorCodes.RESET + "\n";
+
+        for(Observer observer : observers){
+
+            output += observer;
+        }
+
         return output;
     }
 
@@ -119,7 +125,7 @@ public class Patient extends Person implements Subject, Updateable {
     public void die() {
         this.stats = new LifeStats<Integer>(0, 0, 0);
 
-        System.out.println("Pacjent: " + getName() + " " + getSurname() + " zmarł");
+        System.out.println(ColorCodes.RED + "Pacjent: " + getName() + " " + getSurname() + " zmarł" + ColorCodes.RESET + "\n");
 
         notifyObservers();
         SimulationManager.getSimulation().removePatient(this);

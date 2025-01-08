@@ -26,21 +26,27 @@ public class Setup {
     private int maxIllnessAmount = 3;
     private int numberOfShifts = 3; // na razie nieużywane
 
-    private int minDoctorSkill = 0;
-    private int maxDoctorSkill = 100; // for now
+    private LifeStats<Double> minDoctorModifiers = new LifeStats<>(0.0, 0.0, 0.0);
+    private LifeStats<Double> maxDoctorModifiers = new LifeStats<>(20.0, 20.0, 20.0);
 
-    private LifeStats<Integer> minLifeStats = new LifeStats<>(1, 1, 1);
-    private LifeStats<Integer> maxLifeStats = new LifeStats<>(100, 100, 100);
+    private LifeStats<Integer> minLifeStats = new LifeStats<>(10, 10, 10);
+    private LifeStats<Integer> maxLifeStats = new LifeStats<>(500, 500, 500);
 
-    public Setup(int maxIllnessAmount, int delayMs, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, ArrayList<Department> departments, int numberOfShifts, int minDoctorSkill, int maxDoctorSkill, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {
-        this.maxIllnessAmount = maxIllnessAmount;
+    public Setup(ArrayList<Department> departments, int delayMs, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, int maxNumberOfDoctorsPerPatient, int minNumberOfDoctors, int maxNumberOfDoctors, int minNumberOfPatients, int maxNumberOfPatients, int maxIllnessAmount, int numberOfShifts, LifeStats<Double> minDoctorModifiers, LifeStats<Double> maxDoctorModifiers, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {
+
         this.delayMs = delayMs;
         this.generatePatientsAutomatically = generatePatientsAutomatically;
         this.diagnosePatientsAutomatically = diagnosePatientsAutomatically;
         this.departments = departments;
+        this.maxNumberOfDoctorsPerPatient = maxNumberOfDoctorsPerPatient;
+        this.minNumberOfDoctors = minNumberOfDoctors;
+        this.maxNumberOfDoctors = maxNumberOfDoctors;
+        this.minNumberOfPatients = minNumberOfPatients;
+        this.maxNumberOfPatients = maxNumberOfPatients;
+        this.maxIllnessAmount = maxIllnessAmount;
         this.numberOfShifts = numberOfShifts;
-        this.minDoctorSkill = minDoctorSkill;
-        this.maxDoctorSkill = maxDoctorSkill;
+        this.minDoctorModifiers = minDoctorModifiers;
+        this.maxDoctorModifiers = maxDoctorModifiers;
         this.minLifeStats = minLifeStats;
         this.maxLifeStats = maxLifeStats;
     }
@@ -154,19 +160,19 @@ public class Setup {
         this.numberOfShifts = numberOfShifts;
     }
 
-    public int getMinDoctorSkill() {
-        return minDoctorSkill;
+    public LifeStats<Double> getMinDoctorModifiers() {
+        return minDoctorModifiers;
     }
 
-    public void setMinDoctorSkill(int minDoctorSkill) {
-        this.minDoctorSkill = minDoctorSkill;
+    public void setMinDoctorModifiers(LifeStats<Double> minDoctorModifiers) {
+        this.minDoctorModifiers = minDoctorModifiers;
     }
 
-    public int getMaxDoctorSkill() {
-        return maxDoctorSkill;
+    public LifeStats<Double> getMaxDoctorModifiers() {
+        return maxDoctorModifiers;
     }
 
-    public void setMaxDoctorSkill(int maxDoctorSkill) {
-        this.maxDoctorSkill = maxDoctorSkill;
+    public void setMaxDoctorModifiers(LifeStats<Double> maxDoctorModifiers) {
+        this.maxDoctorModifiers = maxDoctorModifiers;
     }
 }

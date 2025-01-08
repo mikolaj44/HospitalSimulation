@@ -1,12 +1,7 @@
-package Simulation;
+package Tests;
 
 import GUI.DisplayMethods.Method1;
 import GUI.GUI;
-import Person.LifeStats;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Main {
 

@@ -1,9 +1,7 @@
-package Simulation;
+package Tests;
 
-import GUI.DisplayMethods.Method1;
-import GUI.GUI;
 import Person.LifeStats;
-import Person.Patient;
+import Simulation.*;
 
 import java.util.ArrayList;
 
@@ -17,9 +15,8 @@ public class SimulationInitTest {
         departments.add(new Department("Zakaźny", 4, new LifeStats<Double>(0.1, 0.1, 0.1)));
         departments.add(new Department("Kardiologia", 5, new LifeStats<Double>(0.25, 0.5, 0.15)));
 
-        Simulation simulation = new Simulation(departments);
-        SimulationManager.setSimulation(simulation);
+        SimulationManager.setSimulation(new Simulation(departments));
 
-        simulation.start(); // "init" method
+        SimulationManager.getSimulation().start(); // "init" method
     }
 }

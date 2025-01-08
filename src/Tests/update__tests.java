@@ -1,7 +1,7 @@
-package Simulation;
+package Tests;
 
 import Person.*;
-import Utils.*;
+import Simulation.*;
 
 import java.util.*;
 
@@ -16,7 +16,7 @@ public class update__tests {
         LifeStats<Integer> min = new LifeStats<>(10, 10, 10);
         LifeStats<Integer> max = new LifeStats<>(500, 500, 500);
 
-        Setup setup = new Setup(5, 3, true, true, departments, 2, 5, 10, min, max);
+        Setup setup = new Setup(departments); //new Setup(5, 3, true, true, departments, 2, 5, 10, min, max);
 
         GenerationMethod method = new AutoGeneration(setup);
 

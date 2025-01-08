@@ -1,5 +1,7 @@
 package Person;
 
+import Utils.ColorCodes;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,7 @@ public class LifeStats<T> {
     }
 
     public String toString() {
-        return "Obrażenia fizyczne: " + physical + "\n" + "Obrażenia wewnętrzne: " + internal + "\n" + "Obrażenia od infekcji: " + infection;
+        return "Obrażenia fizyczne: " + ColorCodes.YELLOW + physical + ColorCodes.RESET + "\n" + "Obrażenia wewnętrzne: " + ColorCodes.YELLOW + internal + ColorCodes.RESET + "\n" + "Obrażenia od infekcji: " + ColorCodes.YELLOW + infection + ColorCodes.RESET;
     }
 
     public T getPhysical() {

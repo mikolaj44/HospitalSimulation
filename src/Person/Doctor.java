@@ -1,6 +1,7 @@
 package Person;
 
 import Simulation.SimulationManager;
+import Utils.ColorCodes;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class Doctor extends Person implements Observer {
             SimulationManager.getSimulation().removePatient(p);
             SimulationManager.getSimulation().onPatientRecovered();
 
-            System.out.println("Pacjent: " + p.getName() + " " + p.getSurname() + " wyleczony");
+            System.out.println(ColorCodes.BLUE + "Pacjent: " + p.getName() + " " + p.getSurname() + " wyleczony" + ColorCodes.RESET + "\n");
             return;
         }
 
@@ -90,11 +91,11 @@ public class Doctor extends Person implements Observer {
 
     public String toString() {
 
-        String info = "========= Doktor =========\n";
-        info += "Imię: " + super.getName() + "\n";
-        info += "Nazwisko: " + super.getSurname() + "\n";
-        info += "Umiejętności: " + getLifeStatsModifiers() + "\n";
-        info += "====================\n";
+        String info = ColorCodes.PURPLE + "######### Doktor #########" + ColorCodes.RESET + "\n";
+        info += ColorCodes.CYAN + "Imię: " + ColorCodes.RESET + super.getName() + "\n";
+        info += ColorCodes.CYAN + "Nazwisko: " + ColorCodes.RESET + super.getSurname() + "\n";
+        info += ColorCodes.YELLOW + "Umiejętności: " + ColorCodes.RESET + "\n" + getLifeStatsModifiers() + "\n";
+        info += ColorCodes.PURPLE + "####################" + ColorCodes.RESET + "\n";
 
         return info;
     }
