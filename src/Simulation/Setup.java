@@ -1,5 +1,6 @@
 package Simulation;
 
+import Person.Doctor;
 import Person.LifeStats;
 
 import java.util.ArrayList;

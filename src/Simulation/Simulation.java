@@ -1,11 +1,11 @@
 package Simulation;
 
 import Person.*;
+import static Utils.RandomRange.*;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Collections;
-
-import static Utils.RandomRange.*;
 
 public class Simulation {
 
@@ -184,7 +184,26 @@ public class Simulation {
     }
 
     public void simulationLoop(){
+//        System.out.println("Simulation started");
+        Scanner scanner = new Scanner(System.in);
+//        System.out.println(patients.get(0).getInfo());
+//        System.out.println(doctors.get(0).getInfo());
+//        doctors.get(0).performHealing(patients.get(0));
+//        System.out.println(patients.get(0).getInfo());
 
+        while (true){
+            System.out.println(patients.get(0).getInfo());
+            System.out.println("Kontynuować?(T/N)");
+            String input = scanner.next();
+            if(input.equals("N")){
+                break;
+            }
+            else {
+                doctors.get(0).performHealing(patients.get(0));
+                patients.get(0).updateLifeStats();
+            }
+
+        }
     }
 
     public void addPatient(GenerationMethod method){

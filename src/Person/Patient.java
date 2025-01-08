@@ -2,7 +2,7 @@ package Person;
 
 import java.util.ArrayList;
 
-public class Patient extends Person implements Subject{
+public class Patient extends Person implements Subject, Updatable{
 
     private ArrayList<Observer> observers;
     private int departmentIndex;
@@ -48,6 +48,25 @@ public class Patient extends Person implements Subject{
         return illnesses;
     }
 
+    public String getStringOfIllnesses() {
+
+        ArrayList<Illness> illnesses = getIllnesses();
+        String output = "";
+
+        for (Illness illness : illnesses) {
+            output += illness.getInfo() + "\n";
+        }
+
+        if (!output.equals("")){
+            output = output.substring(0, output.length() - 2);
+        }
+        else {
+            output = "Brak chorób";
+        }
+
+        return output;
+    }
+
     public void setIllnesses(ArrayList<Illness> illnesses) {
         illnesses = illnesses;
     }
@@ -58,6 +77,29 @@ public class Patient extends Person implements Subject{
 
     public void setStats(LifeStats<Integer> stats) {
         this.stats = stats;
+    }
+
+    public String getInfo(){
+        String output = "========= Pacjent =========\n";
+        output += "Imię: " + super.getName() + "\n";
+        output += "Nazwisko: " + super.getSurname() + "\n";
+        output += "Choroby: \n" + getStringOfIllnesses() + "\n";
+        output += "+--------------+\n";
+        output += "Statystki pacjenta: \n" + getStats() + "\n";
+        output += "====================\n";
+        return output;
+    }
+
+    public void updateLifeStats(){
+        LifeStats<Integer> currentStats = getStats();
+
+        for (Illness illness : this.illnesses) {
+            currentStats.setPhysical((int)(currentStats.getPhysical() - illness.getStats().getPhysical()));
+            currentStats.setInfection((int)(currentStats.getInfection() - illness.getStats().getInfection()));
+            currentStats.setInternal((int)(currentStats.getInternal() - illness.getStats().getInternal()));
+        }
+
+        this.stats = currentStats;
     }
 
     public ArrayList<Observer> getObservers() {
