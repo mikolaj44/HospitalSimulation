@@ -99,9 +99,9 @@ public class AutoGeneration implements GenerationMethod {
         return illnesses.get(randomRange(illnesses.size()));
     }
 
-    private String generateName() {
+    private String generateName(String PESEL) {
 
-        if (randomBoolean()) // na wypadek gdyby ktoś chciał dodać jeszcze nazwiska podzielone na męskie i żeńskie - nie znalazłem jakiejś fajnej listy
+        if (getGender(PESEL).equals("female")) // na wypadek gdyby ktoś chciał dodać jeszcze nazwiska podzielone na męskie i żeńskie - nie znalazłem jakiejś fajnej listy
             return femaleNames.get(randomRange(maleNames.size()));
         return maleNames.get(randomRange(maleNames.size()));
     }
@@ -146,10 +146,11 @@ public class AutoGeneration implements GenerationMethod {
 
         String PESEL = generatePESEL();
 
-        return new Patient(generateName(), generateSurname(PESEL), PESEL, generateDepartmentIndex(), generateLifeStats(), illnesses);
+        return new Patient(generateName(PESEL), generateSurname(PESEL), PESEL, generateDepartmentIndex(), generateLifeStats(), illnesses);
     }
 
     public Doctor generateDoctor() {
-        return new Doctor(generateName(), surnames.get(randomRange(surnames.size())), randomRange(10000000000L, 999999999999L) + "", generateDepartmentIndex(), randomRange(simulationSetup.getMinDoctorSkill(), simulationSetup.getMaxDoctorSkill()), randomRange(1, simulationSetup.getNumberOfShifts()));
+        String PESEL = generatePESEL();
+        return new Doctor(generateName(PESEL), generateSurname(PESEL), PESEL, generateDepartmentIndex(), randomRange(simulationSetup.getMinDoctorSkill(), simulationSetup.getMaxDoctorSkill()), randomRange(1, simulationSetup.getNumberOfShifts()));
     }
 }
