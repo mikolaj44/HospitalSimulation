@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public class ClosestAssignment implements DepartmentAssignmentMethod{
 
-    public int getDepartmentIndex(Patient patient, ArrayList<Department> departments){
+    // oddział, który może pomóc najbardziej statystyce, która jest najmniejsza
 
-        // oddział, który może pomóc najbardziej statystyce, która jest najmniejsza
+    public int getDepartmentIndex(Patient patient, ArrayList<Department> departments){
 
         int matchingDepartmentIndex = -1;
         double maxScore = -1;

@@ -44,6 +44,8 @@ public class Simulation {
         this.assignmentMethods = new ArrayList<>();
         assignmentMethods.add(new ClosestAssignment());
         assignmentMethods.add(new BestAssignment());
+        assignmentMethods.add(new MostFreeSpotsAssignment());
+        assignmentMethods.add(new RandomAssignment());
 
         patients = new ArrayList<>();
         doctors = new ArrayList<>();
@@ -61,6 +63,8 @@ public class Simulation {
         assignmentMethods = new ArrayList<>();
         assignmentMethods.add(new ClosestAssignment());
         assignmentMethods.add(new BestAssignment());
+        assignmentMethods.add(new MostFreeSpotsAssignment());
+        assignmentMethods.add(new RandomAssignment());
 
         patients = new ArrayList<>();
         doctors = new ArrayList<>();
@@ -79,7 +83,7 @@ public class Simulation {
 
                 // na razie
                 if(Setup.isGeneratingPatientsAutomatically()) {
-                    addDoctor(generationMethods.getFirst()); // autogeneracja
+                    addDoctor(generationMethods.get(0)); // autogeneracja
                 }
                 else {
                     addDoctor(generationMethods.get(1)); // wpisywanie przez użytkownika
@@ -98,13 +102,13 @@ public class Simulation {
 
             // na razie
             if(Setup.isGeneratingPatientsAutomatically()) {
-                addPatient(generationMethods.getFirst()); // autogeneracja
+                addPatient(generationMethods.get(0)); // autogeneracja
             }
             else {
                 addPatient(generationMethods.get(1)); // wpisywanie przez użytkownika
             }
 
-            int departmentIndex = assignmentMethods.getFirst().getDepartmentIndex(patients.getLast(), departments); // na razie
+            int departmentIndex = assignmentMethods.get(0).getDepartmentIndex(patients.getLast(), departments); // na razie (closest assignment)
 
             if(departmentIndex == -1) // wszystkie oddziały pełne
                 return;
