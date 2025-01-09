@@ -25,7 +25,7 @@ public class Doctor extends Person implements Observer {
 
         if (p.getIllnesses().isEmpty()) {
 
-            RemovePatient(p);
+            removePatient(p);
             SimulationManager.getSimulation().onPatientRecovered();
             // przeniesione do pacjeta
             //SimulationManager.getSimulation().removePatient(p);
@@ -84,16 +84,16 @@ public class Doctor extends Person implements Observer {
         return 0.0;
     }
 
-    void RemovePatient(Patient p) {
+    void removePatient(Patient p) {
         p.removeObserver(this);
 
-        SimulationManager.getSimulation().getDepartments().get(p.getDepartmentIndex()).RemovePatient();
+        SimulationManager.getSimulation().getDepartments().get(p.getDepartmentIndex()).removePatient();
     }
 
     public void onUpdate(Subject s) {
 
         if (((Patient) s).getStats().getPhysical() <= 0) {
-            RemovePatient((Patient)s);
+            removePatient((Patient)s);
             SimulationManager.getSimulation().onPatientRecovered();
         } else {
             performHealing((Patient) s);

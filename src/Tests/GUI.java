@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
 import Simulation.*;
 
 import Person.*;
@@ -14,16 +15,21 @@ public class GUI {
 
     private Simulation simulation;
 
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
+
     public GUI(Simulation simulation) {
         this.simulation = simulation;
         initializeGUI();
     }
 
     private void initializeGUI() {
+
         JFrame frame = new JFrame("Symulacja");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(WIDTH, HEIGHT);
         frame.setLayout(new BorderLayout());
+        frame.setLocationRelativeTo(null);
 
         JLabel titleLabel = new JLabel("Symulacja", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -39,6 +45,7 @@ public class GUI {
 
         JScrollPane patientScrollPane = new JScrollPane(patientPanel);
         JScrollPane departScrollPane = new JScrollPane(departPanel);
+
         frame.add(departScrollPane, BorderLayout.WEST);
         frame.add(patientScrollPane, BorderLayout.EAST);
 
@@ -54,8 +61,8 @@ public class GUI {
             for (int i = 0; i < patients.size(); i++) {
                 Patient patient = patients.get(i);
                 JButton patientButton = new JButton((i + 1) + ". " + patient.getShortInfo());
-                patientButton.setPreferredSize(new Dimension(200, 40));  // Wypełnia szerokość
-                patientButton.setMaximumSize(new Dimension(200, 40));
+                patientButton.setPreferredSize(new Dimension(WIDTH / 3, HEIGHT / 20));  // Wypełnia szerokość
+                patientButton.setMaximumSize(new Dimension(WIDTH / 3, HEIGHT / 20));
 
                 // Ustawianie kolorów przycisków w zależności od stanu zdrowia
                 if (patient.getLowestHealth() < 100) {
@@ -87,8 +94,8 @@ public class GUI {
         for (Department department : departments) {
             // Tworzymy kafelek dla oddziału
             JButton departmentButton = new JButton(department.getName());
-            departmentButton.setPreferredSize(new Dimension(200, 50));  // Wypełnia szerokość
-            departmentButton.setMaximumSize(new Dimension(200, 50));
+            departmentButton.setPreferredSize(new Dimension(WIDTH / 3, HEIGHT / 16));  // Wypełnia szerokość
+            departmentButton.setMaximumSize(new Dimension(WIDTH / 3, HEIGHT / 16));
             departmentButton.setBackground(new Color(200, 200, 255));  // Kolor tła kafelka
 
             // Akcja po kliknięciu na kafelek oddziału
@@ -105,7 +112,7 @@ public class GUI {
     }
 
     public static void main(String[] args) {
-        LifeStats<Double> stats_department = new LifeStats<Double>(0.1,0.2,0.3);
+        LifeStats<Double> stats_department = new LifeStats<Double>(0.1, 0.2, 0.3);
         ArrayList<Department> departments = new ArrayList<>();
         departments.add(new Department("Onkologia", 0, 10, stats_department));
         departments.add(new Department("Ortopedia", 0, 10, stats_department));
@@ -147,22 +154,22 @@ public class GUI {
                 maxLifeStats
         );
 
-        GenerationMethod method = new AutoGeneration(setup);
+//        GenerationMethod method = new AutoGeneration(setup);
+//
+//        ArrayList<Patient> patients = new ArrayList<>();
+//        patients.add(method.generatePatient());
+//        patients.add(method.generatePatient());
+//        patients.add(method.generatePatient());
+//
+//        ArrayList<Doctor> doctors = new ArrayList<>();
+//        doctors.add(method.generateDoctor());
+//
+//        patients.get(0).registerObserver(doctors.get(0));
+//
+//        ArrayList<GenerationMethod> generationMethods = new ArrayList<>();
+//        generationMethods.add(method);
 
-        ArrayList<Patient> patients = new ArrayList<>();
-        patients.add(method.generatePatient());
-        patients.add(method.generatePatient());
-        patients.add(method.generatePatient());
-
-        ArrayList<Doctor> doctors = new ArrayList<>();
-        doctors.add(method.generateDoctor());
-
-        patients.get(0).registerObserver(doctors.get(0));
-
-        ArrayList<GenerationMethod> generationMethods = new ArrayList<>();
-        generationMethods.add(method);
-
-        SimulationManager.setSimulation(new Simulation(departments, doctors, patients, generationMethods, setup));
+        SimulationManager.setSimulation(new Simulation(departments, setup));
 
         new GUI(SimulationManager.getSimulation());
         SimulationManager.getSimulation().start();

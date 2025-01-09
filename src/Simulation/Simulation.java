@@ -138,7 +138,7 @@ public class Simulation {
 
             patients.getLast().setDepartmentIndex(departmentIndex);
 
-            departments.get(departmentIndex).setAmountOfPatients(departments.get(departmentIndex).getAmountOfPatients() + 1);
+            departments.get(departmentIndex).addPatient();
         }
     }
 

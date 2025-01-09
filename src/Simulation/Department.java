@@ -54,11 +54,11 @@ public class Department {
         this.statsMultiplier = statsMultiplier;
     }
     
-    public void AddPatient()
+    public void addPatient()
     {
         amountOfPatients++;
     }
-    public void RemovePatient()
+    public void removePatient()
     {
         amountOfPatients--;
     }
