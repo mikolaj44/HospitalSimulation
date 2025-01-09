@@ -30,10 +30,9 @@ public class Illness {
 
     public String toString() {
 
-        String output = ColorCodes.GREEN + "+--------------+" + ColorCodes.RESET + "\n";
-        output += ColorCodes.CYAN + "Nazwa choroby: " + ColorCodes.RESET + name + "\n";
-        output += ColorCodes.YELLOW +"Statystyki: " + ColorCodes.RESET + "\n" + statsMultiplier;
-        output += "\n" + ColorCodes.GREEN + "+--------------+" + ColorCodes.RESET + "\n";
+        String output = "Nazwa choroby: " + name + "\n";
+        output += "Statystyki: " + "\n" + statsMultiplier;
+        output += "\n" + "+--------------+" + "\n";
 
         return output;
     }

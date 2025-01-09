@@ -83,12 +83,10 @@ public class Patient extends Person implements Subject, Updateable {
 
     public String toString() {
 
-        String output = ColorCodes.PURPLE + "========= Pacjent =========" + ColorCodes.RESET + "\n";
-        output += ColorCodes.CYAN + "Imię: " + ColorCodes.RESET +  super.getName() + "\n";
-        output += ColorCodes.CYAN + "Nazwisko: " + ColorCodes.RESET + super.getSurname() + "\n";
-        output += ColorCodes.YELLOW + "Choroby: \n" + ColorCodes.RESET + getStringOfIllnesses() + "\n";
-        output += ColorCodes.YELLOW + "Statystki pacjenta: \n" + ColorCodes.RESET + getStats() + "\n";
-        output += ColorCodes.PURPLE + "====================" + ColorCodes.RESET + "\n";
+        String output = "Imię: "  +  super.getName() + "\n";
+        output += "Nazwisko: " + super.getSurname() + "\n";
+        output += "Choroby: \n" + getStringOfIllnesses() + "\n";
+        output += "Statystki pacjenta: \n" + getStats() + "\n";
 
         for(Observer observer : observers){
 
@@ -129,6 +127,26 @@ public class Patient extends Person implements Subject, Updateable {
 
         notifyObservers();
         SimulationManager.getSimulation().removePatient(this);
+    }
+
+    public Integer getLowestHealth() {
+        Integer infection = stats.getInfection();
+        Integer physical = stats.getPhysical();
+        Integer internal = stats.getInternal();
+
+        if(infection < physical && internal < physical){
+            if (infection < internal){
+                return infection;
+            } else {
+                return internal;
+            }
+        }
+        return physical;
+    }
+
+    public String getShortInfo() {
+        String output = super.getName() + " " + super.getSurname() + "\n";
+        return output;
     }
 
     public ArrayList<Observer> getObservers() {

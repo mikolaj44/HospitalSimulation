@@ -203,11 +203,20 @@ public class Simulation {
                 return;
 
             System.out.println(patients.get(0));
-            System.out.println("Kontynuować?(T/N)");
-            String input = scanner.next();
+            // reczne wywolanie symulacji
+//            System.out.println("Kontynuować?(T/N)");
+//            String input = scanner.next();
+//
+//            if(input.equals("N")){
+//                return;
+//            }
 
-            if(input.equals("N")){
-                return;
+            //symulacja automatyczna
+            try {
+                // Opóźnienie na 2 sekundy
+                Thread.sleep(setup.getDelayMs());  // 2000 milisekund = 2 sekundy
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             doctors.get(0).performHealing(patients.get(0));
@@ -231,6 +240,8 @@ public class Simulation {
     }
 
     public void removePatient(Patient p){
+        int dep_index = p.getDepartmentIndex();
+
         patients.remove(p);
     }
 
@@ -269,5 +280,13 @@ public class Simulation {
 
     public int getRecovered() {
         return recovered;
+    }
+
+    public ArrayList<Department> getDepartments() {
+        return departments;
+    }
+
+    public ArrayList<Patient> getPatients() {
+        return patients;
     }
 }
