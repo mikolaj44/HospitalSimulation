@@ -221,7 +221,8 @@ public class Simulation {
 
             doctors.get(0).performHealing(patients.get(0));
 
-            if(!patients.isEmpty()) // if cured patient is removed
+            // jesli pacjent jest wyleczony to usuwa w pacjecie(pewnie tezeba poprawic to i dodac usuwanie z list tu)
+            if(!patients.isEmpty())
                 patients.get(0).update();
 
         }

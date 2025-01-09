@@ -25,9 +25,10 @@ public class Doctor extends Person implements Observer {
 
         if (p.getIllnesses().isEmpty()) {
 
-            p.removeObserver(this);
-            SimulationManager.getSimulation().removePatient(p);
+            RemovePatient(p);
             SimulationManager.getSimulation().onPatientRecovered();
+            // przeniesione do pacjeta
+            //SimulationManager.getSimulation().removePatient(p);
 
             System.out.println("Pacjent: " + p.getName() + " " + p.getSurname() + " wyleczony" + "\n");
             return;
@@ -38,37 +39,35 @@ public class Doctor extends Person implements Observer {
             ArrayList<Illness> illnesses = p.getIllnesses();
 
             for (int i = illnesses.size() - 1; i >= 0; i--) {
+                LifeStats<Double> currentStats = illnesses.get(i).getStats();
+                LifeStats<Double> newStats = new LifeStats<Double>(0.0, 0.0, 0.0);
 
-                if (!illnesses.get(i).isCured()) {
+                newStats.setPhysical(ChangeStat(currentStats.getPhysical(), this.lifeStatsModifiers.getPhysical()));
+                newStats.setInternal(ChangeStat(currentStats.getInternal(), this.lifeStatsModifiers.getInternal()));
+                newStats.setInfection(ChangeStat(currentStats.getInfection(), this.lifeStatsModifiers.getInfection()));
 
-                    LifeStats<Double> currentStats = illnesses.get(i).getStats();
-                    LifeStats<Double> newStats = new LifeStats<Double>(0.0, 0.0, 0.0);
 
-                    if (currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical() > 0.0) {
-                        newStats.setPhysical(currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical());
-                    } else {
-                        newStats.setPhysical(0.0);
-                    }
+//                if (currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical() > 0.0) {
+//                    newStats.setPhysical(currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical());
+//                } else {
+//                    newStats.setPhysical(0.0);
+//                }
+//
+//                if (currentStats.getInternal() - this.lifeStatsModifiers.getInternal() > 0.0) {
+//                    newStats.setInternal(currentStats.getInternal() - this.lifeStatsModifiers.getInternal());
+//                } else {
+//                    newStats.setInternal(0.0);
+//                }
+//
+//                if (currentStats.getInfection() - this.lifeStatsModifiers.getInfection() > 0.0) {
+//                    newStats.setInfection(currentStats.getInfection() - this.lifeStatsModifiers.getInfection());
+//                } else {
+//                    newStats.setInfection(0.0);
+//                }
 
-                    if (currentStats.getInternal() - this.lifeStatsModifiers.getInternal() > 0.0) {
-                        newStats.setInternal(currentStats.getInternal() - this.lifeStatsModifiers.getInternal());
-                    } else {
-                        newStats.setInternal(0.0);
-                    }
-
-                    if (currentStats.getInfection() - this.lifeStatsModifiers.getInfection() > 0.0) {
-                        newStats.setInfection(currentStats.getInfection() - this.lifeStatsModifiers.getInfection());
-                    } else {
-                        newStats.setInfection(0.0);
-                    }
-
-                    illnesses.get(i).setStats(newStats);
-
-                    if (illnesses.get(i).isCured()) {
-                        illnesses.remove(illnesses.get(i));
-                        p.setIllnesses(illnesses);
-                    }
-                } else {
+                illnesses.get(i).setStats(newStats);
+                // tak nie może być!!
+                if (illnesses.get(i).isCured()) {
                     illnesses.remove(illnesses.get(i));
                     p.setIllnesses(illnesses);
                 }
@@ -78,10 +77,24 @@ public class Doctor extends Person implements Observer {
         }
     }
 
+    private double ChangeStat(double current, double decreased)
+    {
+        if (current - decreased > 0.0)
+           return current - decreased;
+        return 0.0;
+    }
+
+    void RemovePatient(Patient p) {
+        p.removeObserver(this);
+
+        SimulationManager.getSimulation().getDepartments().get(p.getDepartmentIndex()).RemovePatient();
+    }
+
     public void onUpdate(Subject s) {
 
         if (((Patient) s).getStats().getPhysical() <= 0) {
-            s.removeObserver(this);
+            RemovePatient((Patient)s);
+            SimulationManager.getSimulation().onPatientRecovered();
         } else {
             performHealing((Patient) s);
         }

@@ -104,6 +104,11 @@ public class Patient extends Person implements Subject, Updateable {
 
         LifeStats<Integer> currentStats = getStats();
 
+        if(illnesses.isEmpty()) {
+            SimulationManager.getSimulation().removePatient(this);
+            return;
+        }
+
         for (Illness illness : this.illnesses) {
             currentStats.setPhysical(Math.max((int) (currentStats.getPhysical() - illness.getStats().getPhysical()), 0));
             currentStats.setInfection(Math.max((int) (currentStats.getInfection() - illness.getStats().getInfection()), 0));

@@ -53,7 +53,16 @@ public class Department {
     public void setStatsMultiplier(LifeStats<Double> statsMultiplier) {
         this.statsMultiplier = statsMultiplier;
     }
-
+    
+    public void AddPatient()
+    {
+        amountOfPatients++;
+    }
+    public void RemovePatient()
+    {
+        amountOfPatients--;
+    }
+    
     @Override
     public String toString() {
         String str = "Oddział: " + name + "\n";
