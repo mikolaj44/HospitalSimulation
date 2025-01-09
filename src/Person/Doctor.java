@@ -1,6 +1,7 @@
 package Person;
 
 import Simulation.SimulationManager;
+import Utils.ColorCodes;
 
 import java.util.ArrayList;
 
@@ -25,12 +26,11 @@ public class Doctor extends Person implements Observer {
 
         if (p.getIllnesses().isEmpty()) {
 
+            System.out.println(ColorCodes.BLUE + "Pacjent: " + getName() + " " + getSurname() + " wyleczony" + ColorCodes.RESET + "\n");
             removePatient(p);
             SimulationManager.getSimulation().onPatientRecovered();
             // przeniesione do pacjeta
             //SimulationManager.getSimulation().removePatient(p);
-
-            System.out.println("Pacjent: " + p.getName() + " " + p.getSurname() + " wyleczony" + "\n");
             return;
         }
 
@@ -39,31 +39,32 @@ public class Doctor extends Person implements Observer {
             ArrayList<Illness> illnesses = p.getIllnesses();
 
             for (int i = illnesses.size() - 1; i >= 0; i--) {
+//
                 LifeStats<Double> currentStats = illnesses.get(i).getStats();
                 LifeStats<Double> newStats = new LifeStats<Double>(0.0, 0.0, 0.0);
-
-                newStats.setPhysical(ChangeStat(currentStats.getPhysical(), this.lifeStatsModifiers.getPhysical()));
-                newStats.setInternal(ChangeStat(currentStats.getInternal(), this.lifeStatsModifiers.getInternal()));
-                newStats.setInfection(ChangeStat(currentStats.getInfection(), this.lifeStatsModifiers.getInfection()));
-
-
-//                if (currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical() > 0.0) {
-//                    newStats.setPhysical(currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical());
-//                } else {
-//                    newStats.setPhysical(0.0);
-//                }
 //
-//                if (currentStats.getInternal() - this.lifeStatsModifiers.getInternal() > 0.0) {
-//                    newStats.setInternal(currentStats.getInternal() - this.lifeStatsModifiers.getInternal());
-//                } else {
-//                    newStats.setInternal(0.0);
-//                }
-//
-//                if (currentStats.getInfection() - this.lifeStatsModifiers.getInfection() > 0.0) {
-//                    newStats.setInfection(currentStats.getInfection() - this.lifeStatsModifiers.getInfection());
-//                } else {
-//                    newStats.setInfection(0.0);
-//                }
+//                newStats.setPhysical(ChangeStat(currentStats.getPhysical(), this.lifeStatsModifiers.getPhysical()));
+//                newStats.setInternal(ChangeStat(currentStats.getInternal(), this.lifeStatsModifiers.getInternal()));
+//                newStats.setInfection(ChangeStat(currentStats.getInfection(), this.lifeStatsModifiers.getInfection()));
+
+
+                if (currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical() > 0.0) {
+                    newStats.setPhysical(currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical());
+                } else {
+                    newStats.setPhysical(0.0);
+                }
+
+                if (currentStats.getInternal() - this.lifeStatsModifiers.getInternal() > 0.0) {
+                    newStats.setInternal(currentStats.getInternal() - this.lifeStatsModifiers.getInternal());
+                } else {
+                    newStats.setInternal(0.0);
+                }
+
+                if (currentStats.getInfection() - this.lifeStatsModifiers.getInfection() > 0.0) {
+                    newStats.setInfection(currentStats.getInfection() - this.lifeStatsModifiers.getInfection());
+                } else {
+                    newStats.setInfection(0.0);
+                }
 
                 illnesses.get(i).setStats(newStats);
                 // tak nie może być!!

@@ -18,6 +18,9 @@ public class GUI {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
 
+    private Patient selectedPatient;
+    private Department selectedDepartment;
+
     public GUI(Simulation simulation) {
         this.simulation = simulation;
         initializeGUI();
@@ -76,9 +79,16 @@ public class GUI {
                     patientButton.setForeground(Color.BLACK);
                 }
 
+                if(selectedPatient != null) // żeby odświeżało na bieżąco (tymczasowe rozwiązanie)
+                    outputArea.setText(selectedPatient.toString());
+
+                else if(selectedDepartment != null) // żeby odświeżało na bieżąco (tymczasowe rozwiązanie)
+                    outputArea.setText("Szczegóły oddziału: " + selectedDepartment.toString() + "\n");
+
                 // Ustawianie akcji po kliknięciu w przycisk pacjenta
                 patientButton.addActionListener(ev -> {
-                    outputArea.setText(patient.toString());
+                    selectedPatient = patient;
+                    selectedDepartment = null;
                 });
 
                 // Dodanie przycisku do panelu pacjentów
@@ -91,6 +101,7 @@ public class GUI {
         patientUpdater.start();
 
         ArrayList<Department> departments = simulation.getDepartments();
+
         for (Department department : departments) {
             // Tworzymy kafelek dla oddziału
             JButton departmentButton = new JButton(department.getName());
@@ -100,13 +111,13 @@ public class GUI {
 
             // Akcja po kliknięciu na kafelek oddziału
             departmentButton.addActionListener(e -> {
-                outputArea.setText("Szczegóły oddziału: " + department.toString() + "\n");
+                selectedDepartment = department;
+                selectedPatient = null;
             });
 
             // Dodanie kafelka do panelu oddziałów
             departPanel.add(departmentButton);
         }
-
 
         frame.setVisible(true);
     }
@@ -119,21 +130,21 @@ public class GUI {
 
         // Statystyki dla lekarzy
         LifeStats<Double> minDoctorModifiers = new LifeStats<>(1.0, 1.0, 1.0);
-        LifeStats<Double> maxDoctorModifiers = new LifeStats<>(5.0, 5.0, 5.0);
+        LifeStats<Double> maxDoctorModifiers = new LifeStats<>(20.0, 20.0, 20.0);
 
         // Statystyki życiowe dla pacjentów
         LifeStats<Integer> minLifeStats = new LifeStats<>(0, 0, 0);
         LifeStats<Integer> maxLifeStats = new LifeStats<>(500, 500, 500);
 
-        int delayMs = 1000; // Opóźnienie w ms
+        int delayMs = 2500; // Opóźnienie w ms
         boolean generatePatientsAutomatically = true;
         boolean diagnosePatientsAutomatically = true;
         int maxNumberOfDoctorsPerPatient = 3;
         int minNumberOfDoctors = 1;
-        int maxNumberOfDoctors = 5;
+        int maxNumberOfDoctors = 10;
         int minNumberOfPatients = 5;
-        int maxNumberOfPatients = 15;
-        int maxIllnessAmount = 3;
+        int maxNumberOfPatients = 30;
+        int maxIllnessAmount = 2;
         int numberOfShifts = 2;
 
         Setup setup = new Setup(

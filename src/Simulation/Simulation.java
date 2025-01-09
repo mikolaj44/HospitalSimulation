@@ -49,6 +49,8 @@ public class Simulation {
         this();
         this.departments = departments;
         this.setup = setup;
+        generationMethods.set(0, new AutoGeneration(setup));
+        generationMethods.set(1, new UserGeneration(setup));
     }
 
     public Simulation(ArrayList<Department> departments) {
@@ -65,6 +67,8 @@ public class Simulation {
         this.patients = patients;
         this.generationMethods = generationMethods;
         this.setup = setup;
+        generationMethods.set(0, new AutoGeneration(setup));
+        generationMethods.set(1, new UserGeneration(setup));
     }
 
     private Simulation(){
@@ -131,7 +135,7 @@ public class Simulation {
                 addPatient(generationMethods.get(1)); // wpisywanie przez użytkownika
             }
 
-            int departmentIndex = assignmentMethods.get(0).getDepartmentIndex(patients.getLast(), departments); // na razie (closest assignment)
+            int departmentIndex = assignmentMethods.get(3).getDepartmentIndex(patients.getLast(), departments); // na razie (closest assignment)
 
             if(departmentIndex == -1) // wszystkie oddziały pełne
                 return;
@@ -202,7 +206,8 @@ public class Simulation {
             if(patients.isEmpty() || doctors.isEmpty())
                 return;
 
-            System.out.println(patients.get(0));
+            //System.out.println(patients.get(0));
+
             // reczne wywolanie symulacji
 //            System.out.println("Kontynuować?(T/N)");
 //            String input = scanner.next();
@@ -219,12 +224,17 @@ public class Simulation {
                 e.printStackTrace();
             }
 
-            doctors.get(0).performHealing(patients.get(0));
+            //doctors.get(0).performHealing(patients.get(0));
 
             // jesli pacjent jest wyleczony to usuwa w pacjecie(pewnie tezeba poprawic to i dodac usuwanie z list tu)
-            if(!patients.isEmpty())
-                patients.get(0).update();
+            //if(!patients.isEmpty())
+            //    patients.get(0).update();
 
+            for(int i = patients.size() - 1; i >= 0; i--) {
+
+                System.out.println(patients.get(i));
+                patients.get(i).update();
+            }
         }
     }
 
@@ -241,8 +251,6 @@ public class Simulation {
     }
 
     public void removePatient(Patient p){
-        int dep_index = p.getDepartmentIndex();
-
         patients.remove(p);
     }
 

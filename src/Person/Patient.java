@@ -3,6 +3,7 @@ package Person;
 import Simulation.SimulationManager;
 import Utils.ColorCodes;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Patient extends Person implements Subject, Updateable {
@@ -105,6 +106,8 @@ public class Patient extends Person implements Subject, Updateable {
         LifeStats<Integer> currentStats = getStats();
 
         if(illnesses.isEmpty()) {
+
+            System.out.println(ColorCodes.BLUE + "Pacjent: " + getName() + " " + getSurname() + " wyleczony" + ColorCodes.RESET + "\n");
             SimulationManager.getSimulation().removePatient(this);
             return;
         }
