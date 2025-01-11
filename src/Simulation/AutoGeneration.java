@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.regex.*;
 
 import Person.*;
@@ -66,11 +65,11 @@ public class AutoGeneration implements GenerationMethod {
         return new Illness(name, new LifeStats<>(physical, internal, infection));
     }
 
-    private boolean readIllnessesFromFile(){
+    private boolean readIllnessesFromFile() {
 
         String line;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(illnessPath))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(illnessPath))) {
 
             ArrayList<String> lines = new ArrayList<>();
 
@@ -78,7 +77,7 @@ public class AutoGeneration implements GenerationMethod {
                 lines.add(line);
             }
 
-            for (String illnessString: lines) {
+            for (String illnessString : lines) {
                 illnesses.add(stringToIllness(illnessString));
             }
 
@@ -90,19 +89,19 @@ public class AutoGeneration implements GenerationMethod {
         return true;
     }
 
-    public AutoGeneration(Setup simulationSetup){
+    public AutoGeneration(Setup simulationSetup) {
         this.simulationSetup = simulationSetup;
         readNamesFromFile();
         readIllnessesFromFile();
     }
 
-    private Illness generateIllness(){
+    private Illness generateIllness() {
         return illnesses.get(randomRange(illnesses.size()));
     }
 
-    private String generateName() {
+    private String generateName(String PESEL) {
 
-        if (randomBoolean()) // na wypadek gdyby ktoś chciał dodać jeszcze nazwiska podzielone na męskie i żeńskie - nie znalazłem jakiejś fajnej listy
+        if (getGender(PESEL).equals("female")) // na wypadek gdyby ktoś chciał dodać jeszcze nazwiska podzielone na męskie i żeńskie - nie znalazłem jakiejś fajnej listy
             return femaleNames.get(randomRange(maleNames.size()));
         return maleNames.get(randomRange(maleNames.size()));
     }
@@ -115,20 +114,61 @@ public class AutoGeneration implements GenerationMethod {
         return new LifeStats<>(randomRange(simulationSetup.getMinLifeStats().getPhysical(), simulationSetup.getMaxLifeStats().getPhysical()), randomRange(simulationSetup.getMinLifeStats().getInternal(), simulationSetup.getMaxLifeStats().getInternal()), randomRange(simulationSetup.getMinLifeStats().getInfection(), simulationSetup.getMaxLifeStats().getInfection()));
     }
 
+    private String generatePESEL() {
+        return randomRange(10000000000L, 999999999999L) + "";
+    }
+
+    private String getGender(String PESEL) {
+
+        if ((int) PESEL.charAt(PESEL.length() - 2) % 2 == 0) {
+            return "female";
+        } else {
+            return "male";
+        }
+    }
+
+    private String generateSurname(String PESEL) {
+
+        String surname = surnames.get(randomRange(surnames.size()));
+        String lastChar = String.valueOf(surname.charAt(surname.length() - 1));
+
+        if ((getGender(PESEL).equals("female") && (lastChar.equals("i")) || lastChar.equals("y"))) {
+            surname = surname.substring(0, surname.length() - 1) + "a";
+        }
+
+        return surname;
+    }
+
     public Patient generatePatient() {
 
         ArrayList<Illness> illnesses = new ArrayList<>();
 
         int length = randomRange(simulationSetup.getMaxIllnessAmount());
 
-        for(int i = 0; i < length; i++)
-            illnesses.add(generateIllness());
+        for (int i = 0; i < length; i++) {
 
-        return new Patient(generateName(), surnames.get(randomRange(surnames.size())), randomRange(10000000000L, 999999999999L) + "", generateDepartmentIndex(), generateLifeStats(), illnesses);
+            Illness generatedIllness = generateIllness();
+
+            if (!illnesses.contains(generatedIllness)) {
+                illnesses.add(generateIllness());
+            } else {
+                i--;
+            }
+        }
+
+        String PESEL = generatePESEL();
+
+        return new Patient(generateName(PESEL), generateSurname(PESEL), PESEL, generateDepartmentIndex(), generateLifeStats(), illnesses);
     }
 
     public Doctor generateDoctor() {
-        return new Doctor(generateName(), surnames.get(randomRange(surnames.size())), randomRange(10000000000L, 999999999999L) + "", generateDepartmentIndex(), randomRange(simulationSetup.getMinDoctorSkill(), simulationSetup.getMaxDoctorSkill()), randomRange(1, simulationSetup.getNumberOfShifts()));
-    }
 
+        String PESEL = generatePESEL();
+
+        double v1 = randomRange(simulationSetup.getMinDoctorModifiers().getStatByIndex(0), simulationSetup.getMaxDoctorModifiers().getStatByIndex(0));
+        double v2 = randomRange(simulationSetup.getMinDoctorModifiers().getStatByIndex(1), simulationSetup.getMaxDoctorModifiers().getStatByIndex(1));
+        double v3 = randomRange(simulationSetup.getMinDoctorModifiers().getStatByIndex(2), simulationSetup.getMaxDoctorModifiers().getStatByIndex(2));
+
+        return new Doctor(generateName(PESEL), generateSurname(PESEL), PESEL, generateDepartmentIndex(), new LifeStats<Double>(v1, v2, v3), randomRange(1, simulationSetup.getNumberOfShifts()));
+    }
 }

@@ -3,7 +3,7 @@ package Utils;
 public class RandomRange {
 
     public static long randomRange(long a, long b){
-        return (long)(Math.random() * (b - a + 1) + a);
+        return (long)(Math.random() * (b - a) + a);
     }
 
     public static long randomRange(long b){
@@ -11,7 +11,7 @@ public class RandomRange {
     }
 
     public static int randomRange(int a, int b){
-        return (int)(Math.random() * (b - a + 1) + a);
+        return (int)(Math.random() * (b - a) + a);
     }
 
     public static int randomRange(int b){
@@ -19,7 +19,7 @@ public class RandomRange {
     }
 
     public static double randomRange(double a, double b){
-        return (double) (Math.random() * (b - a + 1) + a);
+        return (double) (Math.random() * (b - a) + a);
     }
 
     public static double randomRange(double b){

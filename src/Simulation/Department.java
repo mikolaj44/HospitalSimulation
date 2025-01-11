@@ -16,6 +16,12 @@ public class Department {
         this.statsMultiplier = statsMultiplier;
     }
 
+    public Department(String name, int maxAmountOfPatients, LifeStats<Double> statsMultiplier) {
+        this.name = name;
+        this.maxAmountOfPatients = maxAmountOfPatients;
+        this.statsMultiplier = statsMultiplier;
+    }
+
     public String getName() {
         return name;
     }
@@ -46,5 +52,21 @@ public class Department {
 
     public void setStatsMultiplier(LifeStats<Double> statsMultiplier) {
         this.statsMultiplier = statsMultiplier;
+    }
+    
+    public void addPatient()
+    {
+        amountOfPatients++;
+    }
+    public void removePatient()
+    {
+        amountOfPatients--;
+    }
+    
+    @Override
+    public String toString() {
+        String str = "Oddział: " + name + "\n";
+        str += "Stan pacjentów: " + amountOfPatients + "/" + maxAmountOfPatients + "\n";
+        return str;
     }
 }

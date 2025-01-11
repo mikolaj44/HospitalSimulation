@@ -1,51 +1,116 @@
 package Person;
 
+import Simulation.SimulationManager;
+import Utils.ColorCodes;
+
 import java.util.ArrayList;
 
-import static Utils.RandomRange.*;
-
-public class Doctor extends Person implements Observer{
+public class Doctor extends Person implements Observer {
 
     private int departmentIndex;
-    private int skill;
+    private LifeStats<Double> lifeStatsModifiers;
     private int shift;
 
-    public Doctor(String name, String surname, String pesel, int departmentIndex, int skill, int shift) {
+    public Doctor(String name, String surname, String pesel, int departmentIndex, LifeStats<Double> lifeStatsModifiers, int shift) {
         super(name, surname, pesel);
         this.departmentIndex = departmentIndex;
-        this.skill = skill;
+        this.lifeStatsModifiers = lifeStatsModifiers; // Zakres od 0-20
         this.shift = shift;
     }
 
-//    public void diagnosePatient(Patient p){
+    public Doctor() {
+
+    }
+
+    public void performHealing(Patient p) {
+
+        if (p.getIllnesses().isEmpty()) {
+
+            System.out.println(ColorCodes.BLUE + "Pacjent: " + getName() + " " + getSurname() + " wyleczony" + ColorCodes.RESET + "\n");
+            removePatient(p);
+            SimulationManager.getSimulation().onPatientRecovered();
+            // przeniesione do pacjeta
+            //SimulationManager.getSimulation().removePatient(p);
+            return;
+        }
+
+        try {
+
+            ArrayList<Illness> illnesses = p.getIllnesses();
+
+            for (int i = illnesses.size() - 1; i >= 0; i--) {
 //
-//    }
-    public Doctor(){
+                LifeStats<Double> currentStats = illnesses.get(i).getStats();
+                LifeStats<Double> newStats = new LifeStats<Double>(0.0, 0.0, 0.0);
+//
+//                newStats.setPhysical(ChangeStat(currentStats.getPhysical(), this.lifeStatsModifiers.getPhysical()));
+//                newStats.setInternal(ChangeStat(currentStats.getInternal(), this.lifeStatsModifiers.getInternal()));
+//                newStats.setInfection(ChangeStat(currentStats.getInfection(), this.lifeStatsModifiers.getInfection()));
+
+
+                if (currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical() > 0.0) {
+                    newStats.setPhysical(currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical());
+                } else {
+                    newStats.setPhysical(0.0);
+                }
+
+                if (currentStats.getInternal() - this.lifeStatsModifiers.getInternal() > 0.0) {
+                    newStats.setInternal(currentStats.getInternal() - this.lifeStatsModifiers.getInternal());
+                } else {
+                    newStats.setInternal(0.0);
+                }
+
+                if (currentStats.getInfection() - this.lifeStatsModifiers.getInfection() > 0.0) {
+                    newStats.setInfection(currentStats.getInfection() - this.lifeStatsModifiers.getInfection());
+                } else {
+                    newStats.setInfection(0.0);
+                }
+
+                illnesses.get(i).setStats(newStats);
+                // tak nie może być!!
+                if (illnesses.get(i).isCured()) {
+                    illnesses.remove(illnesses.get(i));
+                    p.setIllnesses(illnesses);
+                }
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+    }
+
+    private double ChangeStat(double current, double decreased)
+    {
+        if (current - decreased > 0.0)
+           return current - decreased;
+        return 0.0;
+    }
+
+    void removePatient(Patient p) {
+        p.removeObserver(this);
+
+        SimulationManager.getSimulation().getDepartments().get(p.getDepartmentIndex()).removePatient();
+    }
+
+    public void onUpdate(Subject s) {
+
+        if (((Patient) s).getStats().getPhysical() <= 0) {
+            removePatient((Patient)s);
+            SimulationManager.getSimulation().onPatientRecovered();
+        } else {
+            performHealing((Patient) s);
+        }
 
     }
 
-    public void diagnosePatient(Patient p){
+    public String toString() {
 
-    }
+        String info = "######### Doktor #########" + "\n";
+        info += "Imię: " + super.getName() + "\n";
+        info += "Nazwisko: " + super.getSurname() + "\n";
+        info += "Umiejętności: " + "\n" + getLifeStatsModifiers() + "\n";
+        info += "####################" + "\n";
 
-    public void performHealing(Patient p){
-
-        ArrayList<Illness> illnesses = p.getIllnesses();
-        Illness illness = illnesses.get(randomRange(illnesses.size()));
-
-        illness.setStats(new LifeStats<Double>(randomRange(1d) * illness.getStats().getPhysical() / (float)skill,randomRange(1d) * illness.getStats().getInternal() / (float)skill,randomRange(1d) * illness.getStats().getInfection() / (float)skill));
-    }
-
-    public void update(Subject s){
-        performHealing((Patient)s);
-    }
-
-    public void registerWith(Subject s){
-        s.registerObserver((Observer)this);
-    }
-
-    public void unRegisterWith(Subject s){
-        s.removeObserver((Observer)this);
+        return info;
     }
 
     public int getDepartmentIndex() {
@@ -56,12 +121,12 @@ public class Doctor extends Person implements Observer{
         this.departmentIndex = departmentIndex;
     }
 
-    public int getSkill() {
-        return skill;
+    public LifeStats<Double> getLifeStatsModifiers() {
+        return lifeStatsModifiers;
     }
 
-    public void setSkill(int skill) {
-        this.skill = skill;
+    public void setLifeStatsModifiers(LifeStats<Double> lifeStatsModifiers) {
+        this.lifeStatsModifiers = lifeStatsModifiers;
     }
 
     public int getShift() {

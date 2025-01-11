@@ -6,10 +6,10 @@ import java.util.Scanner;
 
 public class UserGeneration implements GenerationMethod {
 
-    private Setup simulationSetup;
+    private Setup setup;
 
-    public UserGeneration(Setup simulationSetup) {
-        this.simulationSetup = simulationSetup;
+    public UserGeneration(Setup setup) {
+        this.setup = setup;
     }
 
     private Person setPersonFields(Class<?> type){
@@ -55,8 +55,8 @@ public class UserGeneration implements GenerationMethod {
         System.out.print("Podaj numer oddziału: ");
         doctor.setDepartmentIndex(scanner.nextInt());
 
-        System.out.print("Podaj poziom skilla: ");
-        doctor.setSkill(scanner.nextInt());
+//        System.out.print("Podaj poziom : ");
+//        doctor.setLifeStatsModifiers(scanner);
 
         System.out.print("Podaj numer zmiany: ");
         doctor.setShift(scanner.nextInt());
