@@ -208,21 +208,21 @@ public class Simulation {
 
             //System.out.println(patients.get(0));
 
-            // reczne wywolanie symulacji
-//            System.out.println("Kontynuować?(T/N)");
-//            String input = scanner.next();
-//
-//            if(input.equals("N")){
-//                return;
-//            }
+             //reczne wywolanie symulacji
+            System.out.println("Kontynuować?(T/N)");
+            String input = scanner.next();
+
+            if(input.equals("N")){
+                return;
+            }
 
             //symulacja automatyczna
-            try {
-                // Opóźnienie na 2 sekundy
-                Thread.sleep(setup.getDelayMs());  // 2000 milisekund = 2 sekundy
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                // Opóźnienie na 2 sekundy
+//                Thread.sleep(setup.getDelayMs());  // 2000 milisekund = 2 sekundy
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
 
             //doctors.get(0).performHealing(patients.get(0));
 

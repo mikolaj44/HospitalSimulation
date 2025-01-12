@@ -10,6 +10,7 @@ public class Doctor extends Person implements Observer {
     private int departmentIndex;
     private LifeStats<Double> lifeStatsModifiers;
     private int shift;
+    private int amountOfPatients = 0;
 
     public Doctor(String name, String surname, String pesel, int departmentIndex, LifeStats<Double> lifeStatsModifiers, int shift) {
         super(name, surname, pesel);
@@ -24,82 +25,33 @@ public class Doctor extends Person implements Observer {
 
     public void performHealing(Patient p) {
 
-        if (p.getIllnesses().isEmpty()) {
+        // jeśli nie ma chorób, to sprawdza to wcześniej Pacjent
 
-            System.out.println(ColorCodes.BLUE + "Pacjent: " + getName() + " " + getSurname() + " wyleczony" + ColorCodes.RESET + "\n");
-            removePatient(p);
-            SimulationManager.getSimulation().onPatientRecovered();
-            // przeniesione do pacjeta
-            //SimulationManager.getSimulation().removePatient(p);
-            return;
-        }
+        ArrayList<Illness> illnesses = p.getIllnesses();
 
-        try {
+        for (int i = illnesses.size() - 1; i >= 0; i--) {
 
-            ArrayList<Illness> illnesses = p.getIllnesses();
+            LifeStats<Double> currentStats = illnesses.get(i).getStats();
 
-            for (int i = illnesses.size() - 1; i >= 0; i--) {
-//
-                LifeStats<Double> currentStats = illnesses.get(i).getStats();
-                LifeStats<Double> newStats = new LifeStats<Double>(0.0, 0.0, 0.0);
-//
-//                newStats.setPhysical(ChangeStat(currentStats.getPhysical(), this.lifeStatsModifiers.getPhysical()));
-//                newStats.setInternal(ChangeStat(currentStats.getInternal(), this.lifeStatsModifiers.getInternal()));
-//                newStats.setInfection(ChangeStat(currentStats.getInfection(), this.lifeStatsModifiers.getInfection()));
+            LifeStats<Double> newStats = new LifeStats<>(0.0, 0.0, 0.0);
 
-
-                if (currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical() > 0.0) {
-                    newStats.setPhysical(currentStats.getPhysical() - this.lifeStatsModifiers.getPhysical());
-                } else {
-                    newStats.setPhysical(0.0);
-                }
-
-                if (currentStats.getInternal() - this.lifeStatsModifiers.getInternal() > 0.0) {
-                    newStats.setInternal(currentStats.getInternal() - this.lifeStatsModifiers.getInternal());
-                } else {
-                    newStats.setInternal(0.0);
-                }
-
-                if (currentStats.getInfection() - this.lifeStatsModifiers.getInfection() > 0.0) {
-                    newStats.setInfection(currentStats.getInfection() - this.lifeStatsModifiers.getInfection());
-                } else {
-                    newStats.setInfection(0.0);
-                }
-
-                illnesses.get(i).setStats(newStats);
-                // tak nie może być!!
-                if (illnesses.get(i).isCured()) {
-                    illnesses.remove(illnesses.get(i));
-                    p.setIllnesses(illnesses);
-                }
+            for(int j = 0; j < newStats.getStatAmount(); j++){
+                newStats.setStatByIndex(j, Math.max(0.0, currentStats.getStatByIndex(j) - this.lifeStatsModifiers.getStatByIndex(j)));
             }
-        } catch (Exception e) {
-            //e.printStackTrace();
+
+            illnesses.get(i).setStats(newStats);
+
+            if (illnesses.get(i).isCured()) {
+                illnesses.remove(illnesses.get(i));
+                p.setIllnesses(illnesses);
+            }
         }
-    }
-
-    private double ChangeStat(double current, double decreased)
-    {
-        if (current - decreased > 0.0)
-           return current - decreased;
-        return 0.0;
-    }
-
-    void removePatient(Patient p) {
-        p.removeObserver(this);
-
-        SimulationManager.getSimulation().getDepartments().get(p.getDepartmentIndex()).removePatient();
     }
 
     public void onUpdate(Subject s) {
 
-        if (((Patient) s).getStats().getPhysical() <= 0) {
-            removePatient((Patient)s);
-            SimulationManager.getSimulation().onPatientRecovered();
-        } else {
-            performHealing((Patient) s);
-        }
-
+        // przypadek śmierci jest obsłużony w Pacjencie zanim Doktor zostanie powiadomiony
+        performHealing((Patient) s);
     }
 
     public String toString() {
@@ -111,6 +63,14 @@ public class Doctor extends Person implements Observer {
         info += "####################" + "\n";
 
         return info;
+    }
+
+    public int getAmountOfPatients() {
+        return amountOfPatients;
+    }
+
+    public void setAmountOfPatients(int amountOfPatients) {
+        this.amountOfPatients = amountOfPatients;
     }
 
     public int getDepartmentIndex() {

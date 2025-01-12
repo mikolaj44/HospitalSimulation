@@ -134,16 +134,16 @@ public class GUI {
 
         // Statystyki życiowe dla pacjentów
         LifeStats<Integer> minLifeStats = new LifeStats<>(0, 0, 0);
-        LifeStats<Integer> maxLifeStats = new LifeStats<>(500, 500, 500);
+        LifeStats<Integer> maxLifeStats = new LifeStats<>(1000, 1000, 1000);
 
-        int delayMs = 2500; // Opóźnienie w ms
+        int delayMs = 4000; // Opóźnienie w ms
         boolean generatePatientsAutomatically = true;
         boolean diagnosePatientsAutomatically = true;
         int maxNumberOfDoctorsPerPatient = 3;
-        int minNumberOfDoctors = 1;
-        int maxNumberOfDoctors = 10;
+        int minNumberOfDoctors = 10;
+        int maxNumberOfDoctors = 20;
         int minNumberOfPatients = 5;
-        int maxNumberOfPatients = 30;
+        int maxNumberOfPatients = 40;
         int maxIllnessAmount = 2;
         int numberOfShifts = 2;
 
@@ -164,21 +164,6 @@ public class GUI {
                 minLifeStats,
                 maxLifeStats
         );
-
-//        GenerationMethod method = new AutoGeneration(setup);
-//
-//        ArrayList<Patient> patients = new ArrayList<>();
-//        patients.add(method.generatePatient());
-//        patients.add(method.generatePatient());
-//        patients.add(method.generatePatient());
-//
-//        ArrayList<Doctor> doctors = new ArrayList<>();
-//        doctors.add(method.generateDoctor());
-//
-//        patients.get(0).registerObserver(doctors.get(0));
-//
-//        ArrayList<GenerationMethod> generationMethods = new ArrayList<>();
-//        generationMethods.add(method);
 
         SimulationManager.setSimulation(new Simulation(departments, setup));
 

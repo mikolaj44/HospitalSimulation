@@ -1,10 +1,5 @@
 package Person;
 
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
 public class LifeStats<T> {
 
     private T physical;
@@ -17,14 +12,8 @@ public class LifeStats<T> {
         this.infection = infection;
     }
 
-    public LifeStats(List<Integer> list) {
-    }
-
     public int getStatAmount() {
-
-        Field[] fields = getClass().getDeclaredFields();
-
-        return fields.length;
+        return getClass().getDeclaredFields().length;
     }
 
     public T getStatByIndex(int index) {
@@ -35,7 +24,16 @@ public class LifeStats<T> {
             case 2 -> infection;
             default -> throw new IndexOutOfBoundsException();
         };
+    }
 
+    public void setStatByIndex(int index, T value) {
+
+        switch (index) {
+            case 0 -> physical = value;
+            case 1 -> internal = value;
+            case 2 -> infection = value;
+            default -> throw new IndexOutOfBoundsException();
+        };
     }
 
     public String toString() {
