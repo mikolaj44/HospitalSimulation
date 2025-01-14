@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public class Setup {
 
     private int delayMs = 2000;
+    private int addedMinutesPerTick = 10;
+
     private boolean generatePatientsAutomatically = true;
     private boolean diagnosePatientsAutomatically = true; // nieużywane
     private ArrayList<Department> departments;
@@ -37,9 +39,10 @@ public class Setup {
 
     private final double departmentInfluenceFactor = 0.33;
 
-    public Setup(ArrayList<Department> departments, int delayMs, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, int maxNumberOfDoctorsPerPatient, int minNumberOfDoctors, int maxNumberOfDoctors, int minNumberOfPatients, int maxNumberOfPatients, int minNewPatientsPerIteration, int maxNewPatientsPerIteration, int maxIllnessAmount, int numberOfShifts, LifeStats<Double> minDoctorModifiers, LifeStats<Double> maxDoctorModifiers, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {
+    public Setup(ArrayList<Department> departments, int delayMs, int addedMinutesPerTick, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, int maxNumberOfDoctorsPerPatient, int minNumberOfDoctors, int maxNumberOfDoctors, int minNumberOfPatients, int maxNumberOfPatients, int minNewPatientsPerIteration, int maxNewPatientsPerIteration, int maxIllnessAmount, int numberOfShifts, LifeStats<Double> minDoctorModifiers, LifeStats<Double> maxDoctorModifiers, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {
         this.departments = departments;
         this.delayMs = delayMs;
+        this.addedMinutesPerTick = addedMinutesPerTick;
         this.generatePatientsAutomatically = generatePatientsAutomatically;
         this.diagnosePatientsAutomatically = diagnosePatientsAutomatically;
         this.maxNumberOfDoctorsPerPatient = maxNumberOfDoctorsPerPatient;
@@ -140,6 +143,14 @@ public class Setup {
 
     public void setDelayMs(int delayMs) {
         this.delayMs = delayMs;
+    }
+
+    public int getAddedMinutesPerTick() {
+        return addedMinutesPerTick;
+    }
+
+    public void setAddedMinutesPerTick(int addedMinutesPerTick) {
+        this.addedMinutesPerTick = addedMinutesPerTick;
     }
 
     public boolean isGeneratingPatientsAutomatically() {

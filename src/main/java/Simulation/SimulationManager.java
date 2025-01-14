@@ -73,4 +73,9 @@ public class SimulationManager {
     public static void setSetup(Setup setup) {
         SimulationManager.setup = setup;
     }
+
+    public String getTime() {
+
+        return simulation.getTime();
+    }
 }

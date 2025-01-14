@@ -15,6 +15,7 @@ public class Simulation {
     private Setup setup;
     private ArrayList<GenerationMethod> generationMethods;
     private ArrayList<DepartmentAssignmentMethod> assignmentMethods;
+    private TimeOfDay timeOfDay;
 
     private int departmentAssignmentMethodIndex = 3;
 
@@ -81,6 +82,7 @@ public class Simulation {
         this.setup = new Setup(departments);
         addDefaultGenerationMethods();
         addDefaultAssignmentMethods();
+        timeOfDay = new TimeOfDay(7,0);
         recovered = 0;
         deceased = 0;
     }
@@ -251,6 +253,9 @@ public class Simulation {
             }
 
             generateAndAssign(false);
+
+            System.out.println(timeOfDay);
+            timeOfDay.addMinutes(SimulationManager.getSetup().getAddedMinutesPerTick());
         }
     }
 
@@ -337,5 +342,9 @@ public class Simulation {
 
     public void setDepartmentAssignmentMethodIndex(int departmentAssignmentMethodIndex) {
         this.departmentAssignmentMethodIndex = departmentAssignmentMethodIndex;
+    }
+
+    public String getTime() {
+        return timeOfDay.toString();
     }
 }

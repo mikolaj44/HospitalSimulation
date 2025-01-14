@@ -6,6 +6,8 @@ import javafx.application.Application;
 import javafx.beans.Observable;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -15,6 +17,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import Simulation.*;
 import Person.*;
@@ -30,7 +33,7 @@ public class GUIApplication extends Application {
     private ObservableList<Patient> patientsList;
     private IntegerProperty recovered;
     private IntegerProperty deceased;
-
+    private StringProperty time;
 
     @Override
     public void start(Stage primaryStage) {
@@ -41,16 +44,20 @@ public class GUIApplication extends Application {
         ListView<Patient> listView = generatePatientList();
         recovered = new SimpleIntegerProperty(simulationManager.getRecovered());
         deceased = new SimpleIntegerProperty(simulationManager.getDeceased());
+        time = new SimpleStringProperty(simulationManager.getTime());
 
         Label recoveredLabel = new Label();
         recoveredLabel.textProperty().bind(recovered.asString("Wyleczeni: %d"));
         Label deceasedLabel = new Label();
         deceasedLabel.textProperty().bind(deceased.asString("Zmarli: %d"));
+        Label clockLabel = new Label();
+        clockLabel.textProperty().bind(time);
+        clockLabel.setTextFill(Color.rgb(21, 100, 4));
 
         HBox topInfo = new HBox();
         topInfo.setSpacing(20);
         topInfo.setStyle("-fx-background-color: lightblue;");
-        topInfo.getChildren().addAll(recoveredLabel, deceasedLabel);
+        topInfo.getChildren().addAll(recoveredLabel, deceasedLabel, clockLabel);
 
         BorderPane borderPane = new BorderPane();
         borderPane.setRight(listView);
@@ -111,6 +118,7 @@ public class GUIApplication extends Application {
 
         recovered.set(simulationManager.getRecovered());
         deceased.set(simulationManager.getDeceased());
+        time.set(simulationManager.getTime());
     }
 
     private void startSimulation() {
