@@ -35,6 +35,8 @@ public class Setup {
     private LifeStats<Integer> minLifeStats = new LifeStats<>(10, 10, 10);
     private LifeStats<Integer> maxLifeStats = new LifeStats<>(500, 500, 500);
 
+    private final double departmentInfluenceFactor = 0.33;
+
     public Setup(ArrayList<Department> departments, int delayMs, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, int maxNumberOfDoctorsPerPatient, int minNumberOfDoctors, int maxNumberOfDoctors, int minNumberOfPatients, int maxNumberOfPatients, int minNewPatientsPerIteration, int maxNewPatientsPerIteration, int maxIllnessAmount, int numberOfShifts, LifeStats<Double> minDoctorModifiers, LifeStats<Double> maxDoctorModifiers, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {
         this.departments = departments;
         this.delayMs = delayMs;
@@ -194,5 +196,9 @@ public class Setup {
 
     public void setMaxDoctorModifiers(LifeStats<Double> maxDoctorModifiers) {
         this.maxDoctorModifiers = maxDoctorModifiers;
+    }
+
+    public double getDepartmentInfluenceFactor() {
+        return departmentInfluenceFactor;
     }
 }

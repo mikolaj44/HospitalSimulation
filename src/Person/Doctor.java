@@ -34,9 +34,9 @@ public class Doctor extends Person implements Observer {
             LifeStats<Double> currentStats = illnesses.get(i).getStats();
 
             LifeStats<Double> newStats = new LifeStats<>(0.0, 0.0, 0.0);
-
             for(int j = 0; j < newStats.getStatAmount(); j++){
-                newStats.setStatByIndex(j, Math.max(0.0, currentStats.getStatByIndex(j) - this.lifeStatsModifiers.getStatByIndex(j)));
+                newStats.setStatByIndex(j, Math.max(0.0, currentStats.getStatByIndex(j) - this.lifeStatsModifiers.getStatByIndex(j)
+                        - SimulationManager.getSetup().getDepartmentInfluenceFactor() * SimulationManager.getDepartments().get(this.departmentIndex).getStatsMultiplier().getStatByIndex(j)));
             }
 
             illnesses.get(i).setStats(newStats);
