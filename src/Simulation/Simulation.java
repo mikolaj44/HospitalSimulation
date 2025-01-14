@@ -16,7 +16,7 @@ public class Simulation {
     private ArrayList<GenerationMethod> generationMethods;
     private ArrayList<DepartmentAssignmentMethod> assignmentMethods;
 
-    private int departmentAssignmentMethodIndex = 3;
+    private int departmentAssignmentMethodIndex = 4; // BestModifiersForPatientAssignment
 
     private int recovered;
     private int deceased;
@@ -92,6 +92,7 @@ public class Simulation {
         assignmentMethods.add(new BestAssignment());
         assignmentMethods.add(new MostFreeSpotsAssignment());
         assignmentMethods.add(new RandomAssignment());
+        assignmentMethods.add(new BestModifiersForPatientAssignment());
     }
 
     private void addDefaultGenerationMethods(){

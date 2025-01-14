@@ -13,14 +13,17 @@ public class BestModifiersForPatientAssignment implements DepartmentAssignmentMe
 
     @Override
     public int getDepartmentIndex(Patient patient, ArrayList<Department> departments) {
+
         List<Illness> patientIllnesses = patient.getIllnesses();
         int bestDepartmentIndex = -1;
         double bestScore = 0;
 
         LifeStats<Double> doctorsStatsModifier = new LifeStats<>(0.0, 0.0, 0.0);
+
         for (Observer observer : patient.getObservers()) {
-            Doctor doctor = (Doctor) observer;
-            LifeStats<Double> doctorLifeStats = doctor.getLifeStatsModifiers();
+
+            LifeStats<Double> doctorLifeStats = ((Doctor)(observer)).getLifeStatsModifiers();
+
             for (int i = 0; i < doctorLifeStats.getStatAmount(); i++) {
                 doctorsStatsModifier.setStatByIndex(i,
                         doctorLifeStats.getStatByIndex(i) + doctorsStatsModifier.getStatByIndex(i));
@@ -28,12 +31,21 @@ public class BestModifiersForPatientAssignment implements DepartmentAssignmentMe
         }
 
         for (int departmentIndex = 0; departmentIndex < departments.size(); departmentIndex++) {
+
+            // zapchany oddział
+            if(departments.get(departmentIndex).getMaxAmountOfPatients() <= departments.get(departmentIndex).getAmountOfPatients()){
+                continue;
+            }
+
             Department department = departments.get(departmentIndex);
             LifeStats<Double> departmentModifiers = department.getStatsMultiplier();
+
             double score = 0;
 
             for (Illness illness : patientIllnesses) {
+
                 LifeStats<Double> illnessLifeStats = illness.getStats();
+
                 for (int lifeStatIndex = 0; lifeStatIndex < departmentModifiers.getStatAmount(); lifeStatIndex++) {
 
                     score += Math.max(
@@ -48,8 +60,7 @@ public class BestModifiersForPatientAssignment implements DepartmentAssignmentMe
                 }
             }
 
-            if (score < bestScore && departments.get(departmentIndex).getMaxAmountOfPatients() != departments
-                    .get(departmentIndex).getAmountOfPatients()) {
+            if (score < bestScore) {
                 bestScore = score;
                 bestDepartmentIndex = departmentIndex;
             }
