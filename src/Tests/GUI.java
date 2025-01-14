@@ -137,13 +137,21 @@ public class GUI {
         LifeStats<Integer> maxLifeStats = new LifeStats<>(1000, 1000, 1000);
 
         int delayMs = 4000; // Opóźnienie w ms
+
         boolean generatePatientsAutomatically = true;
         boolean diagnosePatientsAutomatically = true;
+
         int maxNumberOfDoctorsPerPatient = 3;
+
         int minNumberOfDoctors = 10;
         int maxNumberOfDoctors = 20;
+
         int minNumberOfPatients = 5;
         int maxNumberOfPatients = 40;
+
+        int minNewPatientsPerIteration = 0;
+        int maxNewPatientsPerIteration = 3;
+
         int maxIllnessAmount = 2;
         int numberOfShifts = 2;
 
@@ -157,6 +165,8 @@ public class GUI {
                 maxNumberOfDoctors,
                 minNumberOfPatients,
                 maxNumberOfPatients,
+                minNewPatientsPerIteration,
+                maxNewPatientsPerIteration,
                 maxIllnessAmount,
                 numberOfShifts,
                 minDoctorModifiers,
