@@ -49,14 +49,6 @@ public class SimulationManager {
         simulation.setDepartmentAssignmentMethodIndex(index);
     }
 
-    public int getDeceased(){
-        return simulation.getDeceased();
-    }
-
-    public int getRecovered(){
-        return simulation.getRecovered();
-    }
-
     public static Simulation getSimulation() {
         return simulation;
     }
@@ -64,9 +56,6 @@ public class SimulationManager {
     public static void setSimulation(Simulation simulation) {
         SimulationManager.simulation = simulation;
         setSetup(simulation.getSetup());
-    }
-    public String getTime() {
-        return simulation.getTime();
     }
 
     public static Setup getSetup() {

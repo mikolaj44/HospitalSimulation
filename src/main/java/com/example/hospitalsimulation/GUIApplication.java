@@ -11,6 +11,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -35,6 +36,7 @@ public class GUIApplication extends Application {
     private IntegerProperty deceased;
     private StringProperty time;
 
+
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Symulacja");
@@ -58,10 +60,13 @@ public class GUIApplication extends Application {
         topInfo.setSpacing(20);
         topInfo.setStyle("-fx-background-color: lightblue;");
         topInfo.getChildren().addAll(recoveredLabel, deceasedLabel, clockLabel);
+        Button setupButton = new Button("Setup");
+        setupButton.setOnAction(event -> {SetupWindow.display();});
 
         BorderPane borderPane = new BorderPane();
         borderPane.setRight(listView);
         borderPane.setTop(topInfo);
+        borderPane.setCenter(setupButton);
         listView.prefHeightProperty().bind(primaryStage.heightProperty());
 
         // Tworzymy scenę i przypisujemy ją do okna
@@ -97,7 +102,7 @@ public class GUIApplication extends Application {
                     } else if (lifeLevel < 300) {
                         setStyle("-fx-background-color: #fff07a;");
                     } else {
-                        setStyle("-fx-background-color: #c5ffcf;");
+                        setStyle("-fx-background-color: #72ff63;");
                     }
                 }
             }

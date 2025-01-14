@@ -9,7 +9,6 @@ public class Setup {
 
     private int delayMs = 2000;
     private int addedMinutesPerTick = 10;
-
     private boolean generatePatientsAutomatically = true;
     private boolean diagnosePatientsAutomatically = true; // nieużywane
     private ArrayList<Department> departments;
@@ -35,12 +34,11 @@ public class Setup {
     private LifeStats<Double> maxDoctorModifiers = new LifeStats<>(20.0, 20.0, 20.0);
 
     private LifeStats<Integer> minLifeStats = new LifeStats<>(10, 10, 10);
-    private LifeStats<Integer> maxLifeStats = new LifeStats<>(500, 500, 500);
+    private LifeStats<Integer> maxLifeStats = new LifeStats<>(1000, 1000, 1000);
 
-    private final double departmentInfluenceFactor = 0.33;
+    private double departmentInfluenceFactor = 0.33;
 
-    public Setup(ArrayList<Department> departments, int delayMs, int addedMinutesPerTick, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, int maxNumberOfDoctorsPerPatient, int minNumberOfDoctors, int maxNumberOfDoctors, int minNumberOfPatients, int maxNumberOfPatients, int minNewPatientsPerIteration, int maxNewPatientsPerIteration, int maxIllnessAmount, int numberOfShifts, LifeStats<Double> minDoctorModifiers, LifeStats<Double> maxDoctorModifiers, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {
-        this.departments = departments;
+    public Setup(ArrayList<Department> departments, int delayMs, int addedMinutesPerTick, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, int maxNumberOfDoctorsPerPatient, int minNumberOfDoctors, int maxNumberOfDoctors, int minNumberOfPatients, int maxNumberOfPatients, int minNewPatientsPerIteration, int maxNewPatientsPerIteration, int maxIllnessAmount, int numberOfShifts, LifeStats<Double> minDoctorModifiers, LifeStats<Double> maxDoctorModifiers, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {        this.departments = departments;
         this.delayMs = delayMs;
         this.addedMinutesPerTick = addedMinutesPerTick;
         this.generatePatientsAutomatically = generatePatientsAutomatically;
@@ -145,16 +143,12 @@ public class Setup {
         this.delayMs = delayMs;
     }
 
-    public int getAddedMinutesPerTick() {
-        return addedMinutesPerTick;
-    }
-
-    public void setAddedMinutesPerTick(int addedMinutesPerTick) {
-        this.addedMinutesPerTick = addedMinutesPerTick;
-    }
-
     public boolean isGeneratingPatientsAutomatically() {
         return generatePatientsAutomatically;
+    }
+
+    public void setGeneratePatientsAutomatically(boolean value) {
+        this.generatePatientsAutomatically = value;
     }
 
     public void toggleAutoDiagnose() {
@@ -185,6 +179,13 @@ public class Setup {
         this.maxLifeStats = maxLifeStats;
     }
 
+    public void setMaxLifeStats(Integer maxLife) {
+        this.maxLifeStats = new LifeStats<Integer>(maxLife, maxLife, maxLife);
+    }
+    public void setMinLifeStats(int minLife) {
+        this.minLifeStats = new LifeStats<Integer>(minLife, minLife, minLife);
+    }
+
     public int getNumberOfShifts() {
         return numberOfShifts;
     }
@@ -211,5 +212,15 @@ public class Setup {
 
     public double getDepartmentInfluenceFactor() {
         return departmentInfluenceFactor;
+    }
+    public void setDepartmentInfluenceFactor(double departmentInfluenceFactor) {
+        this.departmentInfluenceFactor = departmentInfluenceFactor;
+    }
+
+    public int getAddedMinutesPerTick() {
+        return addedMinutesPerTick;
+    }
+    public void setAddedMinutesPerTick(int addedMinutesPerTick) {
+        this.addedMinutesPerTick = addedMinutesPerTick;
     }
 }
