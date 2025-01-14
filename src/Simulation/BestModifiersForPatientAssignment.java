@@ -36,18 +36,20 @@ public class BestModifiersForPatientAssignment implements DepartmentAssignmentMe
                 LifeStats<Double> illnessLifeStats = illness.getStats();
                 for (int lifeStatIndex = 0; lifeStatIndex < departmentModifiers.getStatAmount(); lifeStatIndex++) {
 
-                    score += Math
-                            .min(illnessLifeStats.getStatByIndex(lifeStatIndex)
+                    score += Math.max(
+                            Math.min(illnessLifeStats.getStatByIndex(lifeStatIndex)
                                     - doctorsStatsModifier.getStatByIndex(lifeStatIndex)
                                     - departmentModifiers.getStatByIndex(lifeStatIndex)
                                             * SimulationManager.getSetup().getDepartmentInfluenceFactor(),
                                     0)
-                            + departmentModifiers.getStatByIndex(lifeStatIndex)
-                                    * SimulationManager.getSetup().getDepartmentInfluenceFactor();
+                                    + departmentModifiers.getStatByIndex(lifeStatIndex)
+                                            * SimulationManager.getSetup().getDepartmentInfluenceFactor(),
+                            0);
                 }
             }
 
-            if (score < bestScore && departments.get(departmentIndex).getMaxAmountOfPatients() != departments.get(departmentIndex).getAmountOfPatients()) {
+            if (score < bestScore && departments.get(departmentIndex).getMaxAmountOfPatients() != departments
+                    .get(departmentIndex).getAmountOfPatients()) {
                 bestScore = score;
                 bestDepartmentIndex = departmentIndex;
             }
