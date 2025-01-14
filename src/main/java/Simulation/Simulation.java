@@ -16,6 +16,8 @@ public class Simulation {
     private ArrayList<GenerationMethod> generationMethods;
     private ArrayList<DepartmentAssignmentMethod> assignmentMethods;
 
+    private int departmentAssignmentMethodIndex = 3;
+
     private int recovered;
     private int deceased;
 
@@ -121,9 +123,18 @@ public class Simulation {
         }
     }
 
-    private void generatePatientsInDepartments(){
+    private void generatePatientsInDepartments(boolean atStart){
 
-        int numberOfPatients = randomRange(setup.getMinNumberOfPatients(), setup.getMaxNumberOfPatients());
+        int numberOfPatients;
+
+        // zależnie od tego czy generacja na starcie, czy w pętli
+        // (na razie generacja użytkownika będzie też miała z tego powodu ustaloną liczbę pacjentów, których może dodać)
+        if(atStart) {
+            numberOfPatients = randomRange(setup.getMinNumberOfPatients(), setup.getMaxNumberOfPatients());
+        }
+        else{
+            numberOfPatients = randomRange(setup.getMinNewPatientsPerIteration(), setup.getMaxNewPatientsPerIteration());
+        }
 
         for(int i = 0; i < numberOfPatients; i++){
 
@@ -135,7 +146,7 @@ public class Simulation {
                 addPatient(generationMethods.get(1)); // wpisywanie przez użytkownika
             }
 
-            int departmentIndex = assignmentMethods.get(3).getDepartmentIndex(patients.getLast(), departments); // na razie (closest assignment)
+            int departmentIndex = assignmentMethods.get(departmentAssignmentMethodIndex).getDepartmentIndex(patients.getLast(), departments); // (closest assignment)
 
             if(departmentIndex == -1) // wszystkie oddziały pełne
                 return;
@@ -149,6 +160,11 @@ public class Simulation {
     private void assignDoctorsToPatients(){
 
         for(Patient patient : patients){
+
+            // jeśli już ma lekarza, to nie  przypisujemy (na razie)
+            // zakładamy, że wszyscy obserwatorzy są lekarzami (na razie)
+            if(!patient.getObservers().isEmpty())
+                continue;
 
             ArrayList<Doctor> matchingDoctors = new ArrayList<>();
 
@@ -172,43 +188,46 @@ public class Simulation {
         }
     }
 
-    public void start() {
+    private void generateAndAssign(boolean atStart){
 
         // trzeba zrobić weryfikację (pewnie gdzieś wyżej, w konstruktorze albo coś)
         // czy aby departments albo generationMethods nie są null albo puste bo od nich dużo zależy
 
         // generacja lekarzy i wrzucanie ich do oddziałów (może ich wyjść trochę mniej niż wylosowana liczba)
-
-        generateDoctorsInDepartments();
+        // tylko na początku
+        if(atStart) {
+            generateDoctorsInDepartments();
+        }
 
         // generacja pacjentów i ich chorób oraz przydzielanie do oddziałów
-
-        generatePatientsInDepartments();
+        // na początku i w pętli
+        generatePatientsInDepartments(atStart);
 
         // łączenie pacjentów z lekarzami (na razie losowo)
         // nieoptymalne
-
         assignDoctorsToPatients();
+    }
 
-        simulationLoop();
+    public void start() {
+
+        generateAndAssign(true);
+        Thread simulationThread = new Thread(() -> {
+            simulationLoop();
+        });
+        simulationThread.setDaemon(true);
+        simulationThread.start();
     }
 
     public void simulationLoop(){
-//        System.out.println("Simulation started");
+
         Scanner scanner = new Scanner(System.in);
-//        System.out.println(patients.get(0).getInfo());
-//        System.out.println(doctors.get(0).getInfo());
-//        doctors.get(0).performHealing(patients.get(0));
-//        System.out.println(patients.get(0).getInfo());
 
         while (true){
 
             if(patients.isEmpty() || doctors.isEmpty())
                 return;
 
-            //System.out.println(patients.get(0));
-
-            // reczne wywolanie symulacji
+//            //reczne wywolanie symulacji
 //            System.out.println("Kontynuować?(T/N)");
 //            String input = scanner.next();
 //
@@ -224,17 +243,14 @@ public class Simulation {
                 e.printStackTrace();
             }
 
-            //doctors.get(0).performHealing(patients.get(0));
-
-            // jesli pacjent jest wyleczony to usuwa w pacjecie(pewnie tezeba poprawic to i dodac usuwanie z list tu)
-            //if(!patients.isEmpty())
-            //    patients.get(0).update();
-
+            // odświeżanie pacjentów - wywoływanie chorób, powiadamianie lekarzy itd.
             for(int i = patients.size() - 1; i >= 0; i--) {
 
-                System.out.println(patients.get(i));
+                //System.out.println(patients.get(i));
                 patients.get(i).update();
             }
+
+            generateAndAssign(false);
         }
     }
 
@@ -297,5 +313,29 @@ public class Simulation {
 
     public ArrayList<Patient> getPatients() {
         return patients;
+    }
+
+    public ArrayList<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public Setup getSetup() {
+        return setup;
+    }
+
+    public ArrayList<GenerationMethod> getGenerationMethods() {
+        return generationMethods;
+    }
+
+    public ArrayList<DepartmentAssignmentMethod> getAssignmentMethods() {
+        return assignmentMethods;
+    }
+
+    public int getDepartmentAssignmentMethodIndex() {
+        return departmentAssignmentMethodIndex;
+    }
+
+    public void setDepartmentAssignmentMethodIndex(int departmentAssignmentMethodIndex) {
+        this.departmentAssignmentMethodIndex = departmentAssignmentMethodIndex;
     }
 }

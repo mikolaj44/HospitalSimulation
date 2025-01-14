@@ -16,11 +16,14 @@ public class Setup {
 
     private int maxNumberOfDoctorsPerPatient = 3; // ile lekarzy może leczyć jednego pacjenta
 
-    private int minNumberOfDoctors = 10; // ile ogólnie lekarzy w szpitalu
+    private int minNumberOfDoctors = 10; // ilu ogólnie lekarzy w szpitalu
     private int maxNumberOfDoctors = 20;
 
-    private int minNumberOfPatients = 5; // ile ogólnie pacjentów w szpitalu
+    private int minNumberOfPatients = 5; // ilu ogólnie pacjentów w szpitalu
     private int maxNumberOfPatients = 10;
+
+    private int minNewPatientsPerIteration = 1; // ilu pacjentów generować co iterację symulacji
+    private int maxNewPatientsPerIteration = 2;
 
     // można potem dodać ewentualnie min/max tutaj:
     private int maxIllnessAmount = 3;
@@ -32,17 +35,20 @@ public class Setup {
     private LifeStats<Integer> minLifeStats = new LifeStats<>(10, 10, 10);
     private LifeStats<Integer> maxLifeStats = new LifeStats<>(500, 500, 500);
 
-    public Setup(ArrayList<Department> departments, int delayMs, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, int maxNumberOfDoctorsPerPatient, int minNumberOfDoctors, int maxNumberOfDoctors, int minNumberOfPatients, int maxNumberOfPatients, int maxIllnessAmount, int numberOfShifts, LifeStats<Double> minDoctorModifiers, LifeStats<Double> maxDoctorModifiers, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {
+    private final double departmentInfluenceFactor = 0.33;
 
+    public Setup(ArrayList<Department> departments, int delayMs, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, int maxNumberOfDoctorsPerPatient, int minNumberOfDoctors, int maxNumberOfDoctors, int minNumberOfPatients, int maxNumberOfPatients, int minNewPatientsPerIteration, int maxNewPatientsPerIteration, int maxIllnessAmount, int numberOfShifts, LifeStats<Double> minDoctorModifiers, LifeStats<Double> maxDoctorModifiers, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {
+        this.departments = departments;
         this.delayMs = delayMs;
         this.generatePatientsAutomatically = generatePatientsAutomatically;
         this.diagnosePatientsAutomatically = diagnosePatientsAutomatically;
-        this.departments = departments;
         this.maxNumberOfDoctorsPerPatient = maxNumberOfDoctorsPerPatient;
         this.minNumberOfDoctors = minNumberOfDoctors;
         this.maxNumberOfDoctors = maxNumberOfDoctors;
         this.minNumberOfPatients = minNumberOfPatients;
         this.maxNumberOfPatients = maxNumberOfPatients;
+        this.minNewPatientsPerIteration = minNewPatientsPerIteration;
+        this.maxNewPatientsPerIteration = maxNewPatientsPerIteration;
         this.maxIllnessAmount = maxIllnessAmount;
         this.numberOfShifts = numberOfShifts;
         this.minDoctorModifiers = minDoctorModifiers;
@@ -70,6 +76,22 @@ public class Setup {
 
     public void setMinNumberOfPatients(int minNumberOfPatients) {
         this.minNumberOfPatients = minNumberOfPatients;
+    }
+
+    public int getMinNewPatientsPerIteration() {
+        return minNewPatientsPerIteration;
+    }
+
+    public void setMinNewPatientsPerIteration(int minNewPatientsPerIteration) {
+        this.minNewPatientsPerIteration = minNewPatientsPerIteration;
+    }
+
+    public int getMaxNewPatientsPerIteration() {
+        return maxNewPatientsPerIteration;
+    }
+
+    public void setMaxNewPatientsPerIteration(int maxNewPatientsPerIteration) {
+        this.maxNewPatientsPerIteration = maxNewPatientsPerIteration;
     }
 
     public int getMaxNumberOfPatients() {
@@ -174,5 +196,9 @@ public class Setup {
 
     public void setMaxDoctorModifiers(LifeStats<Double> maxDoctorModifiers) {
         this.maxDoctorModifiers = maxDoctorModifiers;
+    }
+
+    public double getDepartmentInfluenceFactor() {
+        return departmentInfluenceFactor;
     }
 }

@@ -3,7 +3,6 @@ package Person;
 import Simulation.SimulationManager;
 import Utils.ColorCodes;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Patient extends Person implements Subject, Updateable {
@@ -26,10 +25,12 @@ public class Patient extends Person implements Subject, Updateable {
     }
 
     public void registerObserver(Observer o) {
+        ((Doctor)(o)).setAmountOfPatients(((Doctor)(o)).getAmountOfPatients() + 1);
         observers.add(o);
     }
 
     public void removeObserver(Observer o) {
+        ((Doctor)(o)).setAmountOfPatients( Math.max(0, ((Doctor)(o)).getAmountOfPatients() - 1) );
         observers.remove(o);
     }
 
@@ -37,6 +38,16 @@ public class Patient extends Person implements Subject, Updateable {
 
         for(int i = observers.size() - 1; i >= 0; i--){
             observers.get(i).onUpdate(this);
+        }
+    }
+
+    private void removeAllDoctors(){
+
+        for(int i = observers.size() - 1; i >= 0; i--){
+
+            if(observers.get(i) instanceof Doctor){
+                removeObserver(observers.get(i));
+            }
         }
     }
 
@@ -105,22 +116,30 @@ public class Patient extends Person implements Subject, Updateable {
 
         LifeStats<Integer> currentStats = getStats();
 
+        // pacjent wyleczony
         if(illnesses.isEmpty()) {
 
             System.out.println(ColorCodes.BLUE + "Pacjent: " + getName() + " " + getSurname() + " wyleczony" + ColorCodes.RESET + "\n");
-            SimulationManager.getSimulation().removePatient(this);
+
+            removeAllDoctors(); // odłączenie wszystkich lekarzy pacjenta
+            SimulationManager.getSimulation().getDepartments().get(getDepartmentIndex()).removePatient(); // zmniejszenie liczby pacjentów w danym oddziale
+            SimulationManager.getSimulation().onPatientRecovered(); // zwiększenie ogólnej liczby wyleczonych
+            SimulationManager.getSimulation().removePatient(this); // usunięcie pacjenta z listy pacjentów symulacji
             return;
         }
 
         for (Illness illness : this.illnesses) {
-            currentStats.setPhysical(Math.max((int) (currentStats.getPhysical() - illness.getStats().getPhysical()), 0));
-            currentStats.setInfection(Math.max((int) (currentStats.getInfection() - illness.getStats().getInfection()), 0));
-            currentStats.setInternal(Math.max((int) (currentStats.getInternal() - illness.getStats().getInternal()), 0));
+
+            for(int i = 0; i < currentStats.getStatAmount(); i++){
+                currentStats.setStatByIndex(i, Math.max(0, (int)(currentStats.getStatByIndex(i) - illness.getStats().getStatByIndex(i)) ));
+            }
         }
 
-        if (currentStats.getPhysical() <= 0 || currentStats.getInfection() <= 0 || currentStats.getInternal() <= 0) {
-            die();
-            return;
+        for(int i = 0; i < currentStats.getStatAmount(); i++){
+            if (currentStats.getStatByIndex(i) <= 0) {
+                die();
+                return;
+            }
         }
 
         this.stats = currentStats;
@@ -128,28 +147,29 @@ public class Patient extends Person implements Subject, Updateable {
         notifyObservers();
     }
 
+    // pacjent umarł
     public void die() {
-        this.stats = new LifeStats<Integer>(0, 0, 0);
+
+        this.stats = new LifeStats<>(0, 0, 0);
 
         System.out.println(ColorCodes.RED + "Pacjent: " + getName() + " " + getSurname() + " zmarł" + ColorCodes.RESET + "\n");
 
-        notifyObservers();
-        SimulationManager.getSimulation().removePatient(this);
+        removeAllDoctors(); // odłączenie wszystkich lekarzy pacjenta (już ich nie powiadamiamy, trupa nie wyleczymy)
+
+        SimulationManager.getSimulation().getDepartments().get(getDepartmentIndex()).removePatient(); // zmniejszenie liczby pacjentów w danym oddziale
+        SimulationManager.getSimulation().onPatientDied();// zwiększenie ogólnej liczby zmarłych
+        SimulationManager.getSimulation().removePatient(this); // usunięcie pacjenta z listy pacjentów symulacji
     }
 
-    public Integer getLowestHealth() {
-        Integer infection = stats.getInfection();
-        Integer physical = stats.getPhysical();
-        Integer internal = stats.getInternal();
+    public int getLowestHealth() {
 
-        if(infection < physical && internal < physical){
-            if (infection < internal){
-                return infection;
-            } else {
-                return internal;
-            }
+        int lowestVal = stats.getStatByIndex(0);
+
+        for(int i = 1; i < stats.getStatAmount(); i++){
+            lowestVal = Math.min(stats.getStatByIndex(i), lowestVal);
         }
-        return physical;
+
+        return lowestVal;
     }
 
     public String getShortInfo() {
