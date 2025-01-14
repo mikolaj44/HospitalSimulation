@@ -310,4 +310,28 @@ public class Simulation {
     public ArrayList<Patient> getPatients() {
         return patients;
     }
+
+    public ArrayList<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public Setup getSetup() {
+        return setup;
+    }
+
+    public ArrayList<GenerationMethod> getGenerationMethods() {
+        return generationMethods;
+    }
+
+    public ArrayList<DepartmentAssignmentMethod> getAssignmentMethods() {
+        return assignmentMethods;
+    }
+
+    public int getDepartmentAssignmentMethodIndex() {
+        return departmentAssignmentMethodIndex;
+    }
+
+    public void setDepartmentAssignmentMethodIndex(int departmentAssignmentMethodIndex) {
+        this.departmentAssignmentMethodIndex = departmentAssignmentMethodIndex;
+    }
 }
