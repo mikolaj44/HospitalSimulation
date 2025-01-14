@@ -14,7 +14,7 @@ public class BestModifiersForPatientAssignment implements DepartmentAssignmentMe
     @Override
     public int getDepartmentIndex(Patient patient, ArrayList<Department> departments) {
         List<Illness> patientIllnesses = patient.getIllnesses();
-        int bestDepartmentIndex = 0;
+        int bestDepartmentIndex = -1;
         double bestScore = 0;
 
         LifeStats<Double> doctorsStatsModifier = new LifeStats<>(0.0, 0.0, 0.0);
