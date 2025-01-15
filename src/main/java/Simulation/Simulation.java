@@ -15,6 +15,7 @@ public class Simulation {
     private Setup setup;
     private ArrayList<GenerationMethod> generationMethods;
     private ArrayList<DepartmentAssignmentMethod> assignmentMethods;
+    private TimeOfDay timeOfDay;
 
     private int departmentAssignmentMethodIndex = 3;
 
@@ -81,6 +82,7 @@ public class Simulation {
         this.setup = new Setup(departments);
         addDefaultGenerationMethods();
         addDefaultAssignmentMethods();
+        timeOfDay = new TimeOfDay(7,0);
         recovered = 0;
         deceased = 0;
     }
@@ -211,7 +213,11 @@ public class Simulation {
     public void start() {
 
         generateAndAssign(true);
-        simulationLoop();
+        Thread simulationThread = new Thread(() -> {
+            simulationLoop();
+        });
+        simulationThread.setDaemon(true);
+        simulationThread.start();
     }
 
     public void simulationLoop(){
@@ -223,21 +229,21 @@ public class Simulation {
             if(patients.isEmpty() || doctors.isEmpty())
                 return;
 
-            //reczne wywolanie symulacji
-            System.out.println("Kontynuować?(T/N)");
-            String input = scanner.next();
-
-            if(input.equals("N")){
-                return;
-            }
+//            //reczne wywolanie symulacji
+//            System.out.println("Kontynuować?(T/N)");
+//            String input = scanner.next();
+//
+//            if(input.equals("N")){
+//                return;
+//            }
 
             //symulacja automatyczna
-//            try {
-//                // Opóźnienie na 2 sekundy
-//                Thread.sleep(setup.getDelayMs());  // 2000 milisekund = 2 sekundy
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                // Opóźnienie na 2 sekundy
+                Thread.sleep(setup.getDelayMs());  // 2000 milisekund = 2 sekundy
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             // odświeżanie pacjentów - wywoływanie chorób, powiadamianie lekarzy itd.
             for(int i = patients.size() - 1; i >= 0; i--) {
@@ -247,6 +253,9 @@ public class Simulation {
             }
 
             generateAndAssign(false);
+
+            System.out.println(timeOfDay);
+            timeOfDay.addMinutes(SimulationManager.getSetup().getAddedMinutesPerTick());
         }
     }
 
@@ -333,5 +342,9 @@ public class Simulation {
 
     public void setDepartmentAssignmentMethodIndex(int departmentAssignmentMethodIndex) {
         this.departmentAssignmentMethodIndex = departmentAssignmentMethodIndex;
+    }
+
+    public String getTime() {
+        return timeOfDay.toString();
     }
 }
