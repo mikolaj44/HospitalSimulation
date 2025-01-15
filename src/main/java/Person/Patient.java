@@ -131,7 +131,7 @@ public class Patient extends Person implements Subject, Updateable {
         for (Illness illness : this.illnesses) {
 
             for(int i = 0; i < currentStats.getStatAmount(); i++){
-                currentStats.setStatByIndex(i, Math.max(0, (int)(currentStats.getStatByIndex(i) - illness.getStats().getStatByIndex(i)) ));
+                currentStats.setStatByIndex(i, Math.max(0, (int)(currentStats.getStatByIndex(i) - illness.getStats().getStatByIndex(i)*SimulationManager.getSetup().getIllnessInfluenceFactor()) ));
             }
         }
 
