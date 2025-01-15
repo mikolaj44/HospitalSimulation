@@ -13,7 +13,7 @@ public class Simulation {
     private ArrayList<Doctor> doctors;
     private ArrayList<Patient> patients;
     private Setup setup;
-    private ArrayList<GenerationMethod> generationMethods;
+    private GenerationMethod autoGeneration;
     private ArrayList<DepartmentAssignmentMethod> assignmentMethods;
     private TimeOfDay timeOfDay;
 
@@ -22,29 +22,20 @@ public class Simulation {
     private int recovered;
     private int deceased;
 
-    public Simulation(ArrayList<Department> departments, ArrayList<Doctor> doctors, ArrayList<Patient> patients, ArrayList<GenerationMethod> generationMethods, ArrayList<DepartmentAssignmentMethod> assignmentMethods) {
+    public Simulation(ArrayList<Department> departments, ArrayList<Doctor> doctors, ArrayList<Patient> patients, ArrayList<DepartmentAssignmentMethod> assignmentMethods) {
 
         this();
         this.departments = departments;
         this.doctors = doctors;
         this.patients = patients;
-        this.generationMethods = generationMethods;
         this.assignmentMethods = assignmentMethods;
     }
 
-    public Simulation(ArrayList<Department> departments, ArrayList<GenerationMethod> generationMethods, ArrayList<DepartmentAssignmentMethod> assignmentMethods) {
+    public Simulation(ArrayList<Department> departments, ArrayList<DepartmentAssignmentMethod> assignmentMethods) {
 
         this();
         this.departments = departments;
-        this.generationMethods = generationMethods;
         this.assignmentMethods = assignmentMethods;
-    }
-
-    public Simulation(ArrayList<Department> departments, ArrayList<GenerationMethod> generationMethods) {
-
-        this();
-        this.departments = departments;
-        this.generationMethods = generationMethods;
     }
 
     public Simulation(ArrayList<Department> departments, Setup setup) {
@@ -52,8 +43,6 @@ public class Simulation {
         this();
         this.departments = departments;
         this.setup = setup;
-        generationMethods.set(0, new AutoGeneration(setup));
-        generationMethods.set(1, new UserGeneration(setup));
     }
 
     public Simulation(ArrayList<Department> departments) {
@@ -62,16 +51,13 @@ public class Simulation {
         this.departments = departments;
     }
 
-    public Simulation(ArrayList<Department> departments, ArrayList<Doctor> doctors, ArrayList<Patient> patients, ArrayList<GenerationMethod> generationMethods, Setup setup) {
+    public Simulation(ArrayList<Department> departments, ArrayList<Doctor> doctors, ArrayList<Patient> patients, Setup setup) {
 
         this();
         this.departments = departments;
         this.doctors = doctors;
         this.patients = patients;
-        this.generationMethods = generationMethods;
         this.setup = setup;
-        generationMethods.set(0, new AutoGeneration(setup));
-        generationMethods.set(1, new UserGeneration(setup));
     }
 
     private Simulation(){
@@ -80,7 +66,7 @@ public class Simulation {
         doctors = new ArrayList<>();
         patients = new ArrayList<>();
         this.setup = new Setup(departments);
-        addDefaultGenerationMethods();
+        autoGeneration = new AutoGeneration(setup);
         addDefaultAssignmentMethods();
         timeOfDay = new TimeOfDay(7,0);
         recovered = 0;
@@ -96,13 +82,6 @@ public class Simulation {
         assignmentMethods.add(new RandomAssignment());
     }
 
-    private void addDefaultGenerationMethods(){
-
-        generationMethods = new ArrayList<>();
-        generationMethods.add(new AutoGeneration(setup));
-        generationMethods.add(new UserGeneration(setup));
-    }
-
     private void generateDoctorsInDepartments(){
 
         int numberOfDoctors = randomRange(setup.getMinNumberOfDoctors(), setup.getMaxNumberOfDoctors());
@@ -112,12 +91,11 @@ public class Simulation {
 
             for(int j = 0; j < doctorsPerDepartment; j++){
 
-                // na razie
                 if(setup.isGeneratingPatientsAutomatically()) {
-                    addDoctor(generationMethods.get(0)); // autogeneracja
+                    addDoctor(autoGeneration);
                 }
                 else {
-                    addDoctor(generationMethods.get(1)); // wpisywanie przez użytkownika
+                    return;
                 }
 
                 doctors.getLast().setDepartmentIndex(i);
@@ -140,12 +118,11 @@ public class Simulation {
 
         for(int i = 0; i < numberOfPatients; i++){
 
-            // na razie
             if(setup.isGeneratingPatientsAutomatically()) {
-                addPatient(generationMethods.get(0)); // autogeneracja
+                addPatient(autoGeneration);
             }
             else {
-                addPatient(generationMethods.get(1)); // wpisywanie przez użytkownika
+                return;
             }
 
             int departmentIndex = assignmentMethods.get(departmentAssignmentMethodIndex).getDepartmentIndex(patients.getLast(), departments); // (closest assignment)
@@ -328,8 +305,8 @@ public class Simulation {
         return setup;
     }
 
-    public ArrayList<GenerationMethod> getGenerationMethods() {
-        return generationMethods;
+    public GenerationMethod getGenerationMethod() {
+        return autoGeneration;
     }
 
     public ArrayList<DepartmentAssignmentMethod> getAssignmentMethods() {

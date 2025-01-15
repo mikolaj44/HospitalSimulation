@@ -33,8 +33,8 @@ public class SimulationManager {
         return simulation.getDepartments();
     }
 
-    public ArrayList<GenerationMethod> getGenerationMethods() {
-        return simulation.getGenerationMethods();
+    public GenerationMethod getGenerationMethod() {
+        return simulation.getGenerationMethod();
     }
 
     public ArrayList<DepartmentAssignmentMethod> getAssignmentMethods() {
