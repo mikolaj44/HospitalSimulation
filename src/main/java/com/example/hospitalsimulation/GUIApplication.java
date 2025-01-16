@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,6 +36,7 @@ public class GUIApplication extends Application {
     private IntegerProperty recovered;
     private IntegerProperty deceased;
     private StringProperty time;
+    PatientWindow patientWindow;
 
 
     @Override
@@ -114,6 +116,16 @@ public class GUIApplication extends Application {
             }
         });
 
+
+        listView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { // Podwójne kliknięcie
+                Patient selectedPatient = listView.getSelectionModel().getSelectedItem();
+                if (selectedPatient != null) {
+                    patientWindow.display(selectedPatient);
+                }
+            }
+        });
+
         return listView;
     }
 
@@ -144,5 +156,23 @@ public class GUIApplication extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private void showPatientDetails(Patient patient) {
+        // Tutaj możesz zaimplementować otwieranie nowego okna lub wyświetlanie szczegółów
+        Stage stage = new Stage();
+        VBox layout = new VBox();
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setSpacing(10);
+
+        Label nameLabel = new Label("Name: " + patient.getName());
+        Label healthLabel = new Label("Health: " + patient.getLowestHealth());
+
+        layout.getChildren().addAll(nameLabel, healthLabel);
+
+        Scene scene = new Scene(layout, 300, 200);
+        stage.setScene(scene);
+        stage.setTitle("Patient Details");
+        stage.show();
     }
 }

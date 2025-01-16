@@ -89,6 +89,11 @@ public class Patient extends Person implements Subject, Updateable {
         return stats;
     }
 
+    public String getLife(){
+        String output = "Życie: \n " + stats.toString();
+        return output;
+    }
+
     public void setStats(LifeStats<Integer> stats) {
         this.stats = stats;
     }
@@ -131,7 +136,7 @@ public class Patient extends Person implements Subject, Updateable {
         for (Illness illness : this.illnesses) {
 
             for(int i = 0; i < currentStats.getStatAmount(); i++){
-                currentStats.setStatByIndex(i, Math.max(0, (int)(currentStats.getStatByIndex(i) - illness.getStats().getStatByIndex(i)*SimulationManager.getSetup().getIllnessInfluenceFactor()) ));
+                currentStats.setStatByIndex(i, Math.max(0, (int)(currentStats.getStatByIndex(i) - illness.getStats().getStatByIndex(i)) ));
             }
         }
 

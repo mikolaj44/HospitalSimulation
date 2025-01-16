@@ -31,13 +31,12 @@ public class Setup {
     private int numberOfShifts = 3; // na razie nieużywane
 
     private LifeStats<Double> minDoctorModifiers = new LifeStats<>(0.0, 0.0, 0.0);
-    private LifeStats<Double> maxDoctorModifiers = new LifeStats<>(3.0, 3.0, 3.0);
+    private LifeStats<Double> maxDoctorModifiers = new LifeStats<>(20.0, 20.0, 20.0);
 
     private LifeStats<Integer> minLifeStats = new LifeStats<>(10, 10, 10);
     private LifeStats<Integer> maxLifeStats = new LifeStats<>(1000, 1000, 1000);
 
-    private double departmentInfluenceFactor = 0.1;
-    private double illnessInfluenceFactor = 0.1;
+    private double departmentInfluenceFactor = 0.33;
 
     public Setup(ArrayList<Department> departments, int delayMs, int addedMinutesPerTick, boolean generatePatientsAutomatically, boolean diagnosePatientsAutomatically, int maxNumberOfDoctorsPerPatient, int minNumberOfDoctors, int maxNumberOfDoctors, int minNumberOfPatients, int maxNumberOfPatients, int minNewPatientsPerIteration, int maxNewPatientsPerIteration, int maxIllnessAmount, int numberOfShifts, LifeStats<Double> minDoctorModifiers, LifeStats<Double> maxDoctorModifiers, LifeStats<Integer> minLifeStats, LifeStats<Integer> maxLifeStats) {        this.departments = departments;
         this.delayMs = delayMs;
@@ -216,13 +215,6 @@ public class Setup {
     }
     public void setDepartmentInfluenceFactor(double departmentInfluenceFactor) {
         this.departmentInfluenceFactor = departmentInfluenceFactor;
-    }
-
-    public double getIllnessInfluenceFactor() {
-        return illnessInfluenceFactor;
-    }
-    public void setIllnessInfluenceFactor(double illnessInfluenceFactor) {
-        this.illnessInfluenceFactor = illnessInfluenceFactor;
     }
 
     public int getAddedMinutesPerTick() {
