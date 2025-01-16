@@ -1,6 +1,7 @@
 package Person;
 
-import Utils.ColorCodes;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Illness {
 

@@ -240,6 +240,10 @@ public class Simulation {
         patients.add(method.generatePatient());
     }
 
+    public void manuallyAddPatient(Patient patient){
+        patients.add(patient);
+    }
+
     public void addDoctor(GenerationMethod method){
         doctors.add(method.generateDoctor());
     }
