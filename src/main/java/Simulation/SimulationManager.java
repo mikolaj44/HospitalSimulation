@@ -1,6 +1,8 @@
 package Simulation;
 
 import Person.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
@@ -27,6 +29,10 @@ public class SimulationManager {
 
     public static ArrayList<Doctor> getDoctors(){
         return simulation.getDoctors();
+    }
+
+    public static ObservableList<Doctor> getDoctorsO(){
+        return FXCollections.observableArrayList(getDoctors());
     }
 
     public static ArrayList<Department> getDepartments(){

@@ -63,10 +63,16 @@ public class GUIApplication extends Application {
         Button setupButton = new Button("Setup");
         setupButton.setOnAction(event -> {SetupWindow.display();});
 
+        Button patientAddingButton = new Button("Dodaj pacjenta");
+        patientAddingButton.setOnAction(event -> {ManualAddingWindow.display();});
+
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(setupButton, patientAddingButton);
+
         BorderPane borderPane = new BorderPane();
         borderPane.setRight(listView);
         borderPane.setTop(topInfo);
-        borderPane.setCenter(setupButton);
+        borderPane.setCenter(buttons);
         listView.prefHeightProperty().bind(primaryStage.heightProperty());
 
         // Tworzymy scenę i przypisujemy ją do okna
@@ -133,7 +139,7 @@ public class GUIApplication extends Application {
         departments.add(new Department("Onkologia", 0, 10, stats_department));
         departments.add(new Department("Ortopedia", 0, 10, stats_department));
         simulationManager.buildSimulation(departments);
-        simulationManager.startSimulation();
+        simulationManager.startSimuglation();
     }
 
     public static void main(String[] args) {
