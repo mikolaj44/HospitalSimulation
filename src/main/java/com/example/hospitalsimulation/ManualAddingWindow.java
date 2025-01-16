@@ -3,7 +3,10 @@ package com.example.hospitalsimulation;
 
 import Person.Doctor;
 import Person.Illness;
+import Person.LifeStats;
+import Person.Patient;
 import Simulation.AutoGeneration;
+import Simulation.BestAssignment;
 import Simulation.SimulationManager;
 import Utils.ListOfIllnesses;
 import javafx.application.Platform;
@@ -19,6 +22,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.controlsfx.control.CheckComboBox;
+
+import java.util.ArrayList;
 
 public class ManualAddingWindow {
 
@@ -47,14 +53,21 @@ public class ManualAddingWindow {
         doctorBox.setItems(SimulationManager.getDoctorsO());
 
         Label illnessLabel = new Label("Przypisz choroby:");
-        ChoiceBox<Illness> illnessBox = new ChoiceBox<Illness>();
         ListOfIllnesses.readIllnessesFromFile();
-        illnessBox.setItems(ListOfIllnesses.getIllnessesO());
 
-        TextField illnessSearchField = new TextField();
-        TableView<Illness> illnessTable = new TableView<>();
-        illnessTable.setEditable(true);
-        ObservableList<Illness> illnessList = ListOfIllnesses.getIllnessesO();
+        CheckComboBox<Illness> illnessBox = new CheckComboBox<>();
+        illnessBox.getItems().addAll(ListOfIllnesses.getIllnessesO());
+
+        Label statsLabel = new Label("Podaj statystyki:");
+
+        Label physLabel = new Label("Fizyczne:");
+        TextField physField = new TextField();
+
+        Label intLabel = new Label("Wewnętrzne:");
+        TextField intField = new TextField();
+
+        Label infLabel = new Label("Infekcja:");
+        TextField infField = new TextField();
 
         // Exit button
         Button exitButton = new Button("Zapisz i zamknij");
@@ -80,48 +93,44 @@ public class ManualAddingWindow {
         layout.add(doctorLabel, 0, 3);
         layout.add(doctorBox, 1, 3);
 
-        layout.add(illnessBox, 0, 4);
-//        layout.add(cb, 1, 4);
+        layout.add(illnessLabel, 0, 4);
+        layout.add(illnessBox, 1, 4);
 //
-//        layout.add(simulationDelayLabel, 0, 5);
-//        layout.add(simulationDelayField, 1, 5);
+        layout.add(statsLabel, 0, 5);
 
-        layout.add(exitButton, 0, 6, 2, 1);
-        Scene scene = new Scene(layout, 500, 300);
+        layout.add(physLabel, 0, 6);
+        layout.add(physField, 1, 6);
+
+        layout.add(intLabel, 0, 7);
+        layout.add(intField, 1, 7);
+
+        layout.add(infLabel, 0, 8);
+        layout.add(infField, 1, 8);
+
+        layout.add(exitButton, 0, 9, 2, 1);
+        Scene scene = new Scene(layout, 500, 400);
         window.setScene(scene);
         window.showAndWait();
 
-//        SimulationManager.getSetup().setGeneratePatientsAutomatically(autoPatientGenerationCheckbox.isSelected());
-//        try{
-//            SimulationManager.getSetup().setMaxIllnessAmount(Integer.parseInt(ilnessessField.getText()));
-//        }catch(NumberFormatException e){
-//            AlertWindow.display("Błędnie podana ilość chorób");
-//        }
-//        try{
-//            SimulationManager.getSetup().setMaxLifeStats(Integer.parseInt(maxLifeField.getText()));
-//        }catch(NumberFormatException e){
-//            AlertWindow.display("Błędnie podana wartość maksymalnego życia pacjenta");
-//        }
-//        try{
-//            SimulationManager.getSetup().setMaxLifeStats(Integer.parseInt(minLifeField.getText()));
-//        }catch(NumberFormatException e){
-//            AlertWindow.display("Błędnie podana wartość minimalnego życia pacjenta");
-//        }
-//        try{
-//            SimulationManager.getSetup().setDelayMs(Integer.parseInt(simulationDelayField.getText()));
-//        }catch(NumberFormatException e){
-//            AlertWindow.display("Błędnie podana wartość opóźnienia symulacji");
-//        }
-//        try{
-//            SimulationManager.getSetup().setDepartmentInfluenceFactor(Double.parseDouble(departmentHealthImpactField.getText()));
-//        }catch(NumberFormatException e){
-//            AlertWindow.display("Błędnie podana wartość wpłýwu oddziału");
-//        }
+        try{
+            String name = nameField.getText();
+            String surname = surnameField.getText();
+            String pesel = peselField.getText();
+            ArrayList<Illness> illnesses = new ArrayList<Illness>(illnessBox.getCheckModel().getCheckedItems());
+            System.out.println(illnesses);
+            LifeStats<Integer> lifeStats = new LifeStats<>(Integer.parseInt(physField.getText()), Integer.parseInt(intField.getText()), Integer.parseInt(infField.getText()));
+            BestAssignment assign = new BestAssignment();
+            Patient patient = new Patient(name, surname, pesel, 0, lifeStats, illnesses);
+            int departmentIndex = assign.getDepartmentIndex(patient, SimulationManager.getDepartments());
+            SimulationManager.getSimulation().manuallyAddPatient(patient);
+            SimulationManager.getPatients().getLast().setDepartmentIndex(departmentIndex);
+        }catch (Exception e){
+            AlertWindow.display("Błędnie podane dane");
+        }
 
     }
 
-    private void saveAndExit(){
 
-    }
+
 
 }

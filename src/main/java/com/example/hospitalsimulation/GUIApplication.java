@@ -139,7 +139,7 @@ public class GUIApplication extends Application {
         departments.add(new Department("Onkologia", 0, 10, stats_department));
         departments.add(new Department("Ortopedia", 0, 10, stats_department));
         simulationManager.buildSimulation(departments);
-        simulationManager.startSimuglation();
+        simulationManager.startSimulation();
     }
 
     public static void main(String[] args) {
