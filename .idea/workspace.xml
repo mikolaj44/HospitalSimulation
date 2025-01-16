@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b49a8b0c-c957-4472-a2fe-2974a999f6cb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/hospitalsimulation/application.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/hospitalsimulation/GUIApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/hospitalsimulation/GUIApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/hospitalsimulation/PatientWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/hospitalsimulation/PatientWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +63,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/com/example/hospitalsimulation" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -83,7 +90,7 @@
       <workItem from="1737031156722" duration="568000" />
       <workItem from="1737031930646" duration="932000" />
       <workItem from="1737044108884" duration="1412000" />
-      <workItem from="1737045532521" duration="385000" />
+      <workItem from="1737045532521" duration="834000" />
     </task>
     <servers />
   </component>

@@ -18,6 +18,9 @@ public class PatientWindow {
 
 
         Label nameAndSurname = new Label(patient.getName() + " " + patient.getSurname());
+        nameAndSurname.setPadding(new Insets(10, 10, 10, 10));
+        nameAndSurname.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
         Label lifeStats = new Label(patient.getLife());
         Label illnessessLabel = new Label("Choroby: \n" + patient.getIllnesses().toString());
         Label departmentLabel = new Label("Aktualny oddział: " + SimulationManager.getDepartments().get(patient.getDepartmentIndex()));

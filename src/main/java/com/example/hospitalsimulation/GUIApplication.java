@@ -3,7 +3,6 @@ package com.example.hospitalsimulation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.beans.Observable;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -79,6 +78,7 @@ public class GUIApplication extends Application {
 
         // Tworzymy scenę i przypisujemy ją do okna
         Scene scene = new Scene(borderPane, WIDTH, HEIGHT);
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
 
